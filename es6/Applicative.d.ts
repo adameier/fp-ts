@@ -89,6 +89,7 @@ export interface ApplicativeCompositionHKT1<F, G extends URIS> extends FunctorCo
   readonly ap: <A>(fga: HKT<F, Kind<G, A>>) => <B>(fgab: HKT<F, Kind<G, (a: A) => B>>) => HKT<F, Kind<G, B>>
 }
 /**
+ * TODO remove when EitherT is switched to single functions
  * @since 3.0.0
  */
 export interface ApplicativeCompositionHKT2<F, G extends URIS2> extends FunctorCompositionHKT2<F, G> {

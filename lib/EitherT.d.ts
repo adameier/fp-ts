@@ -1,18 +1,26 @@
 /**
  * @since 2.0.0
  */
-import { ApplicativeComposition12, ApplicativeComposition22, ApplicativeCompositionHKT2 } from './Applicative'
-import { Either, URI } from './Either'
+import {
+  ApplicativeComposition12,
+  ApplicativeComposition22,
+  ApplicativeCompositionHKT2,
+  Applicative,
+  Applicative1,
+  Applicative2
+} from './Applicative'
+import * as E from './Either'
 import { HKT, Kind, Kind2, URIS, URIS2 } from './HKT'
 import { Monad, Monad1, Monad2 } from './Monad'
+import { Functor2, Functor1, Functor } from './Functor'
 /**
  * @since 2.0.0
  */
-export interface EitherT<M, E, A> extends HKT<M, Either<E, A>> {}
+export interface EitherT<M, E, A> extends HKT<M, E.Either<E, A>> {}
 /**
  * @since 3.0.0
  */
-export interface EitherM<M> extends ApplicativeCompositionHKT2<M, URI> {
+export interface EitherM<M> extends ApplicativeCompositionHKT2<M, E.URI> {
   readonly chain: <E, A, B>(f: (a: A) => EitherT<M, E, B>) => (ma: EitherT<M, E, A>) => EitherT<M, E, B>
   readonly alt: <E, A>(that: () => EitherT<M, E, A>) => (fa: EitherT<M, E, A>) => EitherT<M, E, A>
   readonly bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fea: EitherT<M, E, A>) => EitherT<M, G, B>
@@ -31,11 +39,11 @@ export interface EitherM<M> extends ApplicativeCompositionHKT2<M, URI> {
 /**
  * @since 2.0.0
  */
-export declare type EitherT1<M extends URIS, E, A> = Kind<M, Either<E, A>>
+export declare type EitherT1<M extends URIS, E, A> = Kind<M, E.Either<E, A>>
 /**
  * @since 3.0.0
  */
-export interface EitherM1<M extends URIS> extends ApplicativeComposition12<M, URI> {
+export interface EitherM1<M extends URIS> extends ApplicativeComposition12<M, E.URI> {
   readonly chain: <E, A, B>(f: (a: A) => EitherT1<M, E, B>) => (ma: EitherT1<M, E, A>) => EitherT1<M, E, B>
   readonly alt: <E, A>(that: () => EitherT1<M, E, A>) => (fa: EitherT1<M, E, A>) => EitherT1<M, E, A>
   readonly bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fea: EitherT1<M, E, A>) => EitherT1<M, G, B>
@@ -54,11 +62,11 @@ export interface EitherM1<M extends URIS> extends ApplicativeComposition12<M, UR
 /**
  * @since 2.0.0
  */
-export declare type EitherT2<M extends URIS2, R, E, A> = Kind2<M, R, Either<E, A>>
+export declare type EitherT2<M extends URIS2, R, E, A> = Kind2<M, R, E.Either<E, A>>
 /**
  * @since 3.0.0
  */
-export interface EitherM2<M extends URIS2> extends ApplicativeComposition22<M, URI> {
+export interface EitherM2<M extends URIS2> extends ApplicativeComposition22<M, E.URI> {
   readonly chain: <R, E, A, B>(f: (a: A) => EitherT2<M, R, E, B>) => (ma: EitherT2<M, R, E, A>) => EitherT2<M, R, E, B>
   readonly alt: <R, E, A>(that: () => EitherT2<M, R, E, A>) => (fa: EitherT2<M, R, E, A>) => EitherT2<M, R, E, A>
   readonly bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => <R>(fea: EitherT2<M, R, E, A>) => EitherT2<M, R, G, B>
@@ -82,3 +90,31 @@ export interface EitherM2<M extends URIS2> extends ApplicativeComposition22<M, U
 export declare function getEitherM<M extends URIS2>(M: Monad2<M>): EitherM2<M>
 export declare function getEitherM<M extends URIS>(M: Monad1<M>): EitherM1<M>
 export declare function getEitherM<M>(M: Monad<M>): EitherM<M>
+/**
+ * @since 3.0.0
+ */
+export declare function of<F extends URIS2>(A: Applicative2<F>): <R, E, A>(a: A) => EitherT2<F, R, E, A>
+export declare function of<F extends URIS>(A: Applicative1<F>): <E, A>(a: A) => EitherT1<F, E, A>
+export declare function of<F>(A: Applicative<F>): <E, A>(a: A) => EitherT<F, E, A>
+/**
+ * @since 3.0.0
+ */
+export declare function map<F extends URIS2>(
+  F: Functor2<F>
+): <A, B>(f: (a: A) => B) => <R, E>(fa: EitherT2<F, R, E, A>) => EitherT2<F, R, E, B>
+export declare function map<F extends URIS>(
+  F: Functor1<F>
+): <A, B>(f: (a: A) => B) => <E>(fa: EitherT1<F, E, A>) => EitherT1<F, E, B>
+export declare function map<F>(F: Functor<F>): <A, B>(f: (a: A) => B) => <E>(fa: EitherT<F, E, A>) => EitherT<F, E, B>
+/**
+ * @since 3.0.0
+ */
+export declare function chain<F extends URIS2>(
+  M: Monad2<F>
+): <A, R, E, B>(f: (a: A) => EitherT2<F, R, E, B>) => (fa: EitherT2<F, R, E, A>) => EitherT2<F, R, E, B>
+export declare function chain<F extends URIS>(
+  M: Monad1<F>
+): <A, E, B>(f: (a: A) => EitherT1<F, E, B>) => (fa: EitherT1<F, E, A>) => EitherT1<F, E, B>
+export declare function chain<F>(
+  M: Monad<F>
+): <A, E, B>(f: (a: A) => EitherT<F, E, B>) => (fa: EitherT<F, E, A>) => EitherT<F, E, B>

@@ -1,12 +1,12 @@
 import * as E from './Either';
-import { getEitherM } from './EitherT';
+import * as EitherT from './EitherT';
 import { getFilterableComposition } from './Filterable';
 import { identity, pipe } from './function';
 import * as T from './Task';
 import { getValidationM } from './ValidationT';
 var MT = 
 /*#__PURE__*/
-getEitherM(T.monadTask);
+(function () { return EitherT.getEitherM(T.monadTask); })();
 /**
  * @since 2.0.0
  */
@@ -22,7 +22,7 @@ export var left =
  */
 export var right = 
 /*#__PURE__*/
-(function () { return MT.of; })();
+(function () { return EitherT.of(T.applicativeTask); })();
 /**
  * @since 2.0.0
  */
@@ -269,7 +269,7 @@ export var filterOrElse = function (predicate, onFalse) { return function (ma) {
  */
 export var map = 
 /*#__PURE__*/
-(function () { return MT.map; })();
+(function () { return EitherT.map(T.functorTask); })();
 /**
  * @since 3.0.0
  */
@@ -318,7 +318,7 @@ export var applicativeTaskEither = {
  */
 export var chain = 
 /*#__PURE__*/
-(function () { return MT.chain; })();
+(function () { return EitherT.chain(T.monadTask); })();
 /**
  * @since 3.0.0
  */
