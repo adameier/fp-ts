@@ -12,9 +12,10 @@ import { Monad3 } from './Monad'
 import { MonadThrow3 } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
-import { Reader } from './Reader'
+import * as R from './Reader'
 import { Semigroup } from './Semigroup'
 import Either = E.Either
+import Reader = R.Reader
 /**
  * @since 2.0.0
  */

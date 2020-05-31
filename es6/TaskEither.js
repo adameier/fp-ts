@@ -4,9 +4,6 @@ import { getFilterableComposition } from './Filterable';
 import { identity, pipe } from './function';
 import * as T from './Task';
 import { getValidationM } from './ValidationT';
-var MT = 
-/*#__PURE__*/
-(function () { return EitherT.getEitherM(T.monadTask); })();
 /**
  * @since 2.0.0
  */
@@ -16,13 +13,13 @@ export var URI = 'TaskEither';
  */
 export var left = 
 /*#__PURE__*/
-(function () { return MT.left; })();
+(function () { return EitherT.left(T.monadTask); })();
 /**
  * @since 2.0.0
  */
 export var right = 
 /*#__PURE__*/
-(function () { return EitherT.of(T.applicativeTask); })();
+(function () { return EitherT.right(T.monadTask); })();
 /**
  * @since 2.0.0
  */
@@ -40,13 +37,13 @@ export function leftIO(me) {
  */
 export var rightTask = 
 /*#__PURE__*/
-(function () { return MT.rightM; })();
+T.map(E.right);
 /**
  * @since 2.0.0
  */
 export var leftTask = 
 /*#__PURE__*/
-(function () { return MT.leftM; })();
+T.map(E.left);
 /**
  * @since 2.0.0
  */
@@ -58,13 +55,13 @@ export var fromIOEither =
  */
 export var fold = 
 /*#__PURE__*/
-(function () { return MT.fold; })();
+(function () { return EitherT.fold(T.monadTask); })();
 /**
  * @since 2.0.0
  */
 export var getOrElse = 
 /*#__PURE__*/
-(function () { return MT.getOrElse; })();
+(function () { return EitherT.getOrElse(T.monadTask); })();
 /**
  * @since 2.6.0
  */
@@ -74,13 +71,13 @@ export var getOrElseW = getOrElse;
  */
 export var orElse = 
 /*#__PURE__*/
-(function () { return MT.orElse; })();
+(function () { return EitherT.orElse(T.monadTask); })();
 /**
  * @since 2.0.0
  */
 export var swap = 
 /*#__PURE__*/
-(function () { return MT.swap; })();
+T.map(E.swap);
 /**
  * Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
  * appended using the provided `Semigroup`
@@ -269,7 +266,7 @@ export var filterOrElse = function (predicate, onFalse) { return function (ma) {
  */
 export var map = 
 /*#__PURE__*/
-(function () { return EitherT.map(T.functorTask); })();
+(function () { return EitherT.map(T.monadTask); })();
 /**
  * @since 3.0.0
  */
@@ -282,7 +279,7 @@ export var functorTaskEither = {
  */
 export var ap = 
 /*#__PURE__*/
-(function () { return MT.ap; })();
+(function () { return EitherT.ap(T.monadTask); })();
 /**
  * @since 3.0.0
  */
@@ -360,13 +357,13 @@ chain(identity);
  */
 export var bimap = 
 /*#__PURE__*/
-(function () { return MT.bimap; })();
+(function () { return EitherT.bimap(T.monadTask); })();
 /**
  * @since 2.0.0
  */
 export var mapLeft = 
 /*#__PURE__*/
-(function () { return MT.mapLeft; })();
+(function () { return EitherT.mapLeft(T.monadTask); })();
 /**
  * @since 3.0.0
  */
@@ -380,7 +377,7 @@ export var bifunctorTaskEither = {
  */
 export var alt = 
 /*#__PURE__*/
-(function () { return MT.alt; })();
+(function () { return EitherT.alt(T.monadTask); })();
 /**
  * @since 3.0.0
  */

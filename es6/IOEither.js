@@ -10,14 +10,11 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 import * as E from './Either';
-import { getEitherM } from './EitherT';
+import * as EitherT from './EitherT';
 import { getFilterableComposition } from './Filterable';
 import { identity, pipe } from './function';
-import { getSemigroup as getIOSemigroup, monadIO } from './IO';
+import * as io from './IO';
 import { getValidationM } from './ValidationT';
-var MT = 
-/*#__PURE__*/
-getEitherM(monadIO);
 /**
  * @since 2.0.0
  */
@@ -27,37 +24,37 @@ export var URI = 'IOEither';
  */
 export var left = 
 /*#__PURE__*/
-(function () { return MT.left; })();
+(function () { return EitherT.left(io.monadIO); })();
 /**
  * @since 2.0.0
  */
 export var right = 
 /*#__PURE__*/
-(function () { return MT.of; })();
+(function () { return EitherT.right(io.monadIO); })();
 /**
  * @since 2.0.0
  */
 export var rightIO = 
 /*#__PURE__*/
-(function () { return MT.rightM; })();
+io.map(E.right);
 /**
  * @since 2.0.0
  */
 export var leftIO = 
 /*#__PURE__*/
-(function () { return MT.leftM; })();
+io.map(E.left);
 /**
  * @since 2.0.0
  */
 export var fold = 
 /*#__PURE__*/
-(function () { return MT.fold; })();
+(function () { return EitherT.fold(io.monadIO); })();
 /**
  * @since 2.0.0
  */
 export var getOrElse = 
 /*#__PURE__*/
-(function () { return MT.getOrElse; })();
+(function () { return EitherT.getOrElse(io.monadIO); })();
 /**
  * @since 2.6.0
  */
@@ -67,13 +64,13 @@ export var getOrElseW = getOrElse;
  */
 export var orElse = 
 /*#__PURE__*/
-(function () { return MT.orElse; })();
+(function () { return EitherT.orElse(io.monadIO); })();
 /**
  * @since 2.0.0
  */
 export var swap = 
 /*#__PURE__*/
-(function () { return MT.swap; })();
+io.map(E.swap);
 /**
  * Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
  * appended using the provided `Semigroup`
@@ -81,7 +78,7 @@ export var swap =
  * @since 2.0.0
  */
 export function getSemigroup(S) {
-    return getIOSemigroup(E.getSemigroup(S));
+    return io.getSemigroup(E.getSemigroup(S));
 }
 /**
  * Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
@@ -90,7 +87,7 @@ export function getSemigroup(S) {
  * @since 2.0.0
  */
 export function getApplySemigroup(S) {
-    return getIOSemigroup(E.getApplySemigroup(S));
+    return io.getSemigroup(E.getApplySemigroup(S));
 }
 /**
  * @since 2.0.0
@@ -119,7 +116,7 @@ export function tryCatch(f, onError) {
  */
 export function bracket(acquire, use, release) {
     return pipe(acquire, chain(function (a) {
-        return pipe(pipe(use(a), monadIO.map(E.right)), chain(function (e) {
+        return pipe(pipe(use(a), io.monadIO.map(E.right)), chain(function (e) {
             return pipe(release(a, e), chain(function () { return (E.isLeft(e) ? left(e.left) : of(e.right)); }));
         }));
     }));
@@ -128,7 +125,7 @@ export function bracket(acquire, use, release) {
  * @since 3.0.0
  */
 export function getIOValidation(S) {
-    var V = getValidationM(S, monadIO);
+    var V = getValidationM(S, io.monadIO);
     return {
         URI: URI,
         _E: undefined,
@@ -143,7 +140,7 @@ export function getIOValidation(S) {
  */
 export function getFilterable(M) {
     var F = E.getWitherable(M);
-    return __assign({ URI: URI, _E: undefined }, getFilterableComposition(monadIO, F));
+    return __assign({ URI: URI, _E: undefined }, getFilterableComposition(io.monadIO, F));
 }
 /**
  * @since 2.4.0
@@ -196,7 +193,7 @@ export var fromEither = function (ma) {
  */
 export var map = 
 /*#__PURE__*/
-(function () { return MT.map; })();
+(function () { return EitherT.map(io.monadIO); })();
 /**
  * @since 3.0.0
  */
@@ -209,7 +206,7 @@ export var functorIOEither = {
  */
 export var ap = 
 /*#__PURE__*/
-(function () { return MT.ap; })();
+(function () { return EitherT.ap(io.monadIO); })();
 /**
  * @since 3.0.0
  */
@@ -239,7 +236,7 @@ export var applicativeIOEither = __assign(__assign({}, applyIOEither), { of: of 
  */
 export var chain = 
 /*#__PURE__*/
-(function () { return MT.chain; })();
+(function () { return EitherT.chain(io.monadIO); })();
 /**
  * @since 3.0.0
  */
@@ -269,13 +266,13 @@ export var flatten = chain(identity);
  */
 export var bimap = 
 /*#__PURE__*/
-(function () { return MT.bimap; })();
+(function () { return EitherT.bimap(io.monadIO); })();
 /**
  * @since 2.0.0
  */
 export var mapLeft = 
 /*#__PURE__*/
-(function () { return MT.mapLeft; })();
+(function () { return EitherT.mapLeft(io.monadIO); })();
 /**
  * @since 3.0.0
  */
@@ -289,7 +286,7 @@ export var bifunctorIOEither = {
  */
 export var alt = 
 /*#__PURE__*/
-(function () { return MT.alt; })();
+(function () { return EitherT.alt(io.monadIO); })();
 /**
  * @since 3.0.0
  */

@@ -1,11 +1,8 @@
 import * as E from './Either';
-import { getEitherM } from './EitherT';
+import * as EitherT from './EitherT';
 import { identity, pipe } from './function';
-import { getSemigroup as getReaderSemigroup, monadReader } from './Reader';
+import * as R from './Reader';
 import { getValidationM } from './ValidationT';
-var MT = 
-/*#__PURE__*/
-getEitherM(monadReader);
 /**
  * @since 2.0.0
  */
@@ -15,35 +12,37 @@ export var URI = 'ReaderEither';
  */
 export var left = 
 /*#__PURE__*/
-(function () { return MT.left; })();
+(function () { return EitherT.left(R.monadReader); })();
 /**
  * @since 2.0.0
  */
 export var right = 
 /*#__PURE__*/
-(function () { return MT.of; })();
+(function () { return EitherT.right(R.monadReader); })();
 /**
  * @since 2.0.0
  */
 export var rightReader = 
 /*#__PURE__*/
-(function () { return MT.rightM; })();
+R.map(E.right);
 /**
  * @since 2.0.0
  */
 export var leftReader = 
 /*#__PURE__*/
-(function () { return MT.leftM; })();
+R.map(E.left);
 /**
  * @since 2.0.0
  */
 export var fold = 
 /*#__PURE__*/
-(function () { return MT.fold; })();
+(function () { return EitherT.fold(R.monadReader); })();
 /**
  * @since 2.0.0
  */
-export var getOrElse = MT.getOrElse;
+export var getOrElse = 
+/*#__PURE__*/
+(function () { return EitherT.getOrElse(R.monadReader); })();
 /**
  * @since 2.6.0
  */
@@ -53,13 +52,13 @@ export var getOrElseW = getOrElse;
  */
 export var orElse = 
 /*#__PURE__*/
-(function () { return MT.orElse; })();
+(function () { return EitherT.orElse(R.monadReader); })();
 /**
  * @since 2.0.0
  */
 export var swap = 
 /*#__PURE__*/
-(function () { return MT.swap; })();
+R.map(E.swap);
 /**
  * Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
  * appended using the provided `Semigroup`
@@ -67,7 +66,7 @@ export var swap =
  * @since 2.0.0
  */
 export function getSemigroup(S) {
-    return getReaderSemigroup(E.getSemigroup(S));
+    return R.getSemigroup(E.getSemigroup(S));
 }
 /**
  * Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
@@ -76,7 +75,7 @@ export function getSemigroup(S) {
  * @since 2.0.0
  */
 export function getApplySemigroup(S) {
-    return getReaderSemigroup(E.getApplySemigroup(S));
+    return R.getSemigroup(E.getApplySemigroup(S));
 }
 /**
  * @since 2.0.0
@@ -109,7 +108,7 @@ export function local(f) {
  * @since 2.3.0
  */
 export function getReaderValidation(S) {
-    var V = getValidationM(S, monadReader);
+    var V = getValidationM(S, R.monadReader);
     return {
         URI: URI,
         _E: undefined,
@@ -143,13 +142,15 @@ export function chainEitherK(f) {
 /**
  * @since 2.0.0
  */
-export var alt = MT.alt;
+export var alt = 
+/*#__PURE__*/
+(function () { return EitherT.alt(R.monadReader); })();
 /**
  * @since 2.0.0
  */
 export var ap = 
 /*#__PURE__*/
-(function () { return MT.ap; })();
+(function () { return EitherT.ap(R.monadReader); })();
 /**
  * @since 2.0.0
  */
@@ -167,13 +168,13 @@ export var apSecond = function (fb) { return function (fa) {
  */
 export var bimap = 
 /*#__PURE__*/
-(function () { return MT.bimap; })();
+(function () { return EitherT.bimap(R.monadReader); })();
 /**
  * @since 2.0.0
  */
 export var chain = 
 /*#__PURE__*/
-(function () { return MT.chain; })();
+(function () { return EitherT.chain(R.monadReader); })();
 /**
  * @since 2.6.0
  */
@@ -199,7 +200,7 @@ export var flatten = chain(identity);
  */
 export var mapLeft = 
 /*#__PURE__*/
-(function () { return MT.mapLeft; })();
+(function () { return EitherT.mapLeft(R.monadReader); })();
 /**
  * @since 2.0.0
  */
@@ -230,7 +231,7 @@ export var filterOrElse = function (predicate, onFalse) { return function (ma) {
  */
 export var map = 
 /*#__PURE__*/
-(function () { return MT.map; })();
+(function () { return EitherT.map(R.monadReader); })();
 /**
  * @since 3.0.0
  */
