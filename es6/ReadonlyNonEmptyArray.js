@@ -287,7 +287,9 @@ export var chainFirst = RA.chainFirst;
 /**
  * @since 2.5.0
  */
-export var duplicate = RA.duplicate;
+export var duplicate = 
+/*#__PURE__*/
+RA.duplicate;
 /**
  * @since 2.5.0
  */

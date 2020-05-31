@@ -136,7 +136,9 @@ export var extendIdentity = {
 /**
  * @since 2.0.0
  */
-export var duplicate = extend(id);
+export var duplicate = 
+/*#__PURE__*/
+extend(id);
 /**
  * @since 2.6.2
  */

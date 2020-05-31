@@ -46,7 +46,9 @@ export var pipe = RT.pipe;
 /**
  * @since 2.0.0
  */
-export var duplicate = RT.duplicate;
+export var duplicate = 
+/*#__PURE__*/
+RT.duplicate;
 /**
  * @since 2.0.0
  */

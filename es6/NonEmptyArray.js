@@ -216,7 +216,9 @@ export var chainFirst = RNEA.chainFirst;
 /**
  * @since 2.0.0
  */
-export var duplicate = RNEA.duplicate;
+export var duplicate = 
+/*#__PURE__*/
+RNEA.duplicate;
 /**
  * @since 2.0.0
  */

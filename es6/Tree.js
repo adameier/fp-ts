@@ -206,7 +206,9 @@ export var extend = function (f) { return function (wa) { return ({
 /**
  * @since 2.0.0
  */
-export var duplicate = extend(identity);
+export var duplicate = 
+/*#__PURE__*/
+extend(identity);
 /**
  * @since 2.0.0
  */

@@ -1368,7 +1368,9 @@ export var extend = function (f) { return function (wa) { return wa.map(function
 /**
  * @since 2.5.0
  */
-export var duplicate = extend(identity);
+export var duplicate = 
+/*#__PURE__*/
+extend(identity);
 /**
  * @since 2.5.0
  */

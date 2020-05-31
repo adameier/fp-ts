@@ -99,7 +99,9 @@ export var extend = function (f) { return function (wa) { return [f(wa), snd(wa)
 /**
  * @since 2.5.0
  */
-export var duplicate = extend(F.identity);
+export var duplicate = 
+/*#__PURE__*/
+extend(F.identity);
 /**
  * @since 2.6.2
  */

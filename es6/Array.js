@@ -796,7 +796,9 @@ export var extend = RA.extend;
 /**
  * @since 2.0.0
  */
-export var duplicate = RA.duplicate;
+export var duplicate = 
+/*#__PURE__*/
+RA.duplicate;
 /**
  * @since 2.0.0
  */
