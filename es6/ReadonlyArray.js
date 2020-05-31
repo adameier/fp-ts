@@ -1,10 +1,3 @@
-var __spreadArrays = (this && this.__spreadArrays) || function () {
-    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
-    for (var r = Array(s), k = 0, i = 0; i < il; i++)
-        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
-            r[k] = a[j];
-    return r;
-};
 import { identity, pipe } from './function';
 import { isSome, none, some } from './Option';
 import { fromCompare, getMonoid as getOrdMonoid, ordNumber } from './Ord';
@@ -673,8 +666,7 @@ export function findLastIndex(predicate) {
  * @since 2.5.0
  */
 export function unsafeInsertAt(i, a, as) {
-    // tslint:disable-next-line: readonly-array
-    var xs = __spreadArrays(as);
+    var xs = as.slice();
     xs.splice(i, 0, a);
     return xs;
 }
@@ -701,7 +693,7 @@ export function unsafeUpdateAt(i, a, as) {
     }
     else {
         // tslint:disable-next-line: readonly-array
-        var xs = __spreadArrays(as);
+        var xs = as.slice();
         xs[i] = a;
         return xs;
     }
@@ -725,8 +717,7 @@ export function updateAt(i, a) {
  * @since 2.5.0
  */
 export function unsafeDeleteAt(i, as) {
-    // tslint:disable-next-line: readonly-array
-    var xs = __spreadArrays(as);
+    var xs = as.slice();
     xs.splice(i, 1);
     return xs;
 }
@@ -773,7 +764,7 @@ export function modifyAt(i, f) {
  * @since 2.5.0
  */
 export function reverse(as) {
-    return __spreadArrays(as).reverse();
+    return as.slice().reverse();
 }
 /**
  * Extracts from an array of `Either` all the `Right` elements. All the `Right` elements are extracted in order
@@ -833,7 +824,7 @@ export function lefts(as) {
  * @since 2.5.0
  */
 export function sort(O) {
-    return function (as) { return __spreadArrays(as).sort(O.compare); };
+    return function (as) { return as.slice().sort(O.compare); };
 }
 /**
  * Apply a function to pairs of elements at the same index in two arrays, collecting the results in a new array. If one
@@ -1328,7 +1319,9 @@ export var filterMap = function (f) { return filterMapWithIndex_(function (_, a)
 /**
  * @since 2.5.0
  */
-export var compact = filterMap(identity);
+export var compact = 
+/*#__PURE__*/
+filterMap(identity);
 /**
  * @since 2.5.0
  */

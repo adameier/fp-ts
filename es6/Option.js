@@ -604,7 +604,9 @@ export var fromEither = function (ma) { return (ma._tag === 'Left' ? none : some
 /**
  * @since 2.0.0
  */
-export var compact = chain(identity);
+export var compact = 
+/*#__PURE__*/
+chain(identity);
 /**
  * @since 2.0.0
  */
