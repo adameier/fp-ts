@@ -60,7 +60,6 @@ Added in v2.0.0
 - [leftReader](#leftreader)
 - [leftReaderTask](#leftreadertask)
 - [leftTask](#lefttask)
-- [local](#local)
 - [map](#map)
 - [mapLeft](#mapleft)
 - [monadIOReaderTaskEither](#monadioreadertaskeither)
@@ -549,8 +548,8 @@ Added in v2.0.0
 
 ```ts
 export declare const getOrElseW: <Q, E, B>(
-  onLeft: (e: E) => ReaderTask<Q, B>
-) => <R, A>(ma: ReaderTaskEither<R, E, A>) => ReaderTask<R & Q, B | A>
+  onLeft: (e: E) => RT.ReaderTask<Q, B>
+) => <R, A>(ma: ReaderTaskEither<R, E, A>) => RT.ReaderTask<R & Q, B | A>
 ```
 
 Added in v2.6.0
@@ -624,16 +623,6 @@ Added in v2.5.0
 
 ```ts
 export declare function leftTask<R, E = never, A = never>(me: Task<E>): ReaderTaskEither<R, E, A>
-```
-
-Added in v2.0.0
-
-# local
-
-**Signature**
-
-```ts
-export declare const local: <Q, R>(f: (f: Q) => R) => <E, A>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<Q, E, A>
 ```
 
 Added in v2.0.0
@@ -753,7 +742,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const rightReader: <R, E = never, A = never>(ma: Reader<R, A>) => ReaderTaskEither<R, E, A>
+export declare const rightReader: <R, E = never, A = never>(ma: R.Reader<R, A>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v2.0.0

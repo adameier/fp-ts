@@ -6,7 +6,7 @@
  */
 import { Alt2, Alt2C } from './Alt'
 import { Applicative2, Applicative2C } from './Applicative'
-import { Apply2 } from './Apply'
+import { Apply2, apComposition } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
 import * as E from './Either'
 import * as EitherT from './EitherT'
@@ -23,7 +23,7 @@ import { Monoid } from './Monoid'
 import { Option } from './Option'
 import { Semigroup } from './Semigroup'
 import * as T from './Task'
-import { getValidationM } from './ValidationT'
+import * as ValidationT from './ValidationT'
 
 import Either = E.Either
 import Task = T.Task
@@ -54,14 +54,14 @@ export interface TaskEither<E, A> extends Task<Either<E, A>> {}
  */
 export const left: <E = never, A = never>(e: E) => TaskEither<E, A> =
   /*#__PURE__*/
-  (() => EitherT.left(T.monadTask))()
+  EitherT.left(T.monadTask)
 
 /**
  * @since 2.0.0
  */
 export const right: <E = never, A = never>(a: A) => TaskEither<E, A> =
   /*#__PURE__*/
-  (() => EitherT.right(T.monadTask))()
+  EitherT.right(T.monadTask)
 
 /**
  * @since 2.0.0
@@ -106,14 +106,14 @@ export const fold: <E, A, B>(
   onRight: (a: A) => Task<B>
 ) => (ma: TaskEither<E, A>) => Task<B> =
   /*#__PURE__*/
-  (() => EitherT.fold(T.monadTask))()
+  EitherT.fold(T.monadTask)
 
 /**
  * @since 2.0.0
  */
 export const getOrElse: <E, A>(onLeft: (e: E) => Task<A>) => (ma: TaskEither<E, A>) => Task<A> =
   /*#__PURE__*/
-  (() => EitherT.getOrElse(T.monadTask))()
+  EitherT.getOrElse(T.monadTask)
 
 /**
  * @since 2.6.0
@@ -127,7 +127,7 @@ export const getOrElseW: <E, B>(
  */
 export const orElse: <E, A, M>(onLeft: (e: E) => TaskEither<M, A>) => (ma: TaskEither<E, A>) => TaskEither<M, A> =
   /*#__PURE__*/
-  (() => EitherT.orElse(T.monadTask))()
+  EitherT.orElse(T.monadTask)
 
 /**
  * @since 2.0.0
@@ -275,14 +275,13 @@ export function taskify<L, R>(f: Function): () => TaskEither<L, R> {
  * @since 2.0.0
  */
 export function getTaskValidation<E>(S: Semigroup<E>): Applicative2C<URI, E> & Alt2C<URI, E> {
-  const V = getValidationM(S, T.monadTask)
   return {
     URI,
     _E: undefined as any,
-    map: V.map,
-    ap: V.ap,
-    of: V.of,
-    alt: V.alt
+    map,
+    ap: apComposition(T.applicativeTask, E.getValidation(S)),
+    of,
+    alt: ValidationT.alt(S, T.monadTask)
   }
 }
 
@@ -391,9 +390,7 @@ export const filterOrElse: {
 /**
  * @since 2.0.0
  */
-export const map: <A, B>(f: (a: A) => B) => <E>(fa: TaskEither<E, A>) => TaskEither<E, B> =
-  /*#__PURE__*/
-  (() => EitherT.map(T.monadTask))()
+export const map: <A, B>(f: (a: A) => B) => <E>(fa: TaskEither<E, A>) => TaskEither<E, B> = (f) => T.map(E.map(f))
 
 /**
  * @since 3.0.0
@@ -406,9 +403,9 @@ export const functorTaskEither: Functor2<URI> = {
 /**
  * @since 2.0.0
  */
-export const ap: <E, A>(fa: TaskEither<E, A>) => <B>(fab: TaskEither<E, (a: A) => B>) => TaskEither<E, B> =
-  /*#__PURE__*/
-  (() => EitherT.ap(T.monadTask))()
+export const ap: <E, A>(fa: TaskEither<E, A>) => <B>(fab: TaskEither<E, (a: A) => B>) => TaskEither<E, B> = EitherT.ap(
+  T.monadTask
+)
 
 /**
  * @since 3.0.0
@@ -456,7 +453,7 @@ export const applicativeTaskEither: Applicative2<URI> = {
  */
 export const chain: <E, A, B>(f: (a: A) => TaskEither<E, B>) => (ma: TaskEither<E, A>) => TaskEither<E, B> =
   /*#__PURE__*/
-  (() => EitherT.chain(T.monadTask))()
+  EitherT.chain(T.monadTask)
 
 /**
  * @since 3.0.0
@@ -513,14 +510,14 @@ export const flatten: <E, A>(mma: TaskEither<E, TaskEither<E, A>>) => TaskEither
  */
 export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: TaskEither<E, A>) => TaskEither<G, B> =
   /*#__PURE__*/
-  (() => EitherT.bimap(T.monadTask))()
+  EitherT.bimap(T.monadTask)
 
 /**
  * @since 2.0.0
  */
 export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: TaskEither<E, A>) => TaskEither<G, A> =
   /*#__PURE__*/
-  (() => EitherT.mapLeft(T.monadTask))()
+  EitherT.mapLeft(T.monadTask)
 
 /**
  * @since 3.0.0
@@ -536,7 +533,7 @@ export const bifunctorTaskEither: Bifunctor2<URI> = {
  */
 export const alt: <E, A>(that: () => TaskEither<E, A>) => (fa: TaskEither<E, A>) => TaskEither<E, A> =
   /*#__PURE__*/
-  (() => EitherT.alt(T.monadTask))()
+  EitherT.alt(T.monadTask)
 
 /**
  * @since 3.0.0

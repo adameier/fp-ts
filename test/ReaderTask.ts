@@ -68,15 +68,6 @@ describe('ReaderTask', () => {
     return assert.deepStrictEqual(e, 3)
   })
 
-  it('local', async () => {
-    const len = (s: string): number => s.length
-    const e = await pipe(
-      _.asks((n: number) => n + 1),
-      _.local(len)
-    )('aaa')()
-    assert.deepStrictEqual(e, 4)
-  })
-
   it('fromTask', async () => {
     const e = await _.fromTask(T.of(1))({})()
     assert.deepStrictEqual(e, 1)
@@ -120,7 +111,7 @@ describe('ReaderTask', () => {
       append('start 2'),
       _.chain(() => append('end 2'))
     )
-    const sequenceParallel = A.sequence(_.readerTask)
+    const sequenceParallel = A.sequence(_.applicativeReaderTask)
     const ns = await sequenceParallel([t1, t2])({})()
     assert.deepStrictEqual(ns, [3, 4])
     assert.deepStrictEqual(log, ['start 1', 'start 2', 'end 1', 'end 2'])

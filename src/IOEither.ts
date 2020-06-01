@@ -6,7 +6,7 @@
  */
 import { Alt2, Alt2C } from './Alt'
 import { Applicative2, Applicative2C } from './Applicative'
-import { Apply2 } from './Apply'
+import { Apply2, apComposition } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
 import * as E from './Either'
 import * as EitherT from './EitherT'
@@ -20,7 +20,7 @@ import { MonadThrow2 } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
 import { Semigroup } from './Semigroup'
-import { getValidationM } from './ValidationT'
+import * as ValidationT from './ValidationT'
 
 import Either = E.Either
 import IO = io.IO
@@ -51,14 +51,14 @@ export interface IOEither<E, A> extends IO<Either<E, A>> {}
  */
 export const left: <E = never, A = never>(l: E) => IOEither<E, A> =
   /*#__PURE__*/
-  (() => EitherT.left(io.monadIO))()
+  EitherT.left(io.monadIO)
 
 /**
  * @since 2.0.0
  */
 export const right: <E = never, A = never>(a: A) => IOEither<E, A> =
   /*#__PURE__*/
-  (() => EitherT.right(io.monadIO))()
+  EitherT.right(io.monadIO)
 
 /**
  * @since 2.0.0
@@ -79,14 +79,14 @@ export const leftIO: <E = never, A = never>(me: IO<E>) => IOEither<E, A> =
  */
 export const fold: <E, A, B>(onLeft: (e: E) => IO<B>, onRight: (a: A) => IO<B>) => (ma: IOEither<E, A>) => IO<B> =
   /*#__PURE__*/
-  (() => EitherT.fold(io.monadIO))()
+  EitherT.fold(io.monadIO)
 
 /**
  * @since 2.0.0
  */
 export const getOrElse: <E, A>(onLeft: (e: E) => IO<A>) => (ma: IOEither<E, A>) => IO<A> =
   /*#__PURE__*/
-  (() => EitherT.getOrElse(io.monadIO))()
+  EitherT.getOrElse(io.monadIO)
 
 /**
  * @since 2.6.0
@@ -98,7 +98,7 @@ export const getOrElseW: <E, B>(onLeft: (e: E) => IO<B>) => <A>(ma: IOEither<E, 
  */
 export const orElse: <E, A, M>(onLeft: (e: E) => IOEither<M, A>) => (ma: IOEither<E, A>) => IOEither<M, A> =
   /*#__PURE__*/
-  (() => EitherT.orElse(io.monadIO))()
+  EitherT.orElse(io.monadIO)
 
 /**
  * @since 2.0.0
@@ -179,14 +179,13 @@ export function bracket<E, A, B>(
  * @since 3.0.0
  */
 export function getIOValidation<E>(S: Semigroup<E>): Applicative2C<URI, E> & Alt2C<URI, E> {
-  const V = getValidationM(S, io.monadIO)
   return {
     URI,
     _E: undefined as any,
-    map: V.map,
-    ap: V.ap,
-    of: V.of,
-    alt: V.alt
+    map,
+    ap: apComposition(io.applicativeIO, E.getValidation(S)),
+    of,
+    alt: ValidationT.alt(S, io.monadIO)
   }
 }
 
@@ -262,9 +261,7 @@ export const fromEither: <E, A>(ma: E.Either<E, A>) => IOEither<E, A> = (ma) =>
 /**
  * @since 2.0.0
  */
-export const map: <A, B>(f: (a: A) => B) => <E>(fa: IOEither<E, A>) => IOEither<E, B> =
-  /*#__PURE__*/
-  (() => EitherT.map(io.monadIO))()
+export const map: <A, B>(f: (a: A) => B) => <E>(fa: IOEither<E, A>) => IOEither<E, B> = (f) => io.map(E.map(f))
 
 /**
  * @since 3.0.0
@@ -279,7 +276,7 @@ export const functorIOEither: Functor2<URI> = {
  */
 export const ap: <E, A>(fa: IOEither<E, A>) => <B>(fab: IOEither<E, (a: A) => B>) => IOEither<E, B> =
   /*#__PURE__*/
-  (() => EitherT.ap(io.monadIO))()
+  EitherT.ap(io.monadIO)
 
 /**
  * @since 3.0.0
@@ -327,7 +324,7 @@ export const applicativeIOEither: Applicative2<URI> = {
  */
 export const chain: <E, A, B>(f: (a: A) => IOEither<E, B>) => (ma: IOEither<E, A>) => IOEither<E, B> =
   /*#__PURE__*/
-  (() => EitherT.chain(io.monadIO))()
+  EitherT.chain(io.monadIO)
 
 /**
  * @since 3.0.0
@@ -372,14 +369,14 @@ export const flatten: <E, A>(mma: IOEither<E, IOEither<E, A>>) => IOEither<E, A>
  */
 export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: IOEither<E, A>) => IOEither<G, B> =
   /*#__PURE__*/
-  (() => EitherT.bimap(io.monadIO))()
+  EitherT.bimap(io.monadIO)
 
 /**
  * @since 2.0.0
  */
 export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: IOEither<E, A>) => IOEither<G, A> =
   /*#__PURE__*/
-  (() => EitherT.mapLeft(io.monadIO))()
+  EitherT.mapLeft(io.monadIO)
 
 /**
  * @since 3.0.0
@@ -395,7 +392,7 @@ export const bifunctorIOEither: Bifunctor2<URI> = {
  */
 export const alt: <E, A>(that: () => IOEither<E, A>) => (fa: IOEither<E, A>) => IOEither<E, A> =
   /*#__PURE__*/
-  (() => EitherT.alt(io.monadIO))()
+  EitherT.alt(io.monadIO)
 
 /**
  * @since 3.0.0
