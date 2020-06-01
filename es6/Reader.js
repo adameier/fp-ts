@@ -1,9 +1,6 @@
 import * as F from './function';
-import { monadIdentity } from './Identity';
-import { getReaderM } from './ReaderT';
-var MT = 
-/*#__PURE__*/
-getReaderM(monadIdentity);
+import * as I from './Identity';
+import * as ReaderT from './ReaderT';
 /**
  * @since 2.0.0
  */
@@ -13,9 +10,7 @@ export var URI = 'Reader';
  *
  * @since 2.0.0
  */
-export var ask = 
-/*#__PURE__*/
-(function () { return MT.ask; })();
+export var ask = function () { return I.of; };
 /**
  * Projects a value from the global context in a Reader
  *
@@ -23,16 +18,14 @@ export var ask =
  */
 export var asks = 
 /*#__PURE__*/
-(function () { return MT.asks; })();
+ReaderT.asks(I.monadIdentity);
 /**
  * Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
  * `contramap`).
  *
  * @since 2.0.0
  */
-export var local = 
-/*#__PURE__*/
-(function () { return MT.local; })();
+export var local = function (f) { return function (ma) { return function (q) { return ma(f(q)); }; }; };
 /**
  * @since 2.0.0
  */
@@ -55,7 +48,7 @@ export function getMonoid(M) {
  */
 export var of = 
 /*#__PURE__*/
-(function () { return MT.of; })();
+ReaderT.of(I.monadIdentity);
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
@@ -64,7 +57,7 @@ export var of =
  */
 export var map = 
 /*#__PURE__*/
-(function () { return MT.map; })();
+ReaderT.map(I.monadIdentity);
 /**
  * @since 3.0.0
  */
@@ -77,7 +70,7 @@ export var functorReader = {
  */
 export var ap = 
 /*#__PURE__*/
-(function () { return MT.ap; })();
+ReaderT.ap(I.monadIdentity);
 /**
  * @since 3.0.0
  */
@@ -112,7 +105,7 @@ export var applicativeReader = {
  */
 export var chain = 
 /*#__PURE__*/
-(function () { return MT.chain; })();
+ReaderT.chain(I.monadIdentity);
 /**
  * @since 3.0.0
  */

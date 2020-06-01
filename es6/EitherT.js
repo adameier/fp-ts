@@ -1,8 +1,5 @@
 import * as E from './Either';
 import { pipe } from './function';
-export function map(F) {
-    return function (f) { return F.map(E.map(f)); };
-}
 export function ap(F) {
     return function (fa) { return function (fab) {
         return pipe(fab, F.map(function (h) { return function (ga) { return pipe(h, E.ap(ga)); }; }), F.ap(fa));

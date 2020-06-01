@@ -53,4 +53,8 @@ export function sequenceS(F) {
         return fr;
     };
 }
-/* tslint:enable:readonly-array */
+export function apComposition(F, G) {
+    return function (fga) { return function (fgab) {
+        return pipe(fgab, F.map(function (h) { return function (ga) { return pipe(h, G.ap(ga)); }; }), F.ap(fga));
+    }; };
+}

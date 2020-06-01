@@ -1,9 +1,7 @@
+import { flow, pipe } from './function';
 import * as T from './Task';
 import * as TH from './These';
-import { getTheseM } from './TheseT';
-var MT = 
-/*#__PURE__*/
-getTheseM(T.monadTask);
+import * as TheseT from './TheseT';
 /**
  * @since 2.4.0
  */
@@ -14,67 +12,47 @@ export var URI = 'TaskThese';
 /**
  * @since 2.4.0
  */
-export var left = 
-/*#__PURE__*/
-(function () { return MT.left; })();
+export var left = flow(TH.left, T.of);
 /**
  * @since 2.4.0
  */
-export var right = 
-/*#__PURE__*/
-(function () { return MT.right; })();
+export var right = flow(TH.right, T.of);
 /**
  * @since 2.4.0
  */
-export var both = 
-/*#__PURE__*/
-(function () { return MT.both; })();
+export var both = flow(TH.both, T.of);
 /**
  * @since 2.4.0
  */
-export function rightIO(ma) {
-    return rightTask(T.fromIO(ma));
-}
+export var rightTask = T.map(TH.right);
 /**
  * @since 2.4.0
  */
-export function leftIO(me) {
-    return leftTask(T.fromIO(me));
-}
+export var leftTask = T.map(TH.left);
 /**
  * @since 2.4.0
  */
-export var leftTask = 
-/*#__PURE__*/
-(function () { return MT.leftM; })();
+export var rightIO = flow(T.fromIO, rightTask);
 /**
  * @since 2.4.0
  */
-export var rightTask = 
-/*#__PURE__*/
-(function () { return MT.rightM; })();
+export var leftIO = flow(T.fromIO, leftTask);
 /**
  * @since 2.4.0
  */
-export var fromIOEither = 
-/*#__PURE__*/
-(function () { return T.fromIO; })();
+export var fromIOEither = T.fromIO;
 // -------------------------------------------------------------------------------------
 // destructors
 // -------------------------------------------------------------------------------------
 /**
  * @since 2.4.0
  */
-export var fold = 
-/*#__PURE__*/
-(function () { return MT.fold; })();
+export var fold = flow(TH.fold, T.chain);
 /* tslint:disable:readonly-array */
 /**
  * @since 3.0.0
  */
-export var toTuple = 
-/*#__PURE__*/
-(function () { return MT.toTuple; })();
+export var toTuple = flow(TH.toTuple, T.map);
 /* tslint:enable:readonly-array */
 // -------------------------------------------------------------------------------------
 // combinators
@@ -84,7 +62,7 @@ export var toTuple =
  */
 export var swap = 
 /*#__PURE__*/
-(function () { return MT.swap; })();
+T.map(TH.swap);
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
@@ -97,9 +75,7 @@ export function getSemigroup(SE, SA) {
 /**
  * @since 2.4.0
  */
-export var map = 
-/*#__PURE__*/
-(function () { return MT.map; })();
+export var map = function (f) { return T.map(TH.map(f)); };
 /**
  * @since 3.0.0
  */
@@ -110,15 +86,15 @@ export var functorTaskThese = {
 /**
  * @since 2.4.0
  */
-export var bimap = 
-/*#__PURE__*/
-(function () { return MT.bimap; })();
+export var bimap = function (f, g) {
+    return T.map(TH.bimap(f, g));
+};
 /**
  * @since 2.4.0
  */
-export var mapLeft = 
-/*#__PURE__*/
-(function () { return MT.mapLeft; })();
+export var mapLeft = function (f) {
+    return T.map(TH.mapLeft(f));
+};
 /**
  * @since 3.0.0
  */
@@ -128,18 +104,18 @@ export var bifunctorTaskThese = {
     mapLeft: mapLeft
 };
 /**
- * @since 2.4.0
+ * @since 3.0.0
  */
 export function getMonad(S) {
-    var _ = MT.getMonad(S);
+    var chain = TheseT.chain(T.monadTask)(S);
     return {
         URI: URI,
-        _E: _._E,
-        map: _.map,
-        ap: _.ap,
-        of: _.of,
-        chain: _.chain,
-        fromIO: rightIO,
-        fromTask: rightTask
+        _E: undefined,
+        map: map,
+        ap: function (fa) { return function (fab) {
+            return pipe(fab, chain(function (f) { return pipe(fa, map(f)); }));
+        }; },
+        of: right,
+        chain: chain
     };
 }

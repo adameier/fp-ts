@@ -1,9 +1,10 @@
+import { apComposition } from './Apply';
 import * as E from './Either';
 import * as EitherT from './EitherT';
 import { getFilterableComposition } from './Filterable';
 import { identity, pipe } from './function';
 import * as T from './Task';
-import { getValidationM } from './ValidationT';
+import * as ValidationT from './ValidationT';
 /**
  * @since 2.0.0
  */
@@ -13,13 +14,13 @@ export var URI = 'TaskEither';
  */
 export var left = 
 /*#__PURE__*/
-(function () { return EitherT.left(T.monadTask); })();
+EitherT.left(T.monadTask);
 /**
  * @since 2.0.0
  */
 export var right = 
 /*#__PURE__*/
-(function () { return EitherT.right(T.monadTask); })();
+EitherT.right(T.monadTask);
 /**
  * @since 2.0.0
  */
@@ -55,13 +56,13 @@ export var fromIOEither =
  */
 export var fold = 
 /*#__PURE__*/
-(function () { return EitherT.fold(T.monadTask); })();
+EitherT.fold(T.monadTask);
 /**
  * @since 2.0.0
  */
 export var getOrElse = 
 /*#__PURE__*/
-(function () { return EitherT.getOrElse(T.monadTask); })();
+EitherT.getOrElse(T.monadTask);
 /**
  * @since 2.6.0
  */
@@ -71,7 +72,7 @@ export var getOrElseW = getOrElse;
  */
 export var orElse = 
 /*#__PURE__*/
-(function () { return EitherT.orElse(T.monadTask); })();
+EitherT.orElse(T.monadTask);
 /**
  * @since 2.0.0
  */
@@ -156,14 +157,13 @@ export function taskify(f) {
  * @since 2.0.0
  */
 export function getTaskValidation(S) {
-    var V = getValidationM(S, T.monadTask);
     return {
         URI: URI,
         _E: undefined,
-        map: V.map,
-        ap: V.ap,
-        of: V.of,
-        alt: V.alt
+        map: map,
+        ap: apComposition(T.applicativeTask, E.getValidation(S)),
+        of: of,
+        alt: ValidationT.alt(S, T.monadTask)
     };
 }
 /**
@@ -264,9 +264,7 @@ export var filterOrElse = function (predicate, onFalse) { return function (ma) {
 /**
  * @since 2.0.0
  */
-export var map = 
-/*#__PURE__*/
-(function () { return EitherT.map(T.monadTask); })();
+export var map = function (f) { return T.map(E.map(f)); };
 /**
  * @since 3.0.0
  */
@@ -277,9 +275,7 @@ export var functorTaskEither = {
 /**
  * @since 2.0.0
  */
-export var ap = 
-/*#__PURE__*/
-(function () { return EitherT.ap(T.monadTask); })();
+export var ap = EitherT.ap(T.monadTask);
 /**
  * @since 3.0.0
  */
@@ -315,7 +311,7 @@ export var applicativeTaskEither = {
  */
 export var chain = 
 /*#__PURE__*/
-(function () { return EitherT.chain(T.monadTask); })();
+EitherT.chain(T.monadTask);
 /**
  * @since 3.0.0
  */
@@ -357,13 +353,13 @@ chain(identity);
  */
 export var bimap = 
 /*#__PURE__*/
-(function () { return EitherT.bimap(T.monadTask); })();
+EitherT.bimap(T.monadTask);
 /**
  * @since 2.0.0
  */
 export var mapLeft = 
 /*#__PURE__*/
-(function () { return EitherT.mapLeft(T.monadTask); })();
+EitherT.mapLeft(T.monadTask);
 /**
  * @since 3.0.0
  */
@@ -377,7 +373,7 @@ export var bifunctorTaskEither = {
  */
 export var alt = 
 /*#__PURE__*/
-(function () { return EitherT.alt(T.monadTask); })();
+EitherT.alt(T.monadTask);
 /**
  * @since 3.0.0
  */

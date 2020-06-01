@@ -1,9 +1,6 @@
 import { identity, pipe } from './function';
 import * as RTE from './ReaderTaskEither';
-import { getStateM } from './StateT';
-var MT = 
-/*#__PURE__*/
-getStateM(RTE.monadReaderTaskEither);
+import * as StateT from './StateT';
 /**
  * @since 2.0.0
  */
@@ -22,13 +19,17 @@ export function run(ma, s, r) {
  *
  * @since 2.0.0
  */
-export var evalState = MT.evalState;
+export var evalState = 
+/*#__PURE__*/
+StateT.evalState(RTE.monadReaderTaskEither);
 /**
  * Run a computation in the `StateReaderTaskEither` monad discarding the result
  *
  * @since 2.0.0
  */
-export var execState = MT.execState;
+export var execState = 
+/*#__PURE__*/
+StateT.execState(RTE.monadReaderTaskEither);
 /**
  * @since 2.0.0
  */
@@ -40,7 +41,7 @@ export function left(e) {
  */
 export var right = 
 /*#__PURE__*/
-(function () { return MT.of; })();
+StateT.of(RTE.monadReaderTaskEither);
 /**
  * @since 2.0.0
  */
@@ -98,7 +99,9 @@ export function leftIO(me) {
 /**
  * @since 2.0.0
  */
-export var rightState = MT.fromState;
+export var rightState = 
+/*#__PURE__*/
+StateT.fromState(RTE.monadReaderTaskEither);
 /**
  * @since 2.0.0
  */
@@ -108,7 +111,9 @@ export function leftState(me) {
 /**
  * @since 2.0.0
  */
-export var fromReaderTaskEither = MT.fromM;
+export var fromReaderTaskEither = 
+/*#__PURE__*/
+StateT.fromF(RTE.monadReaderTaskEither);
 /**
  * Get the current state
  *
@@ -116,7 +121,7 @@ export var fromReaderTaskEither = MT.fromM;
  */
 export var get = 
 /*#__PURE__*/
-(function () { return MT.get; })();
+StateT.get(RTE.monadReaderTaskEither);
 /**
  * Set the state
  *
@@ -124,7 +129,7 @@ export var get =
  */
 export var put = 
 /*#__PURE__*/
-(function () { return MT.put; })();
+StateT.put(RTE.monadReaderTaskEither);
 /**
  * Modify the state by applying a function to the current state
  *
@@ -132,7 +137,7 @@ export var put =
  */
 export var modify = 
 /*#__PURE__*/
-(function () { return MT.modify; })();
+StateT.modify(RTE.monadReaderTaskEither);
 /**
  * Get a value which depends on the current state
  *
@@ -140,7 +145,7 @@ export var modify =
  */
 export var gets = 
 /*#__PURE__*/
-(function () { return MT.gets; })();
+StateT.gets(RTE.monadReaderTaskEither);
 /**
  * @since 2.4.0
  */
@@ -227,7 +232,7 @@ export var alt = function (that) { return function (fa) { return function (s) {
  */
 export var ap = 
 /*#__PURE__*/
-(function () { return MT.ap; })();
+StateT.ap(RTE.monadReaderTaskEither);
 /**
  * @since 2.0.0
  */
@@ -254,7 +259,7 @@ export var bimap = function (f, g) { return function (fea) { return function (s)
  */
 export var chain = 
 /*#__PURE__*/
-(function () { return MT.chain; })();
+StateT.chain(RTE.monadReaderTaskEither);
 /**
  * @since 2.0.0
  */
@@ -292,7 +297,7 @@ export var flatten = chain(identity);
  */
 export var map = 
 /*#__PURE__*/
-(function () { return MT.map; })();
+StateT.map(RTE.monadReaderTaskEither);
 /**
  * @since 2.6.2
  */

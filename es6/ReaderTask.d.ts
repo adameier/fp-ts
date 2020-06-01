@@ -2,10 +2,15 @@ import { IO } from './IO'
 import { Monad2 } from './Monad'
 import { MonadTask2 } from './MonadTask'
 import { Monoid } from './Monoid'
-import { Reader } from './Reader'
+import * as R from './Reader'
 import { Semigroup } from './Semigroup'
 import * as T from './Task'
+import Reader = R.Reader
 import Task = T.Task
+import { Functor2 } from './Functor'
+import { Apply2 } from './Apply'
+import { Applicative2 } from './Applicative'
+import { MonadIO2 } from './MonadIO'
 /**
  * @since 2.3.0
  */
@@ -62,10 +67,6 @@ export declare const ask: <R>() => ReaderTask<R, R>
  */
 export declare const asks: <R, A = never>(f: (r: R) => A) => ReaderTask<R, A>
 /**
- * @since 2.3.0
- */
-export declare const local: <Q, R>(f: (f: Q) => R) => <A>(ma: ReaderTask<R, A>) => ReaderTask<Q, A>
-/**
  * @since 2.4.0
  */
 export declare function fromIOK<A extends ReadonlyArray<unknown>, B>(
@@ -114,11 +115,31 @@ export declare const flatten: <R, A>(mma: ReaderTask<R, ReaderTask<R, A>>) => Re
  */
 export declare const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderTask<R, A>) => ReaderTask<R, B>
 /**
- * @since 2.3.0
+ * @since 3.0.0
  */
-export declare const readerTask: Monad2<URI> & MonadTask2<URI>
+export declare const functorReaderTask: Functor2<URI>
 /**
- * Like `readerTask` but `ap` is sequential
+ * @since 3.0.0
+ */
+export declare const applyReaderTask: Apply2<URI>
+/**
+ * @since 3.0.0
+ */
+export declare const applicativeReaderTask: Applicative2<URI>
+/**
+ * @since 3.0.0
+ */
+export declare const monadReaderTask: Monad2<URI>
+/**
+ * @since 3.0.0
+ */
+export declare const monadIOReaderTask: MonadIO2<URI>
+/**
+ * @since 3.0.0
+ */
+export declare const monadTaskReaderTask: MonadTask2<URI>
+/**
+ * TODO
  * @since 2.3.0
  */
-export declare const readerTaskSeq: typeof readerTask
+export declare const readerTaskSeq: Monad2<URI> & MonadTask2<URI>

@@ -7,34 +7,13 @@
  * `None` is replaced with a `Left` which can contain useful information. `Right` takes the place of `Some`. Convention
  * dictates that `Left` is used for failure and `Right` is used for success.
  *
- * For example, you could use `Either<string, number>` to detect whether a received input is a `string` or a `number`.
- *
- * ```ts
- * import { Either, left, right } from 'fp-ts/lib/Either'
- *
- * function parse(input: string): Either<Error, number> {
- *   const n = parseInt(input, 10)
- *   return isNaN(n) ? left(new Error('not a number')) : right(n)
- * }
- * ```
- *
- * `Either` is right-biased, which means that `Right` is assumed to be the default case to operate on. If it is `Left`,
- * operations like `map`, `chain`, ... return the `Left` value unchanged:
- *
- * ```ts
- * import { map, left, right } from 'fp-ts/lib/Either'
- * import { pipe } from 'fp-ts/lib/function'
- *
- * pipe(right(12), map(double)) // right(24)
- * pipe(left(23), map(double))  // left(23)
- * ```
- *
  * @since 2.0.0
  */
 import { Alt2, Alt2C } from './Alt'
 import { Applicative2, Applicative2C } from './Applicative'
 import { Apply2 } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
+import { Compactable2C } from './Compactable'
 import { Eq } from './Eq'
 import { Extend2 } from './Extend'
 import { Foldable2 } from './Foldable'
@@ -48,6 +27,7 @@ import { Semigroup } from './Semigroup'
 import { Show } from './Show'
 import { Traversable2 } from './Traversable'
 import { Witherable2C } from './Witherable'
+import { Filterable2C } from './Filterable'
 /**
  * @since 2.0.0
  */
@@ -109,35 +89,17 @@ export declare function right<E = never, A = never>(a: A): Either<E, A>
  */
 export declare function fromNullable<E>(e: () => E): <A>(a: A) => Either<E, NonNullable<A>>
 /**
- * Default value for the `onError` argument of `tryCatch`
+ * Returns `true` if the either is an instance of `Left`, `false` otherwise
  *
  * @since 2.0.0
  */
-export declare function toError(e: unknown): Error
+export declare function isLeft<E, A>(ma: Either<E, A>): ma is Left<E>
 /**
- * Constructs a new `Either` from a function that might throw
- *
- * @example
- * import { Either, left, right, tryCatch } from 'fp-ts/lib/Either'
- *
- * const unsafeHead = <A>(as: Array<A>): A => {
- *   if (as.length > 0) {
- *     return as[0]
- *   } else {
- *     throw new Error('empty array')
- *   }
- * }
- *
- * const head = <A>(as: Array<A>): Either<Error, A> => {
- *   return tryCatch(() => unsafeHead(as), e => (e instanceof Error ? e : new Error('unknown error')))
- * }
- *
- * assert.deepStrictEqual(head([]), left(new Error('empty array')))
- * assert.deepStrictEqual(head([1, 2, 3]), right(1))
+ * Returns `true` if the either is an instance of `Right`, `false` otherwise
  *
  * @since 2.0.0
  */
-export declare function tryCatch<E, A>(f: Lazy<A>, onError: (e: unknown) => E): Either<E, A>
+export declare function isRight<E, A>(ma: Either<E, A>): ma is Right<A>
 /**
  * Takes two functions and an `Either` value, if the value is a `Left` the inner value is applied to the first function,
  * if the value is a `Right` the inner value is applied to the second function.
@@ -173,65 +135,35 @@ export declare function tryCatch<E, A>(f: Lazy<A>, onError: (e: unknown) => E): 
  */
 export declare function fold<E, A, B>(onLeft: (e: E) => B, onRight: (a: A) => B): (ma: Either<E, A>) => B
 /**
+ * Default value for the `onError` argument of `tryCatch`
+ *
  * @since 2.0.0
  */
-export declare function getShow<E, A>(SE: Show<E>, SA: Show<A>): Show<Either<E, A>>
+export declare function toError(e: unknown): Error
 /**
- * @since 2.0.0
- */
-export declare function getEq<E, A>(EL: Eq<E>, EA: Eq<A>): Eq<Either<E, A>>
-/**
- * Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
- * appended using the provided `Semigroup`
+ * Constructs a new `Either` from a function that might throw
  *
  * @example
- * import { getSemigroup, left, right } from 'fp-ts/lib/Either'
- * import { semigroupSum } from 'fp-ts/lib/Semigroup'
+ * import { Either, left, right, tryCatch } from 'fp-ts/lib/Either'
  *
- * const S = getSemigroup<string, number>(semigroupSum)
- * assert.deepStrictEqual(S.concat(left('a'), left('b')), left('a'))
- * assert.deepStrictEqual(S.concat(left('a'), right(2)), right(2))
- * assert.deepStrictEqual(S.concat(right(1), left('b')), right(1))
- * assert.deepStrictEqual(S.concat(right(1), right(2)), right(3))
+ * const unsafeHead = <A>(as: Array<A>): A => {
+ *   if (as.length > 0) {
+ *     return as[0]
+ *   } else {
+ *     throw new Error('empty array')
+ *   }
+ * }
  *
+ * const head = <A>(as: Array<A>): Either<Error, A> => {
+ *   return tryCatch(() => unsafeHead(as), e => (e instanceof Error ? e : new Error('unknown error')))
+ * }
  *
- * @since 2.0.0
- */
-export declare function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<Either<E, A>>
-/**
- * Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
- * are appended using the provided `Semigroup`
- *
- * @example
- * import { getApplySemigroup, left, right } from 'fp-ts/lib/Either'
- * import { semigroupSum } from 'fp-ts/lib/Semigroup'
- *
- * const S = getApplySemigroup<string, number>(semigroupSum)
- * assert.deepStrictEqual(S.concat(left('a'), left('b')), left('a'))
- * assert.deepStrictEqual(S.concat(left('a'), right(2)), left('a'))
- * assert.deepStrictEqual(S.concat(right(1), left('b')), left('b'))
- * assert.deepStrictEqual(S.concat(right(1), right(2)), right(3))
- *
+ * assert.deepStrictEqual(head([]), left(new Error('empty array')))
+ * assert.deepStrictEqual(head([1, 2, 3]), right(1))
  *
  * @since 2.0.0
  */
-export declare function getApplySemigroup<E, A>(S: Semigroup<A>): Semigroup<Either<E, A>>
-/**
- * @since 2.0.0
- */
-export declare function getApplyMonoid<E, A>(M: Monoid<A>): Monoid<Either<E, A>>
-/**
- * Returns `true` if the either is an instance of `Left`, `false` otherwise
- *
- * @since 2.0.0
- */
-export declare function isLeft<E, A>(ma: Either<E, A>): ma is Left<E>
-/**
- * Returns `true` if the either is an instance of `Right`, `false` otherwise
- *
- * @since 2.0.0
- */
-export declare function isRight<E, A>(ma: Either<E, A>): ma is Right<A>
+export declare function tryCatch<E, A>(f: Lazy<A>, onError: (e: unknown) => E): Either<E, A>
 /**
  * @since 2.0.0
  */
@@ -300,12 +232,6 @@ export declare function parseJSON<E>(s: string, onError: (reason: unknown) => E)
  * @since 2.0.0
  */
 export declare function stringifyJSON<E>(u: unknown, onError: (reason: unknown) => E): Either<E, string>
-/**
- * Builds `Witherable` instance for `Either` given `Monoid` for the left side
- *
- * @since 2.0.0
- */
-export declare function getWitherable<E>(M: Monoid<E>): Witherable2C<URI, E>
 /**
  * @since 3.0.0
  */
@@ -409,6 +335,54 @@ export declare const filterOrElse: {
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, A>
 }
 /**
+ * @since 2.0.0
+ */
+export declare function getShow<E, A>(SE: Show<E>, SA: Show<A>): Show<Either<E, A>>
+/**
+ * @since 2.0.0
+ */
+export declare function getEq<E, A>(EL: Eq<E>, EA: Eq<A>): Eq<Either<E, A>>
+/**
+ * Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
+ * appended using the provided `Semigroup`
+ *
+ * @example
+ * import { getSemigroup, left, right } from 'fp-ts/lib/Either'
+ * import { semigroupSum } from 'fp-ts/lib/Semigroup'
+ *
+ * const S = getSemigroup<string, number>(semigroupSum)
+ * assert.deepStrictEqual(S.concat(left('a'), left('b')), left('a'))
+ * assert.deepStrictEqual(S.concat(left('a'), right(2)), right(2))
+ * assert.deepStrictEqual(S.concat(right(1), left('b')), right(1))
+ * assert.deepStrictEqual(S.concat(right(1), right(2)), right(3))
+ *
+ *
+ * @since 2.0.0
+ */
+export declare function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<Either<E, A>>
+/**
+ * Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
+ * are appended using the provided `Semigroup`
+ *
+ * @example
+ * import { getApplySemigroup, left, right } from 'fp-ts/lib/Either'
+ * import { semigroupSum } from 'fp-ts/lib/Semigroup'
+ *
+ * const S = getApplySemigroup<string, number>(semigroupSum)
+ * assert.deepStrictEqual(S.concat(left('a'), left('b')), left('a'))
+ * assert.deepStrictEqual(S.concat(left('a'), right(2)), left('a'))
+ * assert.deepStrictEqual(S.concat(right(1), left('b')), left('b'))
+ * assert.deepStrictEqual(S.concat(right(1), right(2)), right(3))
+ *
+ *
+ * @since 2.0.0
+ */
+export declare function getApplySemigroup<E, A>(S: Semigroup<A>): Semigroup<Either<E, A>>
+/**
+ * @since 2.0.0
+ */
+export declare function getApplyMonoid<E, A>(M: Monoid<A>): Monoid<Either<E, A>>
+/**
  * @since 3.0.0
  */
 export declare const functorEither: Functor2<URI>
@@ -448,3 +422,17 @@ export declare const extendEither: Extend2<URI>
  * @since 3.0.0
  */
 export declare const monadThrowEither: MonadThrow2<URI>
+/**
+ * @since 3.0.0
+ */
+export declare function getCompactable<E>(M: Monoid<E>): Compactable2C<URI, E>
+/**
+ * @since 3.0.0
+ */
+export declare function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E>
+/**
+ * Builds `Witherable` instance for `Either` given `Monoid` for the left side
+ *
+ * @since 2.0.0
+ */
+export declare function getWitherable<E>(M: Monoid<E>): Witherable2C<URI, E>

@@ -2,12 +2,9 @@
  * @since 2.3.0
  */
 import { identity, pipe } from './function';
-import { getSemigroup as getReaderSemigroup } from './Reader';
-import { getReaderM } from './ReaderT';
+import * as R from './Reader';
+import * as ReaderT from './ReaderT';
 import * as T from './Task';
-var MT = 
-/*#__PURE__*/
-getReaderM(T.monadTask);
 /**
  * @since 2.3.0
  */
@@ -23,13 +20,13 @@ export function run(ma, r) {
  */
 export var fromTask = 
 /*#__PURE__*/
-(function () { return MT.fromM; })();
+R.of;
 /**
  * @since 2.3.0
  */
 export var fromReader = 
 /*#__PURE__*/
-(function () { return MT.fromReader; })();
+ReaderT.fromReader(T.monadTask);
 /**
  * @since 2.3.0
  */
@@ -41,12 +38,12 @@ export function fromIO(ma) {
  */
 export var of = 
 /*#__PURE__*/
-(function () { return MT.of; })();
+ReaderT.of(T.monadTask);
 /**
  * @since 2.3.0
  */
 export function getSemigroup(S) {
-    return getReaderSemigroup(T.getSemigroup(S));
+    return R.getSemigroup(T.getSemigroup(S));
 }
 /**
  * @since 2.3.0
@@ -60,21 +57,13 @@ export function getMonoid(M) {
 /**
  * @since 2.3.0
  */
-export var ask = 
-/*#__PURE__*/
-(function () { return MT.ask; })();
+export var ask = function () { return T.of; };
 /**
  * @since 2.3.0
  */
 export var asks = 
 /*#__PURE__*/
-(function () { return MT.asks; })();
-/**
- * @since 2.3.0
- */
-export var local = 
-/*#__PURE__*/
-(function () { return MT.local; })();
+ReaderT.asks(T.monadTask);
 /**
  * @since 2.4.0
  */
@@ -119,7 +108,7 @@ export function chainTaskK(f) {
  */
 export var ap = 
 /*#__PURE__*/
-(function () { return MT.ap; })();
+ReaderT.ap(T.monadTask);
 /**
  * @since 2.3.0
  */
@@ -137,7 +126,7 @@ export var apSecond = function (fb) { return function (fa) {
  */
 export var chain = 
 /*#__PURE__*/
-(function () { return MT.chain; })();
+ReaderT.chain(T.monadTask);
 /**
  * @since 2.3.0
  */
@@ -155,12 +144,36 @@ export var flatten = chain(identity);
  */
 export var map = 
 /*#__PURE__*/
-(function () { return MT.map; })();
+ReaderT.map(T.monadTask);
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
 /**
- * @internal
+ * @since 3.0.0
+ */
+export var functorReaderTask = {
+    URI: URI,
+    map: map
+};
+/**
+ * @since 3.0.0
+ */
+export var applyReaderTask = {
+    URI: URI,
+    map: map,
+    ap: ap
+};
+/**
+ * @since 3.0.0
+ */
+export var applicativeReaderTask = {
+    URI: URI,
+    map: map,
+    ap: ap,
+    of: of
+};
+/**
+ * @since 3.0.0
  */
 export var monadReaderTask = {
     URI: URI,
@@ -170,9 +183,20 @@ export var monadReaderTask = {
     chain: chain
 };
 /**
- * @since 2.3.0
+ * @since 3.0.0
  */
-export var readerTask = {
+export var monadIOReaderTask = {
+    URI: URI,
+    map: map,
+    of: of,
+    ap: ap,
+    chain: chain,
+    fromIO: fromIO
+};
+/**
+ * @since 3.0.0
+ */
+export var monadTaskReaderTask = {
     URI: URI,
     map: map,
     of: of,
@@ -182,21 +206,17 @@ export var readerTask = {
     fromTask: fromTask
 };
 /**
- * Like `readerTask` but `ap` is sequential
+ * TODO
  * @since 2.3.0
  */
-export var readerTaskSeq = 
-/*#__PURE__*/
-(function () {
-    return {
-        URI: URI,
-        map: map,
-        of: of,
-        ap: function (fa) { return function (fab) {
-            return pipe(fab, chain(function (f) { return pipe(fa, map(f)); }));
-        }; },
-        chain: chain,
-        fromIO: fromIO,
-        fromTask: fromTask
-    };
-})();
+export var readerTaskSeq = {
+    URI: URI,
+    map: map,
+    of: of,
+    ap: function (fa) { return function (fab) {
+        return pipe(fab, chain(function (f) { return pipe(fa, map(f)); }));
+    }; },
+    chain: chain,
+    fromIO: fromIO,
+    fromTask: fromTask
+};

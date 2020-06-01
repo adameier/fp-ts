@@ -6,7 +6,6 @@ import { Functor2 } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { Monad2C } from './Monad'
-import { MonadTask2C } from './MonadTask'
 import { Semigroup } from './Semigroup'
 import * as T from './Task'
 import * as TH from './These'
@@ -44,11 +43,7 @@ export declare const both: <E, A>(e: E, a: A) => TaskThese<E, A>
 /**
  * @since 2.4.0
  */
-export declare function rightIO<E = never, A = never>(ma: IO<A>): TaskThese<E, A>
-/**
- * @since 2.4.0
- */
-export declare function leftIO<E = never, A = never>(me: IO<E>): TaskThese<E, A>
+export declare const rightTask: <E = never, A = never>(ma: Task<A>) => TaskThese<E, A>
 /**
  * @since 2.4.0
  */
@@ -56,7 +51,11 @@ export declare const leftTask: <E = never, A = never>(me: Task<E>) => TaskThese<
 /**
  * @since 2.4.0
  */
-export declare const rightTask: <E = never, A = never>(ma: Task<A>) => TaskThese<E, A>
+export declare const rightIO: <E = never, A = never>(ma: IO<A>) => TaskThese<E, A>
+/**
+ * @since 2.4.0
+ */
+export declare const leftIO: <E = never, A = never>(me: IO<E>) => TaskThese<E, A>
 /**
  * @since 2.4.0
  */
@@ -102,6 +101,6 @@ export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: TaskThese<E, A>)
  */
 export declare const bifunctorTaskThese: Bifunctor2<URI>
 /**
- * @since 2.4.0
+ * @since 3.0.0
  */
-export declare function getMonad<E>(S: Semigroup<E>): Monad2C<URI, E> & MonadTask2C<URI, E>
+export declare function getMonad<E>(S: Semigroup<E>): Monad2C<URI, E>

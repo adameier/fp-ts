@@ -23,16 +23,6 @@ export declare type EitherT2<M extends URIS2, R, E, A> = Kind2<M, R, E.Either<E,
 /**
  * @since 3.0.0
  */
-export declare function map<F extends URIS2>(
-  F: Functor2<F>
-): <A, B>(f: (a: A) => B) => <R, E>(fa: EitherT2<F, R, E, A>) => EitherT2<F, R, E, B>
-export declare function map<F extends URIS>(
-  F: Functor1<F>
-): <A, B>(f: (a: A) => B) => <E>(fa: EitherT1<F, E, A>) => EitherT1<F, E, B>
-export declare function map<F>(F: Functor<F>): <A, B>(f: (a: A) => B) => <E>(fa: EitherT<F, E, A>) => EitherT<F, E, B>
-/**
- * @since 3.0.0
- */
 export declare function ap<F extends URIS2>(
   F: Apply2<F>
 ): <R, E, A>(fa: EitherT2<F, R, E, A>) => <B>(fab: EitherT2<F, R, E, (a: A) => B>) => EitherT2<F, R, E, B>
@@ -107,7 +97,7 @@ export declare function mapLeft<F>(
  */
 export declare function fold<M extends URIS2>(
   M: Chain2<M>
-): <E, B, R, A>(
+): <E, R, B, A>(
   onLeft: (e: E) => Kind2<M, R, B>,
   onRight: (a: A) => Kind2<M, R, B>
 ) => (ma: EitherT2<M, R, E, A>) => Kind2<M, R, B>

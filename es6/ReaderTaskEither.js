@@ -1,12 +1,11 @@
+import { apComposition } from './Apply';
+import { getValidation } from './Either';
 import { identity, pipe } from './function';
-import { getSemigroup as getReaderSemigroup } from './Reader';
-import { getReaderM } from './ReaderT';
-import { monadReaderTask } from './ReaderTask';
+import * as R from './Reader';
+import * as ReaderT from './ReaderT';
+import * as RT from './ReaderTask';
 import * as TE from './TaskEither';
-import { getValidationM } from './ValidationT';
-var MT = 
-/*#__PURE__*/
-getReaderM(TE.monadTaskEither);
+import * as ValidationT from './ValidationT';
 /**
  * @since 2.0.0
  */
@@ -28,7 +27,7 @@ export function left(e) {
  */
 export var right = 
 /*#__PURE__*/
-(function () { return MT.of; })();
+ReaderT.of(TE.monadTaskEither);
 /**
  * @since 2.0.0
  */
@@ -46,13 +45,13 @@ export function leftTask(me) {
  */
 export var fromTaskEither = 
 /*#__PURE__*/
-(function () { return MT.fromM; })();
+R.of;
 /**
  * @since 2.0.0
  */
 export var rightReader = 
 /*#__PURE__*/
-(function () { return MT.fromReader; })();
+ReaderT.fromReader(TE.monadTaskEither);
 /**
  * @since 2.5.0
  */
@@ -132,7 +131,7 @@ export function swap(ma) {
  * @since 2.0.0
  */
 export function getSemigroup(S) {
-    return getReaderSemigroup(TE.getSemigroup(S));
+    return R.getSemigroup(TE.getSemigroup(S));
 }
 /**
  * Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
@@ -141,7 +140,7 @@ export function getSemigroup(S) {
  * @since 2.0.0
  */
 export function getApplySemigroup(S) {
-    return getReaderSemigroup(TE.getApplySemigroup(S));
+    return R.getSemigroup(TE.getApplySemigroup(S));
 }
 /**
  * @since 2.0.0
@@ -155,19 +154,13 @@ export function getApplyMonoid(M) {
 /**
  * @since 2.0.0
  */
-export var ask = 
-/*#__PURE__*/
-(function () { return MT.ask; })();
+export var ask = function () { return TE.right; };
 /**
  * @since 2.0.0
  */
 export var asks = 
 /*#__PURE__*/
-(function () { return MT.asks; })();
-/**
- * @since 2.0.0
- */
-export var local = MT.local;
+ReaderT.asks(TE.monadTaskEither);
 /**
  * Make sure that a resource is cleaned up in the event of an exception (*). The release action is called regardless of
  * whether the body action throws (*) or returns.
@@ -185,14 +178,13 @@ export function bracket(aquire, use, release) {
  * @since 2.3.0
  */
 export function getReaderTaskValidation(S) {
-    var V = getValidationM(S, monadReaderTask);
     return {
         URI: URI,
         _E: undefined,
-        map: V.map,
-        ap: V.ap,
-        of: V.of,
-        alt: V.alt
+        map: map,
+        ap: apComposition(RT.applicativeReaderTask, getValidation(S)),
+        of: of,
+        alt: ValidationT.alt(S, RT.monadReaderTask)
     };
 }
 /**
@@ -263,7 +255,7 @@ export var alt = function (that) { return function (fa) { return function (r) {
  */
 export var ap = 
 /*#__PURE__*/
-(function () { return MT.ap; })();
+ReaderT.ap(TE.monadTaskEither);
 /**
  * @since 2.0.0
  */
@@ -287,7 +279,7 @@ export var bimap = function (f, g) { return function (fea) { return function (e)
  */
 export var chain = 
 /*#__PURE__*/
-(function () { return MT.chain; })();
+ReaderT.chain(TE.monadTaskEither);
 /**
  * @since 2.0.0
  */
@@ -305,7 +297,7 @@ export var flatten = chain(identity);
  */
 export var map = 
 /*#__PURE__*/
-(function () { return MT.map; })();
+ReaderT.map(TE.monadTaskEither);
 /**
  * @since 2.0.0
  */

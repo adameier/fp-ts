@@ -3,12 +3,9 @@
  *
  * @since 2.0.0
  */
-import { monadIdentity } from './Identity';
-import { getStateM } from './StateT';
+import * as I from './Identity';
+import * as StateT from './StateT';
 import { identity, pipe } from './function';
-var MT = 
-/*#__PURE__*/
-getStateM(monadIdentity);
 /**
  * @since 2.0.0
  */
@@ -21,7 +18,7 @@ export var URI = 'State';
  */
 export var evalState = 
 /*#__PURE__*/
-(function () { return MT.evalState; })();
+StateT.evalState(I.monadIdentity);
 /**
  * Run a computation in the `State` monad discarding the result
  *
@@ -29,7 +26,7 @@ export var evalState =
  */
 export var execState = 
 /*#__PURE__*/
-(function () { return MT.execState; })();
+StateT.execState(I.monadIdentity);
 /**
  * Get the current state
  *
@@ -37,7 +34,7 @@ export var execState =
  */
 export var get = 
 /*#__PURE__*/
-(function () { return MT.get; })();
+StateT.get(I.monadIdentity);
 /**
  * Set the state
  *
@@ -45,7 +42,7 @@ export var get =
  */
 export var put = 
 /*#__PURE__*/
-(function () { return MT.put; })();
+StateT.put(I.monadIdentity);
 /**
  * Modify the state by applying a function to the current state
  *
@@ -53,7 +50,7 @@ export var put =
  */
 export var modify = 
 /*#__PURE__*/
-(function () { return MT.modify; })();
+StateT.modify(I.monadIdentity);
 /**
  * Get a value which depends on the current state
  *
@@ -61,13 +58,13 @@ export var modify =
  */
 export var gets = 
 /*#__PURE__*/
-(function () { return MT.gets; })();
+StateT.gets(I.monadIdentity);
 /**
  * @since 2.0.0
  */
 export var of = 
 /*#__PURE__*/
-(function () { return MT.of; })();
+StateT.of(I.monadIdentity);
 // -------------------------------------------------------------------------------------
 // pipeables
 // -------------------------------------------------------------------------------------
@@ -76,7 +73,7 @@ export var of =
  */
 export var ap = 
 /*#__PURE__*/
-(function () { return MT.ap; })();
+StateT.ap(I.monadIdentity);
 /**
  * @since 2.0.0
  */
@@ -94,7 +91,7 @@ export var apSecond = function (fb) { return function (fa) {
  */
 export var chain = 
 /*#__PURE__*/
-(function () { return MT.chain; })();
+StateT.chain(I.monadIdentity);
 /**
  * @since 2.0.0
  */
@@ -112,7 +109,7 @@ export var flatten = chain(identity);
  */
 export var map = 
 /*#__PURE__*/
-(function () { return MT.map; })();
+StateT.map(I.monadIdentity);
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------

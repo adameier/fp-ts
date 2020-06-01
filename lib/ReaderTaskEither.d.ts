@@ -16,13 +16,15 @@ import { MonadTask3 } from './MonadTask'
 import { MonadThrow3 } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
-import { Reader } from './Reader'
+import * as R from './Reader'
 import { ReaderEither } from './ReaderEither'
-import { ReaderTask } from './ReaderTask'
+import * as RT from './ReaderTask'
 import { Semigroup } from './Semigroup'
 import { Task } from './Task'
 import * as TE from './TaskEither'
+import Reader = R.Reader
 import TaskEither = TE.TaskEither
+import ReaderTask = RT.ReaderTask
 /**
  * @since 2.0.0
  */
@@ -153,10 +155,6 @@ export declare const ask: <R, E = never>() => ReaderTaskEither<R, E, R>
  * @since 2.0.0
  */
 export declare const asks: <R, E = never, A = never>(f: (r: R) => A) => ReaderTaskEither<R, E, A>
-/**
- * @since 2.0.0
- */
-export declare const local: <Q, R>(f: (f: Q) => R) => <E, A>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<Q, E, A>
 /**
  * Make sure that a resource is cleaned up in the event of an exception (*). The release action is called regardless of
  * whether the body action throws (*) or returns.

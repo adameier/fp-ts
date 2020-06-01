@@ -1,41 +1,25 @@
-/**
- * Represents a value of one of two possible types (a disjoint union).
- *
- * An instance of `Either` is either an instance of `Left` or `Right`.
- *
- * A common use of `Either` is as an alternative to `Option` for dealing with possible missing values. In this usage,
- * `None` is replaced with a `Left` which can contain useful information. `Right` takes the place of `Some`. Convention
- * dictates that `Left` is used for failure and `Right` is used for success.
- *
- * For example, you could use `Either<string, number>` to detect whether a received input is a `string` or a `number`.
- *
- * ```ts
- * import { Either, left, right } from 'fp-ts/lib/Either'
- *
- * function parse(input: string): Either<Error, number> {
- *   const n = parseInt(input, 10)
- *   return isNaN(n) ? left(new Error('not a number')) : right(n)
- * }
- * ```
- *
- * `Either` is right-biased, which means that `Right` is assumed to be the default case to operate on. If it is `Left`,
- * operations like `map`, `chain`, ... return the `Left` value unchanged:
- *
- * ```ts
- * import { map, left, right } from 'fp-ts/lib/Either'
- * import { pipe } from 'fp-ts/lib/function'
- *
- * pipe(right(12), map(double)) // right(24)
- * pipe(left(23), map(double))  // left(23)
- * ```
- *
- * @since 2.0.0
- */
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 import { identity, pipe } from './function';
+// -------------------------------------------------------------------------------------
+// model
+// -------------------------------------------------------------------------------------
 /**
  * @since 2.0.0
  */
 export var URI = 'Either';
+// -------------------------------------------------------------------------------------
+// constructors
+// -------------------------------------------------------------------------------------
 /**
  * Constructs a new `Either` holding a `Left` value. This usually represents a failure, due to the right-bias of this
  * structure
@@ -71,6 +55,72 @@ export function right(a) {
 export function fromNullable(e) {
     return function (a) { return (a == null ? left(e()) : right(a)); };
 }
+// -------------------------------------------------------------------------------------
+// guards
+// -------------------------------------------------------------------------------------
+/**
+ * Returns `true` if the either is an instance of `Left`, `false` otherwise
+ *
+ * @since 2.0.0
+ */
+export function isLeft(ma) {
+    switch (ma._tag) {
+        case 'Left':
+            return true;
+        case 'Right':
+            return false;
+    }
+}
+/**
+ * Returns `true` if the either is an instance of `Right`, `false` otherwise
+ *
+ * @since 2.0.0
+ */
+export function isRight(ma) {
+    return isLeft(ma) ? false : true;
+}
+// -------------------------------------------------------------------------------------
+// destructors
+// -------------------------------------------------------------------------------------
+/**
+ * Takes two functions and an `Either` value, if the value is a `Left` the inner value is applied to the first function,
+ * if the value is a `Right` the inner value is applied to the second function.
+ *
+ * @example
+ * import { fold, left, right } from 'fp-ts/lib/Either'
+ * import { pipe } from 'fp-ts/lib/function'
+ *
+ * function onLeft(errors: Array<string>): string {
+ *   return `Errors: ${errors.join(', ')}`
+ * }
+ *
+ * function onRight(value: number): string {
+ *   return `Ok: ${value}`
+ * }
+ *
+ * assert.strictEqual(
+ *   pipe(
+ *     right(1),
+ *     fold(onLeft, onRight)
+ *   ),
+ *   'Ok: 1'
+ * )
+ * assert.strictEqual(
+ *   pipe(
+ *     left(['error 1', 'error 2']),
+ *     fold(onLeft, onRight)
+ *   ),
+ *   'Errors: error 1, error 2'
+ * )
+ *
+ * @since 2.0.0
+ */
+export function fold(onLeft, onRight) {
+    return function (ma) { return (isLeft(ma) ? onLeft(ma.left) : onRight(ma.right)); };
+}
+// -------------------------------------------------------------------------------------
+// interop
+// -------------------------------------------------------------------------------------
 /**
  * Default value for the `onError` argument of `tryCatch`
  *
@@ -110,134 +160,9 @@ export function tryCatch(f, onError) {
         return left(onError(e));
     }
 }
-/**
- * Takes two functions and an `Either` value, if the value is a `Left` the inner value is applied to the first function,
- * if the value is a `Right` the inner value is applied to the second function.
- *
- * @example
- * import { fold, left, right } from 'fp-ts/lib/Either'
- * import { pipe } from 'fp-ts/lib/function'
- *
- * function onLeft(errors: Array<string>): string {
- *   return `Errors: ${errors.join(', ')}`
- * }
- *
- * function onRight(value: number): string {
- *   return `Ok: ${value}`
- * }
- *
- * assert.strictEqual(
- *   pipe(
- *     right(1),
- *     fold(onLeft, onRight)
- *   ),
- *   'Ok: 1'
- * )
- * assert.strictEqual(
- *   pipe(
- *     left(['error 1', 'error 2']),
- *     fold(onLeft, onRight)
- *   ),
- *   'Errors: error 1, error 2'
- * )
- *
- * @since 2.0.0
- */
-export function fold(onLeft, onRight) {
-    return function (ma) { return (isLeft(ma) ? onLeft(ma.left) : onRight(ma.right)); };
-}
-/**
- * @since 2.0.0
- */
-export function getShow(SE, SA) {
-    return {
-        show: function (ma) { return (isLeft(ma) ? "left(" + SE.show(ma.left) + ")" : "right(" + SA.show(ma.right) + ")"); }
-    };
-}
-/**
- * @since 2.0.0
- */
-export function getEq(EL, EA) {
-    return {
-        equals: function (x, y) {
-            return x === y || (isLeft(x) ? isLeft(y) && EL.equals(x.left, y.left) : isRight(y) && EA.equals(x.right, y.right));
-        }
-    };
-}
-/**
- * Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
- * appended using the provided `Semigroup`
- *
- * @example
- * import { getSemigroup, left, right } from 'fp-ts/lib/Either'
- * import { semigroupSum } from 'fp-ts/lib/Semigroup'
- *
- * const S = getSemigroup<string, number>(semigroupSum)
- * assert.deepStrictEqual(S.concat(left('a'), left('b')), left('a'))
- * assert.deepStrictEqual(S.concat(left('a'), right(2)), right(2))
- * assert.deepStrictEqual(S.concat(right(1), left('b')), right(1))
- * assert.deepStrictEqual(S.concat(right(1), right(2)), right(3))
- *
- *
- * @since 2.0.0
- */
-export function getSemigroup(S) {
-    return {
-        concat: function (x, y) { return (isLeft(y) ? x : isLeft(x) ? y : right(S.concat(x.right, y.right))); }
-    };
-}
-/**
- * Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
- * are appended using the provided `Semigroup`
- *
- * @example
- * import { getApplySemigroup, left, right } from 'fp-ts/lib/Either'
- * import { semigroupSum } from 'fp-ts/lib/Semigroup'
- *
- * const S = getApplySemigroup<string, number>(semigroupSum)
- * assert.deepStrictEqual(S.concat(left('a'), left('b')), left('a'))
- * assert.deepStrictEqual(S.concat(left('a'), right(2)), left('a'))
- * assert.deepStrictEqual(S.concat(right(1), left('b')), left('b'))
- * assert.deepStrictEqual(S.concat(right(1), right(2)), right(3))
- *
- *
- * @since 2.0.0
- */
-export function getApplySemigroup(S) {
-    return {
-        concat: function (x, y) { return (isLeft(x) ? x : isLeft(y) ? y : right(S.concat(x.right, y.right))); }
-    };
-}
-/**
- * @since 2.0.0
- */
-export function getApplyMonoid(M) {
-    return {
-        concat: getApplySemigroup(M).concat,
-        empty: right(M.empty)
-    };
-}
-/**
- * Returns `true` if the either is an instance of `Left`, `false` otherwise
- *
- * @since 2.0.0
- */
-export function isLeft(ma) {
-    switch (ma._tag) {
-        case 'Left':
-            return true;
-        case 'Right':
-            return false;
-    }
-}
-/**
- * Returns `true` if the either is an instance of `Right`, `false` otherwise
- *
- * @since 2.0.0
- */
-export function isRight(ma) {
-    return isLeft(ma) ? false : true;
-}
+// -------------------------------------------------------------------------------------
+// combinators
+// -------------------------------------------------------------------------------------
 /**
  * @since 2.0.0
  */
@@ -260,6 +185,9 @@ export function getOrElse(onLeft) {
  * @since 2.6.0
  */
 export var getOrElseW = getOrElse;
+// -------------------------------------------------------------------------------------
+// helpers
+// -------------------------------------------------------------------------------------
 /**
  * @since 2.0.0
  */
@@ -320,74 +248,9 @@ export function parseJSON(s, onError) {
 export function stringifyJSON(u, onError) {
     return tryCatch(function () { return JSON.stringify(u); }, onError);
 }
-/**
- * Builds `Witherable` instance for `Either` given `Monoid` for the left side
- *
- * @since 2.0.0
- */
-export function getWitherable(M) {
-    var empty = left(M.empty);
-    var compact = function (ma) {
-        return isLeft(ma) ? ma : ma.right._tag === 'None' ? left(M.empty) : right(ma.right.value);
-    };
-    var separate = function (ma) {
-        return isLeft(ma)
-            ? { left: ma, right: ma }
-            : isLeft(ma.right)
-                ? { left: right(ma.right.left), right: empty }
-                : { left: empty, right: right(ma.right.right) };
-    };
-    var partitionMap = function (f) { return function (ma) {
-        if (isLeft(ma)) {
-            return { left: ma, right: ma };
-        }
-        var e = f(ma.right);
-        return isLeft(e) ? { left: right(e.left), right: empty } : { left: empty, right: right(e.right) };
-    }; };
-    var partition = function (p) { return function (ma) {
-        return isLeft(ma)
-            ? { left: ma, right: ma }
-            : p(ma.right)
-                ? { left: empty, right: right(ma.right) }
-                : { left: right(ma.right), right: empty };
-    }; };
-    var filterMap = function (f) { return function (ma) {
-        if (isLeft(ma)) {
-            return ma;
-        }
-        var ob = f(ma.right);
-        return ob._tag === 'None' ? left(M.empty) : right(ob.value);
-    }; };
-    var filter = function (predicate) { return function (ma) {
-        return isLeft(ma) ? ma : predicate(ma.right) ? ma : left(M.empty);
-    }; };
-    var wither = function (F) {
-        var traverseF = traverse(F);
-        return function (f) { return function (ma) { return pipe(ma, traverseF(f), F.map(compact)); }; };
-    };
-    var wilt = function (F) {
-        var traverseF = traverse(F);
-        return function (f) { return function (ma) { return pipe(ma, traverseF(f), F.map(separate)); }; };
-    };
-    return {
-        URI: URI,
-        _E: undefined,
-        map: map,
-        compact: compact,
-        separate: separate,
-        filter: filter,
-        filterMap: filterMap,
-        partition: partition,
-        partitionMap: partitionMap,
-        traverse: traverse,
-        sequence: sequence,
-        reduce: reduce,
-        foldMap: foldMap,
-        reduceRight: reduceRight,
-        wither: wither,
-        wilt: wilt
-    };
-}
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
 /**
  * @since 3.0.0
  */
@@ -440,9 +303,6 @@ export function getValidationMonoid(SE, SA) {
         empty: right(SA.empty)
     };
 }
-// -------------------------------------------------------------------------------------
-// pipeables
-// -------------------------------------------------------------------------------------
 /**
  * @since 3.0.0
  */
@@ -563,9 +423,77 @@ export var fromPredicate = function (predicate, onFalse) { return function (a) {
 export var filterOrElse = function (predicate, onFalse) { return function (ma) {
     return pipe(ma, chain(function (a) { return (predicate(a) ? right(a) : left(onFalse(a))); }));
 }; };
-// -------------------------------------------------------------------------------------
-// instances
-// -------------------------------------------------------------------------------------
+/**
+ * @since 2.0.0
+ */
+export function getShow(SE, SA) {
+    return {
+        show: function (ma) { return (isLeft(ma) ? "left(" + SE.show(ma.left) + ")" : "right(" + SA.show(ma.right) + ")"); }
+    };
+}
+/**
+ * @since 2.0.0
+ */
+export function getEq(EL, EA) {
+    return {
+        equals: function (x, y) {
+            return x === y || (isLeft(x) ? isLeft(y) && EL.equals(x.left, y.left) : isRight(y) && EA.equals(x.right, y.right));
+        }
+    };
+}
+/**
+ * Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
+ * appended using the provided `Semigroup`
+ *
+ * @example
+ * import { getSemigroup, left, right } from 'fp-ts/lib/Either'
+ * import { semigroupSum } from 'fp-ts/lib/Semigroup'
+ *
+ * const S = getSemigroup<string, number>(semigroupSum)
+ * assert.deepStrictEqual(S.concat(left('a'), left('b')), left('a'))
+ * assert.deepStrictEqual(S.concat(left('a'), right(2)), right(2))
+ * assert.deepStrictEqual(S.concat(right(1), left('b')), right(1))
+ * assert.deepStrictEqual(S.concat(right(1), right(2)), right(3))
+ *
+ *
+ * @since 2.0.0
+ */
+export function getSemigroup(S) {
+    return {
+        concat: function (x, y) { return (isLeft(y) ? x : isLeft(x) ? y : right(S.concat(x.right, y.right))); }
+    };
+}
+/**
+ * Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
+ * are appended using the provided `Semigroup`
+ *
+ * @example
+ * import { getApplySemigroup, left, right } from 'fp-ts/lib/Either'
+ * import { semigroupSum } from 'fp-ts/lib/Semigroup'
+ *
+ * const S = getApplySemigroup<string, number>(semigroupSum)
+ * assert.deepStrictEqual(S.concat(left('a'), left('b')), left('a'))
+ * assert.deepStrictEqual(S.concat(left('a'), right(2)), left('a'))
+ * assert.deepStrictEqual(S.concat(right(1), left('b')), left('b'))
+ * assert.deepStrictEqual(S.concat(right(1), right(2)), right(3))
+ *
+ *
+ * @since 2.0.0
+ */
+export function getApplySemigroup(S) {
+    return {
+        concat: function (x, y) { return (isLeft(x) ? x : isLeft(y) ? y : right(S.concat(x.right, y.right))); }
+    };
+}
+/**
+ * @since 2.0.0
+ */
+export function getApplyMonoid(M) {
+    return {
+        concat: getApplySemigroup(M).concat,
+        empty: right(M.empty)
+    };
+}
 /**
  * @since 3.0.0
  */
@@ -657,3 +585,83 @@ export var monadThrowEither = {
     chain: chain,
     throwError: left
 };
+/**
+ * @since 3.0.0
+ */
+export function getCompactable(M) {
+    var empty = left(M.empty);
+    var compact = function (ma) {
+        return isLeft(ma) ? ma : ma.right._tag === 'None' ? left(M.empty) : right(ma.right.value);
+    };
+    var separate = function (ma) {
+        return isLeft(ma)
+            ? { left: ma, right: ma }
+            : isLeft(ma.right)
+                ? { left: right(ma.right.left), right: empty }
+                : { left: empty, right: right(ma.right.right) };
+    };
+    return {
+        URI: URI,
+        _E: undefined,
+        compact: compact,
+        separate: separate
+    };
+}
+/**
+ * @since 3.0.0
+ */
+export function getFilterable(M) {
+    var empty = left(M.empty);
+    var filter = function (predicate) { return function (ma) {
+        return isLeft(ma) ? ma : predicate(ma.right) ? ma : left(M.empty);
+    }; };
+    var filterMap = function (f) { return function (ma) {
+        if (isLeft(ma)) {
+            return ma;
+        }
+        var ob = f(ma.right);
+        return ob._tag === 'None' ? left(M.empty) : right(ob.value);
+    }; };
+    var partition = function (p) { return function (ma) {
+        return isLeft(ma)
+            ? { left: ma, right: ma }
+            : p(ma.right)
+                ? { left: empty, right: right(ma.right) }
+                : { left: right(ma.right), right: empty };
+    }; };
+    var partitionMap = function (f) { return function (ma) {
+        if (isLeft(ma)) {
+            return { left: ma, right: ma };
+        }
+        var e = f(ma.right);
+        return isLeft(e) ? { left: right(e.left), right: empty } : { left: empty, right: right(e.right) };
+    }; };
+    return __assign(__assign({}, getCompactable(M)), { map: map,
+        filter: filter,
+        filterMap: filterMap,
+        partition: partition,
+        partitionMap: partitionMap });
+}
+/**
+ * Builds `Witherable` instance for `Either` given `Monoid` for the left side
+ *
+ * @since 2.0.0
+ */
+export function getWitherable(M) {
+    var filterableEither = getFilterable(M);
+    var wither = function (F) {
+        var traverseF = traverse(F);
+        return function (f) { return function (ma) { return pipe(ma, traverseF(f), F.map(filterableEither.compact)); }; };
+    };
+    var wilt = function (F) {
+        var traverseF = traverse(F);
+        return function (f) { return function (ma) { return pipe(ma, traverseF(f), F.map(filterableEither.separate)); }; };
+    };
+    return __assign(__assign({}, filterableEither), { traverse: traverse,
+        sequence: sequence,
+        reduce: reduce,
+        foldMap: foldMap,
+        reduceRight: reduceRight,
+        wither: wither,
+        wilt: wilt });
+}

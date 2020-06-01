@@ -9,12 +9,13 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+import { apComposition } from './Apply';
 import * as E from './Either';
 import * as EitherT from './EitherT';
 import { getFilterableComposition } from './Filterable';
 import { identity, pipe } from './function';
 import * as io from './IO';
-import { getValidationM } from './ValidationT';
+import * as ValidationT from './ValidationT';
 /**
  * @since 2.0.0
  */
@@ -24,13 +25,13 @@ export var URI = 'IOEither';
  */
 export var left = 
 /*#__PURE__*/
-(function () { return EitherT.left(io.monadIO); })();
+EitherT.left(io.monadIO);
 /**
  * @since 2.0.0
  */
 export var right = 
 /*#__PURE__*/
-(function () { return EitherT.right(io.monadIO); })();
+EitherT.right(io.monadIO);
 /**
  * @since 2.0.0
  */
@@ -48,13 +49,13 @@ io.map(E.left);
  */
 export var fold = 
 /*#__PURE__*/
-(function () { return EitherT.fold(io.monadIO); })();
+EitherT.fold(io.monadIO);
 /**
  * @since 2.0.0
  */
 export var getOrElse = 
 /*#__PURE__*/
-(function () { return EitherT.getOrElse(io.monadIO); })();
+EitherT.getOrElse(io.monadIO);
 /**
  * @since 2.6.0
  */
@@ -64,7 +65,7 @@ export var getOrElseW = getOrElse;
  */
 export var orElse = 
 /*#__PURE__*/
-(function () { return EitherT.orElse(io.monadIO); })();
+EitherT.orElse(io.monadIO);
 /**
  * @since 2.0.0
  */
@@ -125,14 +126,13 @@ export function bracket(acquire, use, release) {
  * @since 3.0.0
  */
 export function getIOValidation(S) {
-    var V = getValidationM(S, io.monadIO);
     return {
         URI: URI,
         _E: undefined,
-        map: V.map,
-        ap: V.ap,
-        of: V.of,
-        alt: V.alt
+        map: map,
+        ap: apComposition(io.applicativeIO, E.getValidation(S)),
+        of: of,
+        alt: ValidationT.alt(S, io.monadIO)
     };
 }
 /**
@@ -191,9 +191,7 @@ export var fromEither = function (ma) {
 /**
  * @since 2.0.0
  */
-export var map = 
-/*#__PURE__*/
-(function () { return EitherT.map(io.monadIO); })();
+export var map = function (f) { return io.map(E.map(f)); };
 /**
  * @since 3.0.0
  */
@@ -206,7 +204,7 @@ export var functorIOEither = {
  */
 export var ap = 
 /*#__PURE__*/
-(function () { return EitherT.ap(io.monadIO); })();
+EitherT.ap(io.monadIO);
 /**
  * @since 3.0.0
  */
@@ -236,7 +234,7 @@ export var applicativeIOEither = __assign(__assign({}, applyIOEither), { of: of 
  */
 export var chain = 
 /*#__PURE__*/
-(function () { return EitherT.chain(io.monadIO); })();
+EitherT.chain(io.monadIO);
 /**
  * @since 3.0.0
  */
@@ -266,13 +264,13 @@ export var flatten = chain(identity);
  */
 export var bimap = 
 /*#__PURE__*/
-(function () { return EitherT.bimap(io.monadIO); })();
+EitherT.bimap(io.monadIO);
 /**
  * @since 2.0.0
  */
 export var mapLeft = 
 /*#__PURE__*/
-(function () { return EitherT.mapLeft(io.monadIO); })();
+EitherT.mapLeft(io.monadIO);
 /**
  * @since 3.0.0
  */
@@ -286,7 +284,7 @@ export var bifunctorIOEither = {
  */
 export var alt = 
 /*#__PURE__*/
-(function () { return EitherT.alt(io.monadIO); })();
+EitherT.alt(io.monadIO);
 /**
  * @since 3.0.0
  */
