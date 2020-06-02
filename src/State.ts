@@ -39,20 +39,20 @@ export interface State<S, A> {
 /**
  * Run a computation in the `State` monad, discarding the final state
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
-export const evalState: <S, A>(ma: State<S, A>, s: S) => A =
+export const evaluate: <S>(s: S) => <A>(ma: State<S, A>) => A =
   /*#__PURE__*/
-  StateT.evalState(I.monadIdentity)
+  StateT.evaluate(I.monadIdentity)
 
 /**
  * Run a computation in the `State` monad discarding the result
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
-export const execState: <S, A>(ma: State<S, A>, s: S) => S =
+export const execute: <S>(s: S) => <A>(ma: State<S, A>) => S =
   /*#__PURE__*/
-  StateT.execState(I.monadIdentity)
+  StateT.execute(I.monadIdentity)
 
 /**
  * Get the current state
