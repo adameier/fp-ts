@@ -6,30 +6,22 @@ import * as StateT from './StateT';
  */
 export var URI = 'StateReaderTaskEither';
 /* tslint:enable:readonly-array */
-/* tslint:disable:readonly-array */
-/**
- * @since 2.0.0
- */
-export function run(ma, s, r) {
-    return ma(s)(r)();
-}
-/* tslint:enable:readonly-array */
 /**
  * Run a computation in the `StateReaderTaskEither` monad, discarding the final state
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
-export var evalState = 
+export var evaluate = 
 /*#__PURE__*/
-StateT.evalState(RTE.monadReaderTaskEither);
+StateT.evaluate(RTE.monadReaderTaskEither);
 /**
  * Run a computation in the `StateReaderTaskEither` monad discarding the result
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
-export var execState = 
+export var execute = 
 /*#__PURE__*/
-StateT.execState(RTE.monadReaderTaskEither);
+StateT.execute(RTE.monadReaderTaskEither);
 /**
  * @since 2.0.0
  */

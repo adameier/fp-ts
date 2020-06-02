@@ -99,7 +99,7 @@ export function getJoinSemigroup(O) {
     };
 }
 /**
- * Returns a `Semigroup` instance for objects preserving their type
+ * Returns a `Semigroup` which acts like `Object.assign`
  *
  * @example
  * import { getObjectSemigroup } from 'fp-ts/lib/Semigroup'
@@ -165,10 +165,9 @@ export var semigroupVoid = {
  * @example
  * import { getIntercalateSemigroup, semigroupString } from 'fp-ts/lib/Semigroup'
  *
- * const S = getIntercalateSemigroup(' ')(semigroupString)
+ * const S = getIntercalateSemigroup('&')(semigroupString)
  *
- * assert.strictEqual(S.concat('a', 'b'), 'a b')
- * assert.strictEqual(S.concat(S.concat('a', 'b'), 'c'), S.concat('a', S.concat('b', 'c')))
+ * assert.strictEqual(S.concat('a', 'b'), 'a&b')
  *
  * @since 2.5.0
  */

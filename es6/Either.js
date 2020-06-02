@@ -1,14 +1,3 @@
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
 import { identity, pipe } from './function';
 // -------------------------------------------------------------------------------------
 // model
@@ -636,11 +625,18 @@ export function getFilterable(M) {
         var e = f(ma.right);
         return isLeft(e) ? { left: right(e.left), right: empty } : { left: empty, right: right(e.right) };
     }; };
-    return __assign(__assign({}, getCompactable(M)), { map: map,
+    var compactableEither = getCompactable(M);
+    return {
+        URI: URI,
+        _E: undefined,
+        map: map,
+        compact: compactableEither.compact,
+        separate: compactableEither.separate,
         filter: filter,
         filterMap: filterMap,
         partition: partition,
-        partitionMap: partitionMap });
+        partitionMap: partitionMap
+    };
 }
 /**
  * Builds `Witherable` instance for `Either` given `Monoid` for the left side
@@ -657,11 +653,22 @@ export function getWitherable(M) {
         var traverseF = traverse(F);
         return function (f) { return function (ma) { return pipe(ma, traverseF(f), F.map(filterableEither.separate)); }; };
     };
-    return __assign(__assign({}, filterableEither), { traverse: traverse,
+    return {
+        URI: URI,
+        _E: undefined,
+        map: map,
+        compact: filterableEither.compact,
+        separate: filterableEither.separate,
+        filter: filterableEither.filter,
+        filterMap: filterableEither.filterMap,
+        partition: filterableEither.partition,
+        partitionMap: filterableEither.partitionMap,
+        traverse: traverse,
         sequence: sequence,
         reduce: reduce,
         foldMap: foldMap,
         reduceRight: reduceRight,
         wither: wither,
-        wilt: wilt });
+        wilt: wilt
+    };
 }

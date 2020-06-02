@@ -14,19 +14,19 @@ export var URI = 'State';
 /**
  * Run a computation in the `State` monad, discarding the final state
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
-export var evalState = 
+export var evaluate = 
 /*#__PURE__*/
-StateT.evalState(I.monadIdentity);
+StateT.evaluate(I.monadIdentity);
 /**
  * Run a computation in the `State` monad discarding the result
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
-export var execState = 
+export var execute = 
 /*#__PURE__*/
-StateT.execState(I.monadIdentity);
+StateT.execute(I.monadIdentity);
 /**
  * Get the current state
  *

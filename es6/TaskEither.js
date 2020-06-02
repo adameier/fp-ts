@@ -1,8 +1,9 @@
 import { apComposition } from './Apply';
+import { separateComposition } from './Compactable';
 import * as E from './Either';
 import * as EitherT from './EitherT';
-import { getFilterableComposition } from './Filterable';
-import { identity, pipe } from './function';
+import { filterComposition, filterMapComposition, partitionComposition, partitionMapComposition } from './Filterable';
+import { flow, identity, pipe } from './function';
 import * as T from './Task';
 import * as ValidationT from './ValidationT';
 /**
@@ -170,17 +171,24 @@ export function getTaskValidation(S) {
  * @since 2.1.0
  */
 export function getFilterable(M) {
-    var F = getFilterableComposition(T.monadTask, E.getWitherable(M));
+    var F = E.getFilterable(M);
+    var map = flow(F.map, T.map);
+    var compact = T.map(F.compact);
+    var separate = separateComposition(T.monadTask, F);
+    var filter = filterComposition(T.monadTask, F);
+    var filterMap = filterMapComposition(T.monadTask, F);
+    var partition = partitionComposition(T.monadTask, F);
+    var partitionMap = partitionMapComposition(T.monadTask, F);
     return {
         URI: URI,
         _E: undefined,
-        map: F.map,
-        compact: F.compact,
-        separate: F.separate,
-        filter: F.filter,
-        filterMap: F.filterMap,
-        partition: F.partition,
-        partitionMap: F.partitionMap
+        map: map,
+        compact: compact,
+        separate: separate,
+        filter: filter,
+        filterMap: filterMap,
+        partition: partition,
+        partitionMap: partitionMap
     };
 }
 /**

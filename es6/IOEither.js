@@ -10,11 +10,12 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 import { apComposition } from './Apply';
+import { separateComposition } from './Compactable';
 import * as E from './Either';
 import * as EitherT from './EitherT';
-import { getFilterableComposition } from './Filterable';
-import { identity, pipe } from './function';
-import * as io from './IO';
+import { filterComposition, filterMapComposition, partitionComposition, partitionMapComposition } from './Filterable';
+import { flow, identity, pipe } from './function';
+import * as I from './IO';
 import * as ValidationT from './ValidationT';
 /**
  * @since 2.0.0
@@ -25,37 +26,37 @@ export var URI = 'IOEither';
  */
 export var left = 
 /*#__PURE__*/
-EitherT.left(io.monadIO);
+EitherT.left(I.monadIO);
 /**
  * @since 2.0.0
  */
 export var right = 
 /*#__PURE__*/
-EitherT.right(io.monadIO);
+EitherT.right(I.monadIO);
 /**
  * @since 2.0.0
  */
 export var rightIO = 
 /*#__PURE__*/
-io.map(E.right);
+I.map(E.right);
 /**
  * @since 2.0.0
  */
 export var leftIO = 
 /*#__PURE__*/
-io.map(E.left);
+I.map(E.left);
 /**
  * @since 2.0.0
  */
 export var fold = 
 /*#__PURE__*/
-EitherT.fold(io.monadIO);
+EitherT.fold(I.monadIO);
 /**
  * @since 2.0.0
  */
 export var getOrElse = 
 /*#__PURE__*/
-EitherT.getOrElse(io.monadIO);
+EitherT.getOrElse(I.monadIO);
 /**
  * @since 2.6.0
  */
@@ -65,13 +66,13 @@ export var getOrElseW = getOrElse;
  */
 export var orElse = 
 /*#__PURE__*/
-EitherT.orElse(io.monadIO);
+EitherT.orElse(I.monadIO);
 /**
  * @since 2.0.0
  */
 export var swap = 
 /*#__PURE__*/
-io.map(E.swap);
+I.map(E.swap);
 /**
  * Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
  * appended using the provided `Semigroup`
@@ -79,7 +80,7 @@ io.map(E.swap);
  * @since 2.0.0
  */
 export function getSemigroup(S) {
-    return io.getSemigroup(E.getSemigroup(S));
+    return I.getSemigroup(E.getSemigroup(S));
 }
 /**
  * Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
@@ -88,7 +89,7 @@ export function getSemigroup(S) {
  * @since 2.0.0
  */
 export function getApplySemigroup(S) {
-    return io.getSemigroup(E.getApplySemigroup(S));
+    return I.getSemigroup(E.getApplySemigroup(S));
 }
 /**
  * @since 2.0.0
@@ -117,7 +118,7 @@ export function tryCatch(f, onError) {
  */
 export function bracket(acquire, use, release) {
     return pipe(acquire, chain(function (a) {
-        return pipe(pipe(use(a), io.monadIO.map(E.right)), chain(function (e) {
+        return pipe(pipe(use(a), I.monadIO.map(E.right)), chain(function (e) {
             return pipe(release(a, e), chain(function () { return (E.isLeft(e) ? left(e.left) : of(e.right)); }));
         }));
     }));
@@ -130,17 +131,34 @@ export function getIOValidation(S) {
         URI: URI,
         _E: undefined,
         map: map,
-        ap: apComposition(io.applicativeIO, E.getValidation(S)),
+        ap: apComposition(I.applicativeIO, E.getValidation(S)),
         of: of,
-        alt: ValidationT.alt(S, io.monadIO)
+        alt: ValidationT.alt(S, I.monadIO)
     };
 }
 /**
  * @since 2.1.0
  */
 export function getFilterable(M) {
-    var F = E.getWitherable(M);
-    return __assign({ URI: URI, _E: undefined }, getFilterableComposition(io.monadIO, F));
+    var F = E.getFilterable(M);
+    var map = flow(F.map, I.map);
+    var compact = I.map(F.compact);
+    var separate = separateComposition(I.monadIO, F);
+    var filter = filterComposition(I.monadIO, F);
+    var filterMap = filterMapComposition(I.monadIO, F);
+    var partition = partitionComposition(I.monadIO, F);
+    var partitionMap = partitionMapComposition(I.monadIO, F);
+    return {
+        URI: URI,
+        _E: undefined,
+        map: map,
+        compact: compact,
+        separate: separate,
+        filter: filter,
+        filterMap: filterMap,
+        partition: partition,
+        partitionMap: partitionMap
+    };
 }
 /**
  * @since 2.4.0
@@ -191,7 +209,7 @@ export var fromEither = function (ma) {
 /**
  * @since 2.0.0
  */
-export var map = function (f) { return io.map(E.map(f)); };
+export var map = function (f) { return I.map(E.map(f)); };
 /**
  * @since 3.0.0
  */
@@ -204,7 +222,7 @@ export var functorIOEither = {
  */
 export var ap = 
 /*#__PURE__*/
-EitherT.ap(io.monadIO);
+EitherT.ap(I.monadIO);
 /**
  * @since 3.0.0
  */
@@ -234,7 +252,7 @@ export var applicativeIOEither = __assign(__assign({}, applyIOEither), { of: of 
  */
 export var chain = 
 /*#__PURE__*/
-EitherT.chain(io.monadIO);
+EitherT.chain(I.monadIO);
 /**
  * @since 3.0.0
  */
@@ -264,13 +282,13 @@ export var flatten = chain(identity);
  */
 export var bimap = 
 /*#__PURE__*/
-EitherT.bimap(io.monadIO);
+EitherT.bimap(I.monadIO);
 /**
  * @since 2.0.0
  */
 export var mapLeft = 
 /*#__PURE__*/
-EitherT.mapLeft(io.monadIO);
+EitherT.mapLeft(I.monadIO);
 /**
  * @since 3.0.0
  */
@@ -284,7 +302,7 @@ export var bifunctorIOEither = {
  */
 export var alt = 
 /*#__PURE__*/
-EitherT.alt(io.monadIO);
+EitherT.alt(I.monadIO);
 /**
  * @since 3.0.0
  */

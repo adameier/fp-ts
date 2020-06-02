@@ -49,19 +49,19 @@ export function fromF(F) {
         return pipe(fa, F.map(function (a) { return [a, s]; }));
     }; };
 }
-export function evalState(F) {
-    return function (fsa, s) {
+export function evaluate(F) {
+    return function (s) { return function (fsa) {
         return pipe(fsa(s), F.map(function (_a) {
             var a = _a[0];
             return a;
         }));
-    };
+    }; };
 }
-export function execState(F) {
-    return function (fsa, s) {
+export function execute(F) {
+    return function (s) { return function (fsa) {
         return pipe(fsa(s), F.map(function (_a) {
             var _ = _a[0], s = _a[1];
             return s;
         }));
-    };
+    }; };
 }

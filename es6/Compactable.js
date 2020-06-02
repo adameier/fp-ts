@@ -1,16 +1,10 @@
-import { getFunctorComposition } from './Functor';
+import { flow, pipe } from './function';
 import { getLeft, getRight } from './Option';
-import { pipe } from './function';
-export function getCompactableComposition(F, G) {
-    var FC = getFunctorComposition(F, G);
-    var CC = {
-        map: FC.map,
-        compact: function (fga) { return pipe(fga, F.map(G.compact)); },
-        separate: function (fge) {
-            var left = CC.compact(pipe(fge, FC.map(getLeft)));
-            var right = CC.compact(pipe(fge, FC.map(getRight)));
-            return { left: left, right: right };
-        }
-    };
-    return CC;
+export function separateComposition(F, G) {
+    var map = flow(G.map, F.map);
+    var compact = F.map(G.compact);
+    return function (fge) { return ({
+        left: compact(pipe(fge, map(getLeft))),
+        right: compact(pipe(fge, map(getRight)))
+    }); };
 }

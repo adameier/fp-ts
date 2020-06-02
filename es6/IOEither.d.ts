@@ -12,7 +12,7 @@ import * as E from './Either'
 import { Filterable2C } from './Filterable'
 import { Lazy, Predicate, Refinement } from './function'
 import { Functor2 } from './Functor'
-import * as io from './IO'
+import * as I from './IO'
 import { Monad2 } from './Monad'
 import { MonadIO2 } from './MonadIO'
 import { MonadThrow2 } from './MonadThrow'
@@ -20,7 +20,7 @@ import { Monoid } from './Monoid'
 import { Option } from './Option'
 import { Semigroup } from './Semigroup'
 import Either = E.Either
-import IO = io.IO
+import IO = I.IO
 /**
  * @since 2.0.0
  */

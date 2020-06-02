@@ -42,21 +42,19 @@ export interface StateReaderTaskEither<S, R, E, A> {
   (s: S): ReaderTaskEither<R, E, [A, S]>
 }
 /**
- * @since 2.0.0
- */
-export declare function run<S, R, E, A>(ma: StateReaderTaskEither<S, R, E, A>, s: S, r: R): Promise<Either<E, [A, S]>>
-/**
  * Run a computation in the `StateReaderTaskEither` monad, discarding the final state
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
-export declare const evalState: <S, R, E, A>(ma: StateReaderTaskEither<S, R, E, A>, s: S) => ReaderTaskEither<R, E, A>
+export declare const evaluate: <S>(
+  s: S
+) => <R = unknown, E = never, A = never>(ma: StateReaderTaskEither<S, R, E, A>) => ReaderTaskEither<R, E, A>
 /**
  * Run a computation in the `StateReaderTaskEither` monad discarding the result
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
-export declare const execState: <S, R, E, A>(ma: StateReaderTaskEither<S, R, E, A>, s: S) => ReaderTaskEither<R, E, S>
+export declare const execute: <S>(s: S) => <R, E, A>(ma: StateReaderTaskEither<S, R, E, A>) => ReaderTaskEither<R, E, S>
 /**
  * @since 2.0.0
  */

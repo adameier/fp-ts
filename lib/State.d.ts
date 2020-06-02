@@ -24,15 +24,15 @@ export interface State<S, A> {
 /**
  * Run a computation in the `State` monad, discarding the final state
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
-export declare const evalState: <S, A>(ma: State<S, A>, s: S) => A
+export declare const evaluate: <S>(s: S) => <A>(ma: State<S, A>) => A
 /**
  * Run a computation in the `State` monad discarding the result
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
-export declare const execState: <S, A>(ma: State<S, A>, s: S) => S
+export declare const execute: <S>(s: S) => <A>(ma: State<S, A>) => S
 /**
  * Get the current state
  *
