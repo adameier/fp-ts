@@ -1,6 +1,6 @@
 ---
 title: ReaderTaskEither.ts
-nav_order: 65
+nav_order: 59
 parent: Modules
 ---
 
@@ -53,7 +53,8 @@ Added in v2.0.0
 - [getApplySemigroup](#getapplysemigroup)
 - [getOrElse](#getorelse)
 - [getOrElseW](#getorelsew)
-- [getReaderTaskValidation](#getreadertaskvalidation)
+- [getReaderTaskValidationAlt](#getreadertaskvalidationalt)
+- [getReaderTaskValidationApplicative](#getreadertaskvalidationapplicative)
 - [getSemigroup](#getsemigroup)
 - [left](#left)
 - [leftIO](#leftio)
@@ -73,7 +74,6 @@ Added in v2.0.0
 - [rightReader](#rightreader)
 - [rightReaderTask](#rightreadertask)
 - [rightTask](#righttask)
-- [run](#run)
 - [swap](#swap)
 
 ---
@@ -280,7 +280,7 @@ Added in v2.4.0
 
 ```ts
 export declare const chainEitherKW: <D, A, B>(
-  f: (a: A) => Either<D, B>
+  f: (a: A) => E.Either<D, B>
 ) => <R, E>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, D | E, B>
 ```
 
@@ -403,7 +403,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const fromEither: <R, E, A>(ma: Either<E, A>) => ReaderTaskEither<R, E, A>
+export declare const fromEither: <R, E, A>(ma: E.Either<E, A>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v2.0.0
@@ -554,15 +554,25 @@ export declare const getOrElseW: <Q, E, B>(
 
 Added in v2.6.0
 
-# getReaderTaskValidation
+# getReaderTaskValidationAlt
 
 **Signature**
 
 ```ts
-export declare function getReaderTaskValidation<E>(S: Semigroup<E>): Applicative3C<URI, E> & Alt3C<URI, E>
+export declare function getReaderTaskValidationAlt<E>(S: Semigroup<E>): Alt3C<URI, E>
 ```
 
-Added in v2.3.0
+Added in v3.0.0
+
+# getReaderTaskValidationApplicative
+
+**Signature**
+
+```ts
+export declare function getReaderTaskValidationApplicative<E>(S: Semigroup<E>): Applicative3C<URI, E>
+```
+
+Added in v3.0.0
 
 # getSemigroup
 
@@ -763,16 +773,6 @@ Added in v2.5.0
 
 ```ts
 export declare function rightTask<R, E = never, A = never>(ma: Task<A>): ReaderTaskEither<R, E, A>
-```
-
-Added in v2.0.0
-
-# run
-
-**Signature**
-
-```ts
-export declare function run<R, E, A>(ma: ReaderTaskEither<R, E, A>, r: R): Promise<Either<E, A>>
 ```
 
 Added in v2.0.0

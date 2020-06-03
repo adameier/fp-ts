@@ -1,12 +1,11 @@
 import * as assert from 'assert'
-import * as A from '../src/Array'
 import * as E from '../src/Either'
 import { pipe } from '../src/function'
 import * as IO from '../src/IO'
 import * as IE from '../src/IOEither'
 import { monoidString } from '../src/Monoid'
 import { none, some } from '../src/Option'
-import { getMonoid } from '../src/ReadonlyArray'
+import * as RA from '../src/ReadonlyArray'
 import { semigroupString, semigroupSum } from '../src/Semigroup'
 import * as _ from '../src/TaskEither'
 
@@ -309,7 +308,7 @@ describe('TaskEither', () => {
       append('start 2'),
       _.chain(() => append('end 2'))
     )
-    const sequenceParallel = A.sequence(_.applicativeTaskEither)
+    const sequenceParallel = RA.sequence(_.applicativeTaskEither)
     const x = await sequenceParallel([t1, t2])()
     assert.deepStrictEqual(x, E.right([3, 4]))
     assert.deepStrictEqual(log, ['start 1', 'start 2', 'end 1', 'end 2'])
@@ -328,7 +327,7 @@ describe('TaskEither', () => {
       append('start 2'),
       _.chain(() => append('end 2'))
     )
-    const sequenceSeries = A.sequence(_.monadTaskEitherSeq)
+    const sequenceSeries = RA.sequence(_.monadTaskEitherSeq)
     const x = await sequenceSeries([t1, t2])()
     assert.deepStrictEqual(x, E.right([2, 4]))
     assert.deepStrictEqual(log, ['start 1', 'end 1', 'start 2', 'end 2'])
@@ -348,69 +347,66 @@ describe('TaskEither', () => {
     assert.deepStrictEqual(e2, E.right('a'))
   })
 
-  describe('getTaskValidation', () => {
-    const TV = _.getTaskValidation(semigroupString)
-    it('of', async () => {
-      const e = await TV.of(1)()
-      assert.deepStrictEqual(e, E.right(1))
-    })
-
-    it('map', async () => {
-      const double = (n: number): number => n * 2
-      const e1 = await pipe(TV.of(1), TV.map(double))()
-      assert.deepStrictEqual(e1, E.right(2))
-      const e2 = await pipe(_.left('a'), TV.map(double))()
-      assert.deepStrictEqual(e2, E.left('a'))
-    })
+  describe('getTaskValidationApplicative', () => {
+    const A = _.getTaskValidationApplicative(semigroupString)
 
     it('ap', async () => {
-      const fab = _.left('a')
-      const fa = _.left('b')
-      const e1 = await pipe(fab, TV.ap(fa))()
-      assert.deepStrictEqual(e1, E.left('ab'))
+      assert.deepStrictEqual(await pipe(_.left('a'), A.ap(_.left('b')))(), E.left('ab'))
     })
+  })
+
+  describe('getTaskValidationAlt', () => {
+    const A = _.getTaskValidationAlt(semigroupString)
 
     it('alt', async () => {
-      const e1 = await pipe(
-        _.right(1),
-        TV.alt(() => _.right(2))
-      )()
-      assert.deepStrictEqual(e1, E.right(1))
-      const e2 = await pipe(
-        _.left('a'),
-        TV.alt(() => _.right(2))
-      )()
-      assert.deepStrictEqual(e2, E.right(2))
-      const e3 = await pipe(
-        _.right(1),
-        TV.alt(() => _.left('b'))
-      )()
-      assert.deepStrictEqual(e3, E.right(1))
-      const e4 = await pipe(
-        _.left('a'),
-        TV.alt(() => _.left('b'))
-      )()
-      assert.deepStrictEqual(e4, E.left('ab'))
+      assert.deepStrictEqual(
+        await pipe(
+          _.right(1),
+          A.alt(() => _.right(2))
+        )(),
+        E.right(1)
+      )
+      assert.deepStrictEqual(
+        await pipe(
+          _.left('a'),
+          A.alt(() => _.right(2))
+        )(),
+        E.right(2)
+      )
+      assert.deepStrictEqual(
+        await pipe(
+          _.right(1),
+          A.alt(() => _.left('b'))
+        )(),
+        E.right(1)
+      )
+      assert.deepStrictEqual(
+        await pipe(
+          _.left('a'),
+          A.alt(() => _.left('b'))
+        )(),
+        E.left('ab')
+      )
     })
   })
 
   describe('getFilterable', () => {
-    const F_ = _.getFilterable(getMonoid<string>())
+    const F = _.getFilterable(RA.getMonoid<string>())
 
     it('filter', async () => {
       const r1 = pipe(
         _.right(1),
-        F_.filter((n) => n > 0)
+        F.filter((n) => n > 0)
       )
       assert.deepStrictEqual(await r1(), await _.right(1)())
       const r2 = pipe(
         _.right(-1),
-        F_.filter((n) => n > 0)
+        F.filter((n) => n > 0)
       )
       assert.deepStrictEqual(await r2(), await _.left([])())
       const r3 = pipe(
         _.left(['a']),
-        F_.filter((n) => n > 0)
+        F.filter((n) => n > 0)
       )
       assert.deepStrictEqual(await r3(), await _.left(['a'])())
     })

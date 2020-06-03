@@ -1,6 +1,6 @@
 ---
 title: Writer.ts
-nav_order: 96
+nav_order: 87
 parent: Modules
 ---
 
@@ -16,8 +16,8 @@ Added in v2.0.0
 - [URI (type alias)](#uri-type-alias)
 - [URI](#uri)
 - [censor](#censor)
-- [evalWriter](#evalwriter)
-- [execWriter](#execwriter)
+- [evaluate](#evaluate)
+- [execute](#execute)
 - [functorWriter](#functorwriter)
 - [getMonad](#getmonad)
 - [listen](#listen)
@@ -34,7 +34,7 @@ Added in v2.0.0
 
 ```ts
 export interface Writer<W, A> {
-  (): [A, W]
+  (): readonly [A, W]
 }
 ```
 
@@ -67,27 +67,27 @@ Modify the final accumulator value by applying a function
 **Signature**
 
 ```ts
-export declare function censor<W>(f: (w: W) => W): <A>(fa: Writer<W, A>) => Writer<W, A>
+export declare const censor: <W>(f: (w: W) => W) => <A>(fa: Writer<W, A>) => Writer<W, A>
 ```
 
 Added in v2.0.0
 
-# evalWriter
+# evaluate
 
 **Signature**
 
 ```ts
-export declare const evalWriter: <W, A>(fa: Writer<W, A>) => A
+export declare const evaluate: <W, A>(fa: Writer<W, A>) => A
 ```
 
 Added in v2.0.0
 
-# execWriter
+# execute
 
 **Signature**
 
 ```ts
-export declare const execWriter: <W, A>(fa: Writer<W, A>) => W
+export declare const execute: <W, A>(fa: Writer<W, A>) => W
 ```
 
 Added in v2.0.0
@@ -119,7 +119,7 @@ Modifies the result to include the changes to the accumulator
 **Signature**
 
 ```ts
-export declare const listen: <W, A>(fa: Writer<W, A>) => Writer<W, [A, W]>
+export declare const listen: <W, A>(fa: Writer<W, A>) => Writer<W, readonly [A, W]>
 ```
 
 Added in v2.0.0
@@ -131,7 +131,7 @@ Projects a value from modifications made to the accumulator during an action
 **Signature**
 
 ```ts
-export declare function listens<W, B>(f: (w: W) => B): <A>(fa: Writer<W, A>) => Writer<W, [A, B]>
+export declare const listens: <W, B>(f: (w: W) => B) => <A>(fa: Writer<W, A>) => Writer<W, readonly [A, B]>
 ```
 
 Added in v2.0.0
@@ -153,7 +153,7 @@ Applies the returned function to the accumulator
 **Signature**
 
 ```ts
-export declare const pass: <W, A>(fa: Writer<W, [A, (w: W) => W]>) => Writer<W, A>
+export declare const pass: <W, A>(fa: Writer<W, readonly [A, (w: W) => W]>) => Writer<W, A>
 ```
 
 Added in v2.0.0

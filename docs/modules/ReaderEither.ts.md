@@ -1,6 +1,6 @@
 ---
 title: ReaderEither.ts
-nav_order: 62
+nav_order: 57
 parent: Modules
 ---
 
@@ -43,11 +43,11 @@ Added in v2.0.0
 - [getApplySemigroup](#getapplysemigroup)
 - [getOrElse](#getorelse)
 - [getOrElseW](#getorelsew)
-- [getReaderValidation](#getreadervalidation)
+- [getReaderValidationAlt](#getreadervalidationalt)
+- [getReaderValidationApplicative](#getreadervalidationapplicative)
 - [getSemigroup](#getsemigroup)
 - [left](#left)
 - [leftReader](#leftreader)
-- [local](#local)
 - [map](#map)
 - [mapLeft](#mapleft)
 - [monadReaderTask](#monadreadertask)
@@ -410,15 +410,25 @@ export declare const getOrElseW: <E, Q, B>(
 
 Added in v2.6.0
 
-# getReaderValidation
+# getReaderValidationAlt
 
 **Signature**
 
 ```ts
-export declare function getReaderValidation<E>(S: Semigroup<E>): Applicative3C<URI, E> & Alt3C<URI, E>
+export declare function getReaderValidationAlt<E>(S: Semigroup<E>): Alt3C<URI, E>
 ```
 
-Added in v2.3.0
+Added in v3.0.0
+
+# getReaderValidationApplicative
+
+**Signature**
+
+```ts
+export declare function getReaderValidationApplicative<E>(S: Semigroup<E>): Applicative3C<URI, E>
+```
+
+Added in v3.0.0
 
 # getSemigroup
 
@@ -449,16 +459,6 @@ Added in v2.0.0
 
 ```ts
 export declare const leftReader: <R, E = never, A = never>(me: R.Reader<R, E>) => ReaderEither<R, E, A>
-```
-
-Added in v2.0.0
-
-# local
-
-**Signature**
-
-```ts
-export declare function local<Q, R>(f: (f: Q) => R): <E, A>(ma: ReaderEither<R, E, A>) => ReaderEither<Q, E, A>
 ```
 
 Added in v2.0.0

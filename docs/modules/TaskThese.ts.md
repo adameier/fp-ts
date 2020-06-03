@@ -1,6 +1,6 @@
 ---
 title: TaskThese.ts
-nav_order: 85
+nav_order: 77
 parent: Modules
 ---
 
@@ -245,7 +245,7 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-export declare const toTuple: <E, A>(e: () => E, a: () => A) => (fa: TaskThese<E, A>) => T.Task<[E, A]>
+export declare const toTuple: <E, A>(e: () => E, a: () => A) => (fa: TaskThese<E, A>) => T.Task<readonly [E, A]>
 ```
 
 Added in v3.0.0

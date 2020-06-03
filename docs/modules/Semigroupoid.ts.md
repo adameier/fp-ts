@@ -1,6 +1,6 @@
 ---
 title: Semigroupoid.ts
-nav_order: 75
+nav_order: 68
 parent: Modules
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: State.ts
-nav_order: 79
+nav_order: 71
 parent: Modules
 ---
 
@@ -44,7 +44,7 @@ Added in v2.0.0
 
 ```ts
 export interface State<S, A> {
-  (s: S): [A, S]
+  (s: S): readonly [A, S]
 }
 ```
 

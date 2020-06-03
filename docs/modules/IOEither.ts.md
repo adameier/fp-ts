@@ -1,6 +1,6 @@
 ---
 title: IOEither.ts
-nav_order: 42
+nav_order: 40
 parent: Modules
 ---
 
@@ -44,7 +44,8 @@ Added in v2.0.0
 - [getApplyMonoid](#getapplymonoid)
 - [getApplySemigroup](#getapplysemigroup)
 - [getFilterable](#getfilterable)
-- [getIOValidation](#getiovalidation)
+- [getIOValidationAlt](#getiovalidationalt)
+- [getIOValidationApplicative](#getiovalidationapplicative)
 - [getOrElse](#getorelse)
 - [getOrElseW](#getorelsew)
 - [getSemigroup](#getsemigroup)
@@ -284,9 +285,9 @@ Added in v2.0.0
 
 ```ts
 export declare const fold: <E, A, B>(
-  onLeft: (e: E) => io.IO<B>,
-  onRight: (a: A) => io.IO<B>
-) => (ma: IOEither<E, A>) => io.IO<B>
+  onLeft: (e: E) => I.IO<B>,
+  onRight: (a: A) => I.IO<B>
+) => (ma: IOEither<E, A>) => I.IO<B>
 ```
 
 Added in v2.0.0
@@ -379,12 +380,22 @@ export declare function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E>
 
 Added in v2.1.0
 
-# getIOValidation
+# getIOValidationAlt
 
 **Signature**
 
 ```ts
-export declare function getIOValidation<E>(S: Semigroup<E>): Applicative2C<URI, E> & Alt2C<URI, E>
+export declare function getIOValidationAlt<E>(S: Semigroup<E>): Alt2C<URI, E>
+```
+
+Added in v3.0.0
+
+# getIOValidationApplicative
+
+**Signature**
+
+```ts
+export declare function getIOValidationApplicative<E>(S: Semigroup<E>): Applicative2C<URI, E>
 ```
 
 Added in v3.0.0
@@ -394,7 +405,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElse: <E, A>(onLeft: (e: E) => io.IO<A>) => (ma: IOEither<E, A>) => io.IO<A>
+export declare const getOrElse: <E, A>(onLeft: (e: E) => I.IO<A>) => (ma: IOEither<E, A>) => I.IO<A>
 ```
 
 Added in v2.0.0
@@ -404,7 +415,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const getOrElseW: <E, B>(onLeft: (e: E) => io.IO<B>) => <A>(ma: IOEither<E, A>) => io.IO<B | A>
+export declare const getOrElseW: <E, B>(onLeft: (e: E) => I.IO<B>) => <A>(ma: IOEither<E, A>) => I.IO<B | A>
 ```
 
 Added in v2.6.0
@@ -437,7 +448,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const leftIO: <E = never, A = never>(me: io.IO<E>) => IOEither<E, A>
+export declare const leftIO: <E = never, A = never>(me: I.IO<E>) => IOEither<E, A>
 ```
 
 Added in v2.0.0
@@ -527,7 +538,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const rightIO: <E = never, A = never>(ma: io.IO<A>) => IOEither<E, A>
+export declare const rightIO: <E = never, A = never>(ma: I.IO<A>) => IOEither<E, A>
 ```
 
 Added in v2.0.0

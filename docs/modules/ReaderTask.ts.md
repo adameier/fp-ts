@@ -1,6 +1,6 @@
 ---
 title: ReaderTask.ts
-nav_order: 64
+nav_order: 58
 parent: Modules
 ---
 
@@ -41,7 +41,6 @@ Added in v2.3.0
 - [monadTaskReaderTask](#monadtaskreadertask)
 - [of](#of)
 - [readerTaskSeq](#readertaskseq)
-- [run](#run)
 
 ---
 
@@ -342,13 +341,3 @@ export declare const readerTaskSeq: Monad2<'ReaderTask'> & MonadTask2<'ReaderTas
 ```
 
 Added in v2.3.0
-
-# run
-
-**Signature**
-
-```ts
-export declare function run<R, A>(ma: ReaderTask<R, A>, r: R): Promise<A>
-```
-
-Added in v2.4.0
