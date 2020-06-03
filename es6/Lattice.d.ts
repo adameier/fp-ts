@@ -6,9 +6,10 @@
  *
  * @since 2.0.0
  */
-import { JoinSemilattice } from './JoinSemilattice'
-import { MeetSemilattice } from './MeetSemilattice'
+import { JoinSemilattice } from './JoinSemilattice';
+import { MeetSemilattice } from './MeetSemilattice';
 /**
  * @since 2.0.0
  */
-export interface Lattice<A> extends JoinSemilattice<A>, MeetSemilattice<A> {}
+export interface Lattice<A> extends JoinSemilattice<A>, MeetSemilattice<A> {
+}

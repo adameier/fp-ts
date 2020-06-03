@@ -21,4 +21,4 @@
  *
  * @since 2.2.0
  */
-export declare function fold<A>(onFalse: () => A, onTrue: () => A): (value: boolean) => A
+export declare function fold<A>(onFalse: () => A, onTrue: () => A): (value: boolean) => A;

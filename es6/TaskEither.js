@@ -1,7 +1,6 @@
 import { apComposition } from './Apply';
 import { separateComposition } from './Compactable';
 import * as E from './Either';
-import * as EitherT from './EitherT';
 import { filterComposition, filterMapComposition, partitionComposition, partitionMapComposition } from './Filterable';
 import { flow, identity, pipe } from './function';
 import * as T from './Task';
@@ -13,15 +12,11 @@ export var URI = 'TaskEither';
 /**
  * @since 2.0.0
  */
-export var left = 
-/*#__PURE__*/
-EitherT.left(T.monadTask);
+export var left = flow(E.left, T.of);
 /**
  * @since 2.0.0
  */
-export var right = 
-/*#__PURE__*/
-EitherT.right(T.monadTask);
+export var right = flow(E.right, T.of);
 /**
  * @since 2.0.0
  */
@@ -55,15 +50,13 @@ export var fromIOEither =
 /**
  * @since 2.0.0
  */
-export var fold = 
-/*#__PURE__*/
-EitherT.fold(T.monadTask);
+export var fold = flow(E.fold, T.chain);
 /**
  * @since 2.0.0
  */
-export var getOrElse = 
-/*#__PURE__*/
-EitherT.getOrElse(T.monadTask);
+export var getOrElse = function (onLeft) {
+    return T.chain(E.fold(onLeft, T.of));
+};
 /**
  * @since 2.6.0
  */
@@ -71,9 +64,7 @@ export var getOrElseW = getOrElse;
 /**
  * @since 2.0.0
  */
-export var orElse = 
-/*#__PURE__*/
-EitherT.orElse(T.monadTask);
+export var orElse = function (f) { return T.chain(E.fold(f, right)); };
 /**
  * @since 2.0.0
  */
@@ -155,15 +146,25 @@ export function taskify(f) {
     };
 }
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
-export function getTaskValidation(S) {
+export function getTaskValidationApplicative(S) {
     return {
         URI: URI,
         _E: undefined,
         map: map,
-        ap: apComposition(T.applicativeTask, E.getValidation(S)),
-        of: of,
+        ap: apComposition(T.applyTask, E.getValidationApplicative(S)),
+        of: of
+    };
+}
+/**
+ * @since 3.0.0
+ */
+export function getTaskValidationAlt(S) {
+    return {
+        URI: URI,
+        _E: undefined,
+        map: map,
         alt: ValidationT.alt(S, T.monadTask)
     };
 }
@@ -283,7 +284,9 @@ export var functorTaskEither = {
 /**
  * @since 2.0.0
  */
-export var ap = EitherT.ap(T.monadTask);
+export var ap = 
+/*#__PURE__*/
+apComposition(T.applyTask, E.applyEither);
 /**
  * @since 3.0.0
  */
@@ -317,9 +320,9 @@ export var applicativeTaskEither = {
 /**
  * @since 2.0.0
  */
-export var chain = 
-/*#__PURE__*/
-EitherT.chain(T.monadTask);
+export var chain = function (f) {
+    return T.chain(E.fold(left, f));
+};
 /**
  * @since 3.0.0
  */
@@ -359,15 +362,13 @@ chain(identity);
 /**
  * @since 2.0.0
  */
-export var bimap = 
-/*#__PURE__*/
-EitherT.bimap(T.monadTask);
+export var bimap = flow(E.bimap, T.map);
 /**
  * @since 2.0.0
  */
-export var mapLeft = 
-/*#__PURE__*/
-EitherT.mapLeft(T.monadTask);
+export var mapLeft = function (f) {
+    return T.map(E.mapLeft(f));
+};
 /**
  * @since 3.0.0
  */
@@ -379,9 +380,9 @@ export var bifunctorTaskEither = {
 /**
  * @since 2.0.0
  */
-export var alt = 
-/*#__PURE__*/
-EitherT.alt(T.monadTask);
+export var alt = function (that) {
+    return T.chain(E.fold(that, right));
+};
 /**
  * @since 3.0.0
  */

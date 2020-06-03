@@ -1,19 +1,17 @@
-import { pipe } from './function';
+import { pipe, flow } from './function';
 import { getLeft, getRight } from './Option';
 export function filterComposition(F, G) {
-    return function (f) { return F.map(G.filter(f)); };
+    return function (predicate) { return F.map(G.filter(predicate)); };
 }
 export function filterMapComposition(F, G) {
-    return function (f) { return F.map(G.filterMap(f)); };
+    return flow(G.filterMap, F.map);
 }
 export function partitionComposition(F, G) {
     var filter = filterComposition(F, G);
-    return function (predicate) { return function (fga) {
-        return {
-            left: pipe(fga, filter(function (a) { return !predicate(a); })),
-            right: pipe(fga, filter(predicate))
-        };
-    }; };
+    return function (predicate) { return function (fga) { return ({
+        left: pipe(fga, filter(function (a) { return !predicate(a); })),
+        right: pipe(fga, filter(predicate))
+    }); }; };
 }
 export function partitionMapComposition(F, G) {
     var filterMap = filterMapComposition(F, G);

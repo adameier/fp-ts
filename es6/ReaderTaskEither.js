@@ -1,8 +1,7 @@
 import { apComposition } from './Apply';
-import { getValidation } from './Either';
-import { identity, pipe } from './function';
+import * as E from './Either';
+import { flow, identity, pipe } from './function';
 import * as R from './Reader';
-import * as ReaderT from './ReaderT';
 import * as RT from './ReaderTask';
 import * as TE from './TaskEither';
 import * as ValidationT from './ValidationT';
@@ -13,21 +12,13 @@ export var URI = 'ReaderTaskEither';
 /**
  * @since 2.0.0
  */
-export function run(ma, r) {
-    return ma(r)();
-}
-/**
- * @since 2.0.0
- */
 export function left(e) {
     return fromTaskEither(TE.left(e));
 }
 /**
  * @since 2.0.0
  */
-export var right = 
-/*#__PURE__*/
-ReaderT.of(TE.monadTaskEither);
+export var right = function (a) { return function () { return TE.right(a); }; };
 /**
  * @since 2.0.0
  */
@@ -49,9 +40,9 @@ R.of;
 /**
  * @since 2.0.0
  */
-export var rightReader = 
-/*#__PURE__*/
-ReaderT.fromReader(TE.monadTaskEither);
+export var rightReader = function (ma) { return function (r) {
+    return TE.right(ma(r));
+}; };
 /**
  * @since 2.5.0
  */
@@ -158,9 +149,9 @@ export var ask = function () { return TE.right; };
 /**
  * @since 2.0.0
  */
-export var asks = 
-/*#__PURE__*/
-ReaderT.asks(TE.monadTaskEither);
+export var asks = function (f) { return function (r) {
+    return pipe(TE.right(r), TE.map(f));
+}; };
 /**
  * Make sure that a resource is cleaned up in the event of an exception (*). The release action is called regardless of
  * whether the body action throws (*) or returns.
@@ -175,15 +166,25 @@ export function bracket(aquire, use, release) {
     };
 }
 /**
- * @since 2.3.0
+ * @since 3.0.0
  */
-export function getReaderTaskValidation(S) {
+export function getReaderTaskValidationApplicative(S) {
     return {
         URI: URI,
         _E: undefined,
         map: map,
-        ap: apComposition(RT.applicativeReaderTask, getValidation(S)),
-        of: of,
+        ap: apComposition(RT.applyReaderTask, E.getValidationApplicative(S)),
+        of: of
+    };
+}
+/**
+ * @since 3.0.0
+ */
+export function getReaderTaskValidationAlt(S) {
+    return {
+        URI: URI,
+        _E: undefined,
+        map: map,
         alt: ValidationT.alt(S, RT.monadReaderTask)
     };
 }
@@ -253,9 +254,9 @@ export var alt = function (that) { return function (fa) { return function (r) {
 /**
  * @since 2.0.0
  */
-export var ap = 
-/*#__PURE__*/
-ReaderT.ap(TE.monadTaskEither);
+export var ap = function (fa) { return function (fab) { return function (r) {
+    return pipe(fab(r), TE.ap(fa(r)));
+}; }; };
 /**
  * @since 2.0.0
  */
@@ -277,9 +278,9 @@ export var bimap = function (f, g) { return function (fea) { return function (e)
 /**
  * @since 2.0.0
  */
-export var chain = 
-/*#__PURE__*/
-ReaderT.chain(TE.monadTaskEither);
+export var chain = function (f) { return function (fa) { return function (r) {
+    return pipe(fa(r), TE.chain(function (a) { return f(a)(r); }));
+}; }; };
 /**
  * @since 2.0.0
  */
@@ -295,9 +296,7 @@ export var flatten = chain(identity);
 /**
  * @since 2.0.0
  */
-export var map = 
-/*#__PURE__*/
-ReaderT.map(TE.monadTaskEither);
+export var map = function (f) { return function (fa) { return flow(fa, TE.map(f)); }; };
 /**
  * @since 2.0.0
  */

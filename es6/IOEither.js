@@ -12,7 +12,6 @@ var __assign = (this && this.__assign) || function () {
 import { apComposition } from './Apply';
 import { separateComposition } from './Compactable';
 import * as E from './Either';
-import * as EitherT from './EitherT';
 import { filterComposition, filterMapComposition, partitionComposition, partitionMapComposition } from './Filterable';
 import { flow, identity, pipe } from './function';
 import * as I from './IO';
@@ -24,15 +23,11 @@ export var URI = 'IOEither';
 /**
  * @since 2.0.0
  */
-export var left = 
-/*#__PURE__*/
-EitherT.left(I.monadIO);
+export var left = flow(E.left, I.of);
 /**
  * @since 2.0.0
  */
-export var right = 
-/*#__PURE__*/
-EitherT.right(I.monadIO);
+export var right = flow(E.right, I.of);
 /**
  * @since 2.0.0
  */
@@ -48,15 +43,13 @@ I.map(E.left);
 /**
  * @since 2.0.0
  */
-export var fold = 
-/*#__PURE__*/
-EitherT.fold(I.monadIO);
+export var fold = flow(E.fold, I.chain);
 /**
  * @since 2.0.0
  */
-export var getOrElse = 
-/*#__PURE__*/
-EitherT.getOrElse(I.monadIO);
+export var getOrElse = function (onLeft) {
+    return I.chain(E.fold(onLeft, I.of));
+};
 /**
  * @since 2.6.0
  */
@@ -64,9 +57,9 @@ export var getOrElseW = getOrElse;
 /**
  * @since 2.0.0
  */
-export var orElse = 
-/*#__PURE__*/
-EitherT.orElse(I.monadIO);
+export var orElse = function (f) {
+    return I.chain(E.fold(f, right));
+};
 /**
  * @since 2.0.0
  */
@@ -126,13 +119,23 @@ export function bracket(acquire, use, release) {
 /**
  * @since 3.0.0
  */
-export function getIOValidation(S) {
+export function getIOValidationApplicative(S) {
     return {
         URI: URI,
         _E: undefined,
         map: map,
-        ap: apComposition(I.applicativeIO, E.getValidation(S)),
-        of: of,
+        ap: apComposition(I.applyIO, E.getValidationApplicative(S)),
+        of: of
+    };
+}
+/**
+ * @since 3.0.0
+ */
+export function getIOValidationAlt(S) {
+    return {
+        URI: URI,
+        _E: undefined,
+        map: map,
         alt: ValidationT.alt(S, I.monadIO)
     };
 }
@@ -222,7 +225,7 @@ export var functorIOEither = {
  */
 export var ap = 
 /*#__PURE__*/
-EitherT.ap(I.monadIO);
+apComposition(I.applyIO, E.applyEither);
 /**
  * @since 3.0.0
  */
@@ -250,9 +253,9 @@ export var applicativeIOEither = __assign(__assign({}, applyIOEither), { of: of 
 /**
  * @since 2.0.0
  */
-export var chain = 
-/*#__PURE__*/
-EitherT.chain(I.monadIO);
+export var chain = function (f) {
+    return I.chain(E.fold(left, f));
+};
 /**
  * @since 3.0.0
  */
@@ -280,15 +283,11 @@ export var flatten = chain(identity);
 /**
  * @since 2.0.0
  */
-export var bimap = 
-/*#__PURE__*/
-EitherT.bimap(I.monadIO);
+export var bimap = flow(E.bimap, I.map);
 /**
  * @since 2.0.0
  */
-export var mapLeft = 
-/*#__PURE__*/
-EitherT.mapLeft(I.monadIO);
+export var mapLeft = function (f) { return I.map(E.mapLeft(f)); };
 /**
  * @since 3.0.0
  */
@@ -300,9 +299,9 @@ export var bifunctorIOEither = {
 /**
  * @since 2.0.0
  */
-export var alt = 
-/*#__PURE__*/
-EitherT.alt(I.monadIO);
+export var alt = function (that) {
+    return I.chain(E.fold(that, right));
+};
 /**
  * @since 3.0.0
  */

@@ -1,79 +1,59 @@
-/**
- * The `State` monad is a synonym for the `StateT` monad transformer, applied to the `Identity` monad.
- *
- * @since 2.0.0
- */
-import * as I from './Identity';
-import * as StateT from './StateT';
 import { identity, pipe } from './function';
 /**
  * @since 2.0.0
  */
 export var URI = 'State';
-/* tslint:enable:readonly-array */
 /**
  * Run a computation in the `State` monad, discarding the final state
  *
  * @since 3.0.0
  */
-export var evaluate = 
-/*#__PURE__*/
-StateT.evaluate(I.monadIdentity);
+export var evaluate = function (s) { return function (ma) { return ma(s)[0]; }; };
 /**
  * Run a computation in the `State` monad discarding the result
  *
  * @since 3.0.0
  */
-export var execute = 
-/*#__PURE__*/
-StateT.execute(I.monadIdentity);
+export var execute = function (s) { return function (ma) { return ma(s)[1]; }; };
 /**
  * Get the current state
  *
  * @since 2.0.0
  */
-export var get = 
-/*#__PURE__*/
-StateT.get(I.monadIdentity);
+export var get = function () { return function (s) { return [s, s]; }; };
 /**
  * Set the state
  *
  * @since 2.0.0
  */
-export var put = 
-/*#__PURE__*/
-StateT.put(I.monadIdentity);
+export var put = function (s) { return function () { return [undefined, s]; }; };
 /**
  * Modify the state by applying a function to the current state
  *
  * @since 2.0.0
  */
-export var modify = 
-/*#__PURE__*/
-StateT.modify(I.monadIdentity);
+export var modify = function (f) { return function (s) { return [undefined, f(s)]; }; };
 /**
  * Get a value which depends on the current state
  *
  * @since 2.0.0
  */
-export var gets = 
-/*#__PURE__*/
-StateT.gets(I.monadIdentity);
+export var gets = function (f) { return function (s) { return [f(s), s]; }; };
 /**
  * @since 2.0.0
  */
-export var of = 
-/*#__PURE__*/
-StateT.of(I.monadIdentity);
+export var of = function (a) { return function (s) { return [a, s]; }; };
 // -------------------------------------------------------------------------------------
 // pipeables
 // -------------------------------------------------------------------------------------
 /**
  * @since 2.0.0
  */
-export var ap = 
-/*#__PURE__*/
-StateT.ap(I.monadIdentity);
+export var ap = function (fa) { return function (fab) { return function (s1) {
+    var _a = fab(s1), f = _a[0], s2 = _a[1];
+    var _b = fa(s2), a = _b[0], s3 = _b[1];
+    return [f(a), s3];
+}; }; };
 /**
  * @since 2.0.0
  */
@@ -89,9 +69,10 @@ export var apSecond = function (fb) { return function (fa) {
 /**
  * @since 2.0.0
  */
-export var chain = 
-/*#__PURE__*/
-StateT.chain(I.monadIdentity);
+export var chain = function (f) { return function (ma) { return function (s1) {
+    var _a = ma(s1), a = _a[0], s2 = _a[1];
+    return f(a)(s2);
+}; }; };
 /**
  * @since 2.0.0
  */
@@ -107,9 +88,10 @@ export var flatten = chain(identity);
 /**
  * @since 2.0.0
  */
-export var map = 
-/*#__PURE__*/
-StateT.map(I.monadIdentity);
+export var map = function (f) { return function (fa) { return function (s1) {
+    var _a = fa(s1), a = _a[0], s2 = _a[1];
+    return [f(a), s2];
+}; }; };
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------

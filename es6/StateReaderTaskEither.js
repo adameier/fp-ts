@@ -1,27 +1,31 @@
 import { identity, pipe } from './function';
 import * as RTE from './ReaderTaskEither';
-import * as StateT from './StateT';
 /**
  * @since 2.0.0
  */
 export var URI = 'StateReaderTaskEither';
-/* tslint:enable:readonly-array */
 /**
  * Run a computation in the `StateReaderTaskEither` monad, discarding the final state
  *
  * @since 3.0.0
  */
-export var evaluate = 
-/*#__PURE__*/
-StateT.evaluate(RTE.monadReaderTaskEither);
+export var evaluate = function (s) { return function (fsa) {
+    return pipe(fsa(s), RTE.map(function (_a) {
+        var a = _a[0];
+        return a;
+    }));
+}; };
 /**
  * Run a computation in the `StateReaderTaskEither` monad discarding the result
  *
  * @since 3.0.0
  */
-export var execute = 
-/*#__PURE__*/
-StateT.execute(RTE.monadReaderTaskEither);
+export var execute = function (s) { return function (fsa) {
+    return pipe(fsa(s), RTE.map(function (_a) {
+        var _ = _a[0], s = _a[1];
+        return s;
+    }));
+}; };
 /**
  * @since 2.0.0
  */
@@ -31,9 +35,9 @@ export function left(e) {
 /**
  * @since 2.0.0
  */
-export var right = 
-/*#__PURE__*/
-StateT.of(RTE.monadReaderTaskEither);
+export var right = function (a) { return function (s) {
+    return RTE.right([a, s]);
+}; };
 /**
  * @since 2.0.0
  */
@@ -91,9 +95,7 @@ export function leftIO(me) {
 /**
  * @since 2.0.0
  */
-export var rightState = 
-/*#__PURE__*/
-StateT.fromState(RTE.monadReaderTaskEither);
+export var rightState = function (sa) { return function (s) { return RTE.right(sa(s)); }; };
 /**
  * @since 2.0.0
  */
@@ -103,41 +105,39 @@ export function leftState(me) {
 /**
  * @since 2.0.0
  */
-export var fromReaderTaskEither = 
-/*#__PURE__*/
-StateT.fromF(RTE.monadReaderTaskEither);
+export var fromReaderTaskEither = function (fa) { return function (s) {
+    return pipe(fa, RTE.map(function (a) { return [a, s]; }));
+}; };
 /**
  * Get the current state
  *
  * @since 2.0.0
  */
-export var get = 
-/*#__PURE__*/
-StateT.get(RTE.monadReaderTaskEither);
+export var get = function () { return function (s) { return RTE.right([s, s]); }; };
 /**
  * Set the state
  *
  * @since 2.0.0
  */
-export var put = 
-/*#__PURE__*/
-StateT.put(RTE.monadReaderTaskEither);
+export var put = function (s) { return function () {
+    return RTE.right([undefined, s]);
+}; };
 /**
  * Modify the state by applying a function to the current state
  *
  * @since 2.0.0
  */
-export var modify = 
-/*#__PURE__*/
-StateT.modify(RTE.monadReaderTaskEither);
+export var modify = function (f) { return function (s) {
+    return RTE.right([undefined, f(s)]);
+}; };
 /**
  * Get a value which depends on the current state
  *
  * @since 2.0.0
  */
-export var gets = 
-/*#__PURE__*/
-StateT.gets(RTE.monadReaderTaskEither);
+export var gets = function (f) { return function (s) {
+    return RTE.right([f(s), s]);
+}; };
 /**
  * @since 2.4.0
  */
@@ -222,9 +222,15 @@ export var alt = function (that) { return function (fa) { return function (s) {
 /**
  * @since 2.0.0
  */
-export var ap = 
-/*#__PURE__*/
-StateT.ap(RTE.monadReaderTaskEither);
+export var ap = function (fa) { return function (fab) { return function (s1) {
+    return pipe(fab(s1), RTE.chain(function (_a) {
+        var f = _a[0], s2 = _a[1];
+        return pipe(fa(s2), RTE.map(function (_a) {
+            var a = _a[0], s3 = _a[1];
+            return [f(a), s3];
+        }));
+    }));
+}; }; };
 /**
  * @since 2.0.0
  */
@@ -249,9 +255,12 @@ export var bimap = function (f, g) { return function (fea) { return function (s)
 /**
  * @since 2.0.0
  */
-export var chain = 
-/*#__PURE__*/
-StateT.chain(RTE.monadReaderTaskEither);
+export var chain = function (f) { return function (ma) { return function (s1) {
+    return pipe(ma(s1), RTE.chain(function (_a) {
+        var a = _a[0], s2 = _a[1];
+        return f(a)(s2);
+    }));
+}; }; };
 /**
  * @since 2.0.0
  */
@@ -287,9 +296,12 @@ export var flatten = chain(identity);
 /**
  * @since 2.0.0
  */
-export var map = 
-/*#__PURE__*/
-StateT.map(RTE.monadReaderTaskEither);
+export var map = function (f) { return function (fa) { return function (s1) {
+    return pipe(fa(s1), RTE.map(function (_a) {
+        var a = _a[0], s2 = _a[1];
+        return [f(a), s2];
+    }));
+}; }; };
 /**
  * @since 2.6.2
  */

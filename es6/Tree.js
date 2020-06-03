@@ -1,7 +1,6 @@
-import * as A from './Array';
+import * as RA from './ReadonlyArray';
 import { fromEquals } from './Eq';
 import { identity, pipe } from './function';
-// tslint:disable:readonly-array
 /**
  * @since 2.0.0
  */
@@ -10,7 +9,7 @@ export var URI = 'Tree';
  * @since 2.0.0
  */
 export function make(value, forest) {
-    if (forest === void 0) { forest = A.empty; }
+    if (forest === void 0) { forest = RA.empty; }
     return {
         value: value,
         forest: forest
@@ -21,7 +20,7 @@ export function make(value, forest) {
  */
 export function getShow(S) {
     var show = function (t) {
-        return t.forest === A.empty || t.forest.length === 0
+        return t.forest === RA.empty || t.forest.length === 0
             ? "make(" + S.show(t.value) + ")"
             : "make(" + S.show(t.value) + ", [" + t.forest.map(show).join(', ') + "])";
     };
@@ -35,7 +34,7 @@ export function getShow(S) {
 export function getEq(E) {
     var SA;
     var R = fromEquals(function (x, y) { return E.equals(x.value, y.value) && SA.equals(x.forest, y.forest); });
-    SA = A.getEq(R);
+    SA = RA.getEq(R);
     return R;
 }
 var draw = function (indentation, forest) {
@@ -110,7 +109,7 @@ export function unfoldTreeM(M) {
     };
 }
 export function unfoldForestM(M) {
-    var traverseM = A.traverse(M);
+    var traverseM = RA.traverse(M);
     return function (bs, f) {
         return pipe(bs, traverseM(function (b) { return unfoldTreeM(M)(b, f); }));
     };
@@ -139,16 +138,16 @@ export function elem(E) {
  *
  * const t = make(1, [make(2), make(3)])
  *
- * const sum = (as: Array<number>) => as.reduce((a, acc) => a + acc, 0)
+ * const sum = (as: ReadonlyArray<number>) => as.reduce((a, acc) => a + acc, 0)
  *
  * // Sum the values in a tree:
- * assert.deepStrictEqual(fold((a: number, bs: Array<number>) => a + sum(bs))(t), 6)
+ * assert.deepStrictEqual(fold((a: number, bs: ReadonlyArray<number>) => a + sum(bs))(t), 6)
  *
  * // Find the maximum value in the tree:
- * assert.deepStrictEqual(fold((a: number, bs: Array<number>) => bs.reduce((b, acc) => Math.max(b, acc), a))(t), 3)
+ * assert.deepStrictEqual(fold((a: number, bs: ReadonlyArray<number>) => bs.reduce((b, acc) => Math.max(b, acc), a))(t), 3)
  *
  * // Count the number of leaves in the tree:
- * assert.deepStrictEqual(fold((_: number, bs: Array<number>) => (bs.length === 0 ? 1 : sum(bs)))(t), 2)
+ * assert.deepStrictEqual(fold((_: number, bs: ReadonlyArray<number>) => (bs.length === 0 ? 1 : sum(bs)))(t), 2)
  *
  * @since 2.6.0
  */
@@ -182,7 +181,7 @@ export var apSecond = function (fb) { return function (fa) {
  */
 export var chain = function (f) { return function (ma) {
     var _a = f(ma.value), value = _a.value, forest = _a.forest;
-    var concat = A.getMonoid().concat;
+    var concat = RA.getMonoid().concat;
     return {
         value: value,
         forest: concat(forest, ma.forest.map(function (t) { return pipe(t, chain(f)); }))
@@ -256,7 +255,7 @@ export var extract = function (wa) { return wa.value; };
  * @since 3.0.0
  */
 export var traverse = function (F) {
-    var traverseF = A.traverse(F);
+    var traverseF = RA.traverse(F);
     var r = function (f) { return function (ta) {
         return pipe(f(ta.value), F.map(function (value) { return function (forest) { return ({
             value: value,

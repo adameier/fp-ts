@@ -1,20 +1,10 @@
-/**
- * @since 2.3.0
- */
-import { identity, pipe } from './function';
+import { flow, identity, pipe } from './function';
 import * as R from './Reader';
-import * as ReaderT from './ReaderT';
 import * as T from './Task';
 /**
  * @since 2.3.0
  */
 export var URI = 'ReaderTask';
-/**
- * @since 2.4.0
- */
-export function run(ma, r) {
-    return ma(r)();
-}
 /**
  * @since 2.3.0
  */
@@ -24,9 +14,7 @@ R.of;
 /**
  * @since 2.3.0
  */
-export var fromReader = 
-/*#__PURE__*/
-ReaderT.fromReader(T.monadTask);
+export var fromReader = function (ma) { return flow(ma, T.of); };
 /**
  * @since 2.3.0
  */
@@ -36,9 +24,7 @@ export function fromIO(ma) {
 /**
  * @since 2.3.0
  */
-export var of = 
-/*#__PURE__*/
-ReaderT.of(T.monadTask);
+export var of = function (a) { return function () { return T.of(a); }; };
 /**
  * @since 2.3.0
  */
@@ -61,9 +47,7 @@ export var ask = function () { return T.of; };
 /**
  * @since 2.3.0
  */
-export var asks = 
-/*#__PURE__*/
-ReaderT.asks(T.monadTask);
+export var asks = function (f) { return function (r) { return pipe(T.of(r), T.map(f)); }; };
 /**
  * @since 2.4.0
  */
@@ -106,9 +90,7 @@ export function chainTaskK(f) {
 /**
  * @since 2.3.0
  */
-export var ap = 
-/*#__PURE__*/
-ReaderT.ap(T.monadTask);
+export var ap = function (fa) { return function (fab) { return function (r) { return pipe(fab(r), T.ap(fa(r))); }; }; };
 /**
  * @since 2.3.0
  */
@@ -124,9 +106,9 @@ export var apSecond = function (fb) { return function (fa) {
 /**
  * @since 2.3.0
  */
-export var chain = 
-/*#__PURE__*/
-ReaderT.chain(T.monadTask);
+export var chain = function (f) { return function (fa) { return function (r) {
+    return pipe(fa(r), T.chain(function (a) { return f(a)(r); }));
+}; }; };
 /**
  * @since 2.3.0
  */
@@ -142,9 +124,9 @@ export var flatten = chain(identity);
 /**
  * @since 2.3.0
  */
-export var map = 
-/*#__PURE__*/
-ReaderT.map(T.monadTask);
+export var map = function (f) { return function (fa) {
+    return flow(fa, T.map(f));
+}; };
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------

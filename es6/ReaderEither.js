@@ -1,7 +1,6 @@
 import { apComposition } from './Apply';
 import * as E from './Either';
-import * as EitherT from './EitherT';
-import { identity, pipe } from './function';
+import { flow, identity, pipe } from './function';
 import * as R from './Reader';
 import * as ValidationT from './ValidationT';
 /**
@@ -11,15 +10,11 @@ export var URI = 'ReaderEither';
 /**
  * @since 2.0.0
  */
-export var left = 
-/*#__PURE__*/
-EitherT.left(R.monadReader);
+export var left = flow(E.left, R.of);
 /**
  * @since 2.0.0
  */
-export var right = 
-/*#__PURE__*/
-EitherT.right(R.monadReader);
+export var right = flow(E.right, R.of);
 /**
  * @since 2.0.0
  */
@@ -35,15 +30,11 @@ R.map(E.left);
 /**
  * @since 2.0.0
  */
-export var fold = 
-/*#__PURE__*/
-EitherT.fold(R.monadReader);
+export var fold = flow(E.fold, R.chain);
 /**
  * @since 2.0.0
  */
-export var getOrElse = 
-/*#__PURE__*/
-EitherT.getOrElse(R.monadReader);
+export var getOrElse = function (onLeft) { return R.chain(E.fold(onLeft, R.of)); };
 /**
  * @since 2.6.0
  */
@@ -51,9 +42,7 @@ export var getOrElseW = getOrElse;
 /**
  * @since 2.0.0
  */
-export var orElse = 
-/*#__PURE__*/
-EitherT.orElse(R.monadReader);
+export var orElse = function (f) { return R.chain(E.fold(f, right)); };
 /**
  * @since 2.0.0
  */
@@ -100,21 +89,25 @@ export function asks(f) {
     return function (r) { return E.right(f(r)); };
 }
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
-export function local(f) {
-    return function (ma) { return function (q) { return ma(f(q)); }; };
-}
-/**
- * @since 2.3.0
- */
-export function getReaderValidation(S) {
+export function getReaderValidationApplicative(S) {
     return {
         URI: URI,
         _E: undefined,
         map: map,
-        ap: apComposition(R.applicativeReader, E.getValidation(S)),
-        of: of,
+        ap: apComposition(R.applyReader, E.getValidationApplicative(S)),
+        of: of
+    };
+}
+/**
+ * @since 3.0.0
+ */
+export function getReaderValidationAlt(S) {
+    return {
+        URI: URI,
+        _E: undefined,
+        map: map,
         alt: ValidationT.alt(S, R.monadReader)
     };
 }
@@ -142,15 +135,13 @@ export function chainEitherK(f) {
 /**
  * @since 2.0.0
  */
-export var alt = 
-/*#__PURE__*/
-EitherT.alt(R.monadReader);
+export var alt = function (that) { return R.chain(E.fold(that, right)); };
 /**
  * @since 2.0.0
  */
 export var ap = 
 /*#__PURE__*/
-EitherT.ap(R.monadReader);
+apComposition(R.applyReader, E.applyEither);
 /**
  * @since 2.0.0
  */
@@ -166,15 +157,11 @@ export var apSecond = function (fb) { return function (fa) {
 /**
  * @since 2.0.0
  */
-export var bimap = 
-/*#__PURE__*/
-EitherT.bimap(R.monadReader);
+export var bimap = flow(E.bimap, R.map);
 /**
  * @since 2.0.0
  */
-export var chain = 
-/*#__PURE__*/
-EitherT.chain(R.monadReader);
+export var chain = function (f) { return R.chain(E.fold(left, f)); };
 /**
  * @since 2.6.0
  */
@@ -198,9 +185,9 @@ export var flatten = chain(identity);
 /**
  * @since 2.0.0
  */
-export var mapLeft = 
-/*#__PURE__*/
-EitherT.mapLeft(R.monadReader);
+export var mapLeft = function (f) {
+    return R.map(E.mapLeft(f));
+};
 /**
  * @since 2.0.0
  */

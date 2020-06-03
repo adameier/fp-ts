@@ -9,93 +9,93 @@
  *
  * @since 2.0.0
  */
-import { Contravariant1 } from './Contravariant'
-import { Eq } from './Eq'
-import { Monoid } from './Monoid'
-import { Ordering } from './Ordering'
+import { Contravariant1 } from './Contravariant';
+import { Eq } from './Eq';
+import { Monoid } from './Monoid';
+import { Ordering } from './Ordering';
 /**
  * @since 2.0.0
  */
-export declare const URI = 'Ord'
+export declare const URI = "Ord";
 /**
  * @since 2.0.0
  */
-export declare type URI = typeof URI
+export declare type URI = typeof URI;
 declare module './HKT' {
-  interface URItoKind<A> {
-    readonly [URI]: Ord<A>
-  }
+    interface URItoKind<A> {
+        readonly [URI]: Ord<A>;
+    }
 }
 /**
  * @since 2.0.0
  */
 export interface Ord<A> extends Eq<A> {
-  readonly compare: (x: A, y: A) => Ordering
+    readonly compare: (x: A, y: A) => Ordering;
 }
 /**
  * @since 2.0.0
  */
-export declare const ordString: Ord<string>
+export declare const ordString: Ord<string>;
 /**
  * @since 2.0.0
  */
-export declare const ordNumber: Ord<number>
+export declare const ordNumber: Ord<number>;
 /**
  * @since 2.0.0
  */
-export declare const ordBoolean: Ord<boolean>
+export declare const ordBoolean: Ord<boolean>;
 /**
  * Test whether one value is _strictly less than_ another
  *
  * @since 2.0.0
  */
-export declare function lt<A>(O: Ord<A>): (x: A, y: A) => boolean
+export declare function lt<A>(O: Ord<A>): (x: A, y: A) => boolean;
 /**
  * Test whether one value is _strictly greater than_ another
  *
  * @since 2.0.0
  */
-export declare function gt<A>(O: Ord<A>): (x: A, y: A) => boolean
+export declare function gt<A>(O: Ord<A>): (x: A, y: A) => boolean;
 /**
  * Test whether one value is _non-strictly less than_ another
  *
  * @since 2.0.0
  */
-export declare function leq<A>(O: Ord<A>): (x: A, y: A) => boolean
+export declare function leq<A>(O: Ord<A>): (x: A, y: A) => boolean;
 /**
  * Test whether one value is _non-strictly greater than_ another
  *
  * @since 2.0.0
  */
-export declare function geq<A>(O: Ord<A>): (x: A, y: A) => boolean
+export declare function geq<A>(O: Ord<A>): (x: A, y: A) => boolean;
 /**
  * Take the minimum of two values. If they are considered equal, the first argument is chosen
  *
  * @since 2.0.0
  */
-export declare function min<A>(O: Ord<A>): (x: A, y: A) => A
+export declare function min<A>(O: Ord<A>): (x: A, y: A) => A;
 /**
  * Take the maximum of two values. If they are considered equal, the first argument is chosen
  *
  * @since 2.0.0
  */
-export declare function max<A>(O: Ord<A>): (x: A, y: A) => A
+export declare function max<A>(O: Ord<A>): (x: A, y: A) => A;
 /**
  * Clamp a value between a minimum and a maximum
  *
  * @since 2.0.0
  */
-export declare function clamp<A>(O: Ord<A>): (low: A, hi: A) => (x: A) => A
+export declare function clamp<A>(O: Ord<A>): (low: A, hi: A) => (x: A) => A;
 /**
  * Test whether a value is between a minimum and a maximum (inclusive)
  *
  * @since 2.0.0
  */
-export declare function between<A>(O: Ord<A>): (low: A, hi: A) => (x: A) => boolean
+export declare function between<A>(O: Ord<A>): (low: A, hi: A) => (x: A) => boolean;
 /**
  * @since 2.0.0
  */
-export declare function fromCompare<A>(compare: (x: A, y: A) => Ordering): Ord<A>
+export declare function fromCompare<A>(compare: (x: A, y: A) => Ordering): Ord<A>;
 /**
  * Returns a `Monoid` such that:
  *
@@ -103,7 +103,7 @@ export declare function fromCompare<A>(compare: (x: A, y: A) => Ordering): Ord<A
  * - its `empty` value is an `Ord` that always considers compared elements equal
  *
  * @example
- * import { sort } from 'fp-ts/lib/Array'
+ * import { sort } from 'fp-ts/lib/ReadonlyArray'
  * import { contramap, getDualOrd, getMonoid, ordBoolean, ordNumber, ordString } from 'fp-ts/lib/Ord'
  * import { pipe } from 'fp-ts/lib/function'
  * import { fold } from 'fp-ts/lib/Monoid'
@@ -132,7 +132,7 @@ export declare function fromCompare<A>(compare: (x: A, y: A) => Ordering): Ord<A
  *
  * const M = getMonoid<User>()
  *
- * const users: Array<User> = [
+ * const users: ReadonlyArray<User> = [
  *   { id: 1, name: 'Guido', age: 47, rememberMe: false },
  *   { id: 2, name: 'Guido', age: 46, rememberMe: true },
  *   { id: 3, name: 'Giulio', age: 44, rememberMe: false },
@@ -159,7 +159,7 @@ export declare function fromCompare<A>(compare: (x: A, y: A) => Ordering): Ord<A
  *
  * @since 2.4.0
  */
-export declare function getMonoid<A = never>(): Monoid<Ord<A>>
+export declare function getMonoid<A = never>(): Monoid<Ord<A>>;
 /**
  * Given a tuple of `Ord`s returns an `Ord` for the tuple
  *
@@ -173,22 +173,18 @@ export declare function getMonoid<A = never>(): Monoid<Ord<A>>
  *
  * @since 2.0.0
  */
-export declare function getTupleOrd<T extends ReadonlyArray<Ord<any>>>(
-  ...ords: T
-): Ord<
-  {
-    [K in keyof T]: T[K] extends Ord<infer A> ? A : never
-  }
->
+export declare function getTupleOrd<T extends ReadonlyArray<Ord<any>>>(...ords: T): Ord<{
+    [K in keyof T]: T[K] extends Ord<infer A> ? A : never;
+}>;
 /**
  * @since 2.0.0
  */
-export declare function getDualOrd<A>(O: Ord<A>): Ord<A>
+export declare function getDualOrd<A>(O: Ord<A>): Ord<A>;
 /**
  * @since 2.0.0
  */
-export declare const contramap: <A, B>(f: (b: B) => A) => (fa: Ord<A>) => Ord<B>
+export declare const contramap: <A, B>(f: (b: B) => A) => (fa: Ord<A>) => Ord<B>;
 /**
  * @since 2.0.0
  */
-export declare const contravariantOrd: Contravariant1<URI>
+export declare const contravariantOrd: Contravariant1<URI>;

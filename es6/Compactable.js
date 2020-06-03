@@ -4,7 +4,7 @@ export function separateComposition(F, G) {
     var map = flow(G.map, F.map);
     var compact = F.map(G.compact);
     return function (fge) { return ({
-        left: compact(pipe(fge, map(getLeft))),
-        right: compact(pipe(fge, map(getRight)))
+        left: pipe(fge, map(getLeft), compact),
+        right: pipe(fge, map(getRight), compact)
     }); };
 }

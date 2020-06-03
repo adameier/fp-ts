@@ -48,12 +48,10 @@ export var fromIOEither = T.fromIO;
  * @since 2.4.0
  */
 export var fold = flow(TH.fold, T.chain);
-/* tslint:disable:readonly-array */
 /**
  * @since 3.0.0
  */
 export var toTuple = flow(TH.toTuple, T.map);
-/* tslint:enable:readonly-array */
 // -------------------------------------------------------------------------------------
 // combinators
 // -------------------------------------------------------------------------------------

@@ -9,56 +9,54 @@
  *
  * @since 2.0.0
  */
-import { Contravariant1 } from './Contravariant'
-import { Monoid } from './Monoid'
-import { ReadonlyRecord } from './ReadonlyRecord'
+import { Contravariant1 } from './Contravariant';
+import { Monoid } from './Monoid';
+import { ReadonlyRecord } from './ReadonlyRecord';
 /**
  * @since 2.0.0
  */
-export declare const URI = 'Eq'
+export declare const URI = "Eq";
 /**
  * @since 2.0.0
  */
-export declare type URI = typeof URI
+export declare type URI = typeof URI;
 declare module './HKT' {
-  interface URItoKind<A> {
-    readonly [URI]: Eq<A>
-  }
+    interface URItoKind<A> {
+        readonly [URI]: Eq<A>;
+    }
 }
 /**
  * @since 2.0.0
  */
 export interface Eq<A> {
-  readonly equals: (x: A, y: A) => boolean
+    readonly equals: (x: A, y: A) => boolean;
 }
 /**
  * @since 2.0.0
  */
-export declare function fromEquals<A>(equals: (x: A, y: A) => boolean): Eq<A>
+export declare function fromEquals<A>(equals: (x: A, y: A) => boolean): Eq<A>;
 /**
  * @since 2.5.0
  */
-export declare const eqStrict: Eq<unknown>
+export declare const eqStrict: Eq<unknown>;
 /**
  * @since 2.0.0
  */
-export declare const eqString: Eq<string>
+export declare const eqString: Eq<string>;
 /**
  * @since 2.0.0
  */
-export declare const eqNumber: Eq<number>
+export declare const eqNumber: Eq<number>;
 /**
  * @since 2.0.0
  */
-export declare const eqBoolean: Eq<boolean>
+export declare const eqBoolean: Eq<boolean>;
 /**
  * @since 2.0.0
  */
-export declare function getStructEq<O extends ReadonlyRecord<string, any>>(
-  eqs: {
-    [K in keyof O]: Eq<O[K]>
-  }
-): Eq<O>
+export declare function getStructEq<O extends ReadonlyRecord<string, any>>(eqs: {
+    [K in keyof O]: Eq<O[K]>;
+}): Eq<O>;
 /**
  * Given a tuple of `Eq`s returns a `Eq` for the tuple
  *
@@ -73,22 +71,18 @@ export declare function getStructEq<O extends ReadonlyRecord<string, any>>(
  *
  * @since 2.0.0
  */
-export declare function getTupleEq<T extends ReadonlyArray<Eq<any>>>(
-  ...eqs: T
-): Eq<
-  {
-    [K in keyof T]: T[K] extends Eq<infer A> ? A : never
-  }
->
+export declare function getTupleEq<T extends ReadonlyArray<Eq<any>>>(...eqs: T): Eq<{
+    [K in keyof T]: T[K] extends Eq<infer A> ? A : never;
+}>;
 /**
  * @since 2.6.0
  */
-export declare function getMonoid<A>(): Monoid<Eq<A>>
+export declare function getMonoid<A>(): Monoid<Eq<A>>;
 /**
  * @since 2.0.0
  */
-export declare const contramap: <A, B>(f: (b: B) => A) => (fa: Eq<A>) => Eq<B>
+export declare const contramap: <A, B>(f: (b: B) => A) => (fa: Eq<A>) => Eq<B>;
 /**
  * @since 3.0.0
  */
-export declare const contravariantEq: Contravariant1<URI>
+export declare const contravariantEq: Contravariant1<URI>;

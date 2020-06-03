@@ -3,7 +3,7 @@
  *
  * @since 2.0.0
  */
-import { IO } from './IO'
+import { IO } from './IO';
 /**
  * @example
  * import { io } from 'fp-ts/lib/IO'
@@ -14,22 +14,22 @@ import { IO } from './IO'
  * @since 2.0.0
  */
 export declare class IORef<A> {
-  private value
-  /**
-   * @since 2.0.0
-   */
-  readonly read: IO<A>
-  constructor(value: A)
-  /**
-   * @since 2.0.0
-   */
-  write(a: A): IO<void>
-  /**
-   * @since 2.0.0
-   */
-  modify(f: (a: A) => A): IO<void>
+    private value;
+    /**
+     * @since 2.0.0
+     */
+    readonly read: IO<A>;
+    constructor(value: A);
+    /**
+     * @since 2.0.0
+     */
+    write(a: A): IO<void>;
+    /**
+     * @since 2.0.0
+     */
+    modify(f: (a: A) => A): IO<void>;
 }
 /**
  * @since 2.0.0
  */
-export declare function newIORef<A>(a: A): IO<IORef<A>>
+export declare function newIORef<A>(a: A): IO<IORef<A>>;

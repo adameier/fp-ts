@@ -118,7 +118,6 @@ export function getMonad(S) {
         throwError: left
     };
 }
-/* tslint:disable:readonly-array */
 /**
  * @example
  * import { toTuple, left, right, both } from 'fp-ts/lib/These'
@@ -133,7 +132,6 @@ export function getMonad(S) {
 export function toTuple(e, a) {
     return function (fa) { return (isLeft(fa) ? [fa.left, a()] : isRight(fa) ? [e(), fa.right] : [fa.left, fa.right]); };
 }
-/* tslint:enable:readonly-array */
 /**
  * Returns an `E` value if possible
  *

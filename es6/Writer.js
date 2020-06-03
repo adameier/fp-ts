@@ -1,80 +1,67 @@
-import { monadIdentity } from './Identity';
-import { getWriterM } from './WriterT';
-var MT = 
-/*#__PURE__*/
-getWriterM(monadIdentity);
 /**
  * @since 2.0.0
  */
 export var URI = 'Writer';
-// tslint:enable:readonly-array
 /**
  * @since 2.0.0
  */
-export var evalWriter = 
-/*#__PURE__*/
-(function () { return MT.evalWriter; })();
+export var evaluate = function (fa) { return fa()[0]; };
 /**
  * @since 2.0.0
  */
-export var execWriter = 
-/*#__PURE__*/
-(function () { return MT.execWriter; })();
+export var execute = function (fa) { return fa()[1]; };
 /**
  * Appends a value to the accumulator
  *
  * @since 2.0.0
  */
-export var tell = 
-/*#__PURE__*/
-(function () { return MT.tell; })();
-// tslint:disable:readonly-array
+export var tell = function (w) { return function () { return [undefined, w]; }; };
 /**
  * Modifies the result to include the changes to the accumulator
  *
  * @since 2.0.0
  */
-export var listen = 
-/*#__PURE__*/
-(function () { return MT.listen; })();
-// tslint:enable:readonly-array
-// tslint:disable:readonly-array
+export var listen = function (fa) { return function () {
+    var _a = fa(), a = _a[0], w = _a[1];
+    return [[a, w], w];
+}; };
 /**
  * Applies the returned function to the accumulator
  *
  * @since 2.0.0
  */
-export var pass = 
-/*#__PURE__*/
-(function () { return MT.pass; })();
-// tslint:enable:readonly-array
-// tslint:disable:readonly-array
+export var pass = function (fa) { return function () {
+    var _a = fa(), _b = _a[0], a = _b[0], f = _b[1], w = _a[1];
+    return [a, f(w)];
+}; };
 /**
  * Projects a value from modifications made to the accumulator during an action
  *
  * @since 2.0.0
  */
-export function listens(f) {
-    return function (fa) { return MT.listens(fa, f); };
-}
-// tslint:enable:readonly-array
+export var listens = function (f) { return function (fa) { return function () {
+    var _a = fa(), a = _a[0], w = _a[1];
+    return [[a, f(w)], w];
+}; }; };
 /**
  * Modify the final accumulator value by applying a function
  *
  * @since 2.0.0
  */
-export function censor(f) {
-    return function (fa) { return MT.censor(fa, f); };
-}
+export var censor = function (f) { return function (fa) { return function () {
+    var _a = fa(), a = _a[0], w = _a[1];
+    return [a, f(w)];
+}; }; };
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
 /**
  * @since 2.0.0
  */
-export var map = 
-/*#__PURE__*/
-(function () { return MT.map; })();
+export var map = function (f) { return function (fa) { return function () {
+    var _a = fa(), a = _a[0], w = _a[1];
+    return [f(a), w];
+}; }; };
 /**
  * @since 3.0.0
  */
@@ -86,13 +73,20 @@ export var functorWriter = {
  * @since 2.0.0
  */
 export function getMonad(M) {
-    var _ = MT.getMonad(M);
     return {
         URI: URI,
         _E: undefined,
-        map: _.map,
-        ap: _.ap,
-        of: _.of,
-        chain: _.chain
+        map: map,
+        ap: function (fa) { return function (fab) { return function () {
+            var _a = fab(), f = _a[0], w1 = _a[1];
+            var _b = fa(), a = _b[0], w2 = _b[1];
+            return [f(a), M.concat(w1, w2)];
+        }; }; },
+        of: function (a) { return function () { return [a, M.empty]; }; },
+        chain: function (f) { return function (fa) { return function () {
+            var _a = fa(), a = _a[0], w1 = _a[1];
+            var _b = f(a)(), b = _b[0], w2 = _b[1];
+            return [b, M.concat(w1, w2)];
+        }; }; }
     };
 }

@@ -1,6 +1,6 @@
-import { Magma } from './Magma'
-import { Ord } from './Ord'
-import { ReadonlyRecord } from './ReadonlyRecord'
+import { Magma } from './Magma';
+import { Ord } from './Ord';
+import { ReadonlyRecord } from './ReadonlyRecord';
 /**
  * A `Semigroup` is a `Magma` where `concat` is associative, that is:
  *
@@ -8,19 +8,20 @@ import { ReadonlyRecord } from './ReadonlyRecord'
  *
  * @since 2.0.0
  */
-export interface Semigroup<A> extends Magma<A> {}
+export interface Semigroup<A> extends Magma<A> {
+}
 /**
  * @since 2.0.0
  */
-export declare function fold<A>(S: Semigroup<A>): (a: A, as: ReadonlyArray<A>) => A
+export declare function fold<A>(S: Semigroup<A>): (a: A, as: ReadonlyArray<A>) => A;
 /**
  * @since 2.0.0
  */
-export declare function getFirstSemigroup<A = never>(): Semigroup<A>
+export declare function getFirstSemigroup<A = never>(): Semigroup<A>;
 /**
  * @since 2.0.0
  */
-export declare function getLastSemigroup<A = never>(): Semigroup<A>
+export declare function getLastSemigroup<A = never>(): Semigroup<A>;
 /**
  * Given a tuple of semigroups returns a semigroup for the tuple
  *
@@ -35,13 +36,9 @@ export declare function getLastSemigroup<A = never>(): Semigroup<A>
  *
  * @since 2.0.0
  */
-export declare function getTupleSemigroup<T extends ReadonlyArray<Semigroup<any>>>(
-  ...semigroups: T
-): Semigroup<
-  {
-    [K in keyof T]: T[K] extends Semigroup<infer A> ? A : never
-  }
->
+export declare function getTupleSemigroup<T extends ReadonlyArray<Semigroup<any>>>(...semigroups: T): Semigroup<{
+    [K in keyof T]: T[K] extends Semigroup<infer A> ? A : never;
+}>;
 /**
  * The dual of a `Semigroup`, obtained by swapping the arguments of `concat`.
  *
@@ -52,27 +49,25 @@ export declare function getTupleSemigroup<T extends ReadonlyArray<Semigroup<any>
  *
  * @since 2.0.0
  */
-export declare function getDualSemigroup<A>(S: Semigroup<A>): Semigroup<A>
+export declare function getDualSemigroup<A>(S: Semigroup<A>): Semigroup<A>;
 /**
  * @since 2.0.0
  */
-export declare function getFunctionSemigroup<S>(S: Semigroup<S>): <A = never>() => Semigroup<(a: A) => S>
+export declare function getFunctionSemigroup<S>(S: Semigroup<S>): <A = never>() => Semigroup<(a: A) => S>;
 /**
  * @since 2.0.0
  */
-export declare function getStructSemigroup<O extends ReadonlyRecord<string, any>>(
-  semigroups: {
-    [K in keyof O]: Semigroup<O[K]>
-  }
-): Semigroup<O>
+export declare function getStructSemigroup<O extends ReadonlyRecord<string, any>>(semigroups: {
+    [K in keyof O]: Semigroup<O[K]>;
+}): Semigroup<O>;
 /**
  * @since 2.0.0
  */
-export declare function getMeetSemigroup<A>(O: Ord<A>): Semigroup<A>
+export declare function getMeetSemigroup<A>(O: Ord<A>): Semigroup<A>;
 /**
  * @since 2.0.0
  */
-export declare function getJoinSemigroup<A>(O: Ord<A>): Semigroup<A>
+export declare function getJoinSemigroup<A>(O: Ord<A>): Semigroup<A>;
 /**
  * Returns a `Semigroup` which acts like `Object.assign`
  *
@@ -89,35 +84,35 @@ export declare function getJoinSemigroup<A>(O: Ord<A>): Semigroup<A>
  *
  * @since 2.0.0
  */
-export declare function getObjectSemigroup<A extends object = never>(): Semigroup<A>
+export declare function getObjectSemigroup<A extends object = never>(): Semigroup<A>;
 /**
  * Boolean semigroup under conjunction
  * @since 2.0.0
  */
-export declare const semigroupAll: Semigroup<boolean>
+export declare const semigroupAll: Semigroup<boolean>;
 /**
  * Boolean semigroup under disjunction
  * @since 2.0.0
  */
-export declare const semigroupAny: Semigroup<boolean>
+export declare const semigroupAny: Semigroup<boolean>;
 /**
  * Number `Semigroup` under addition
  * @since 2.0.0
  */
-export declare const semigroupSum: Semigroup<number>
+export declare const semigroupSum: Semigroup<number>;
 /**
  * Number `Semigroup` under multiplication
  * @since 2.0.0
  */
-export declare const semigroupProduct: Semigroup<number>
+export declare const semigroupProduct: Semigroup<number>;
 /**
  * @since 2.0.0
  */
-export declare const semigroupString: Semigroup<string>
+export declare const semigroupString: Semigroup<string>;
 /**
  * @since 2.0.0
  */
-export declare const semigroupVoid: Semigroup<void>
+export declare const semigroupVoid: Semigroup<void>;
 /**
  * You can glue items between and stay associative
  *
@@ -130,4 +125,4 @@ export declare const semigroupVoid: Semigroup<void>
  *
  * @since 2.5.0
  */
-export declare function getIntercalateSemigroup<A>(a: A): (S: Semigroup<A>) => Semigroup<A>
+export declare function getIntercalateSemigroup<A>(a: A): (S: Semigroup<A>) => Semigroup<A>;

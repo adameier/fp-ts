@@ -243,7 +243,7 @@ export function stringifyJSON(u, onError) {
 /**
  * @since 3.0.0
  */
-export function getValidation(S) {
+export function getValidationApplicative(S) {
     return {
         URI: URI,
         _E: undefined,
@@ -257,7 +257,17 @@ export function getValidation(S) {
                     ? ma
                     : right(mab.right(ma.right));
         }; },
-        of: of,
+        of: of
+    };
+}
+/**
+ * @since 3.0.0
+ */
+export function getValidationAlt(S) {
+    return {
+        URI: URI,
+        _E: undefined,
+        map: map,
         alt: function (that) { return function (fa) {
             if (isRight(fa)) {
                 return fa;
