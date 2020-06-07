@@ -63,9 +63,9 @@ export function fromIOK(f) {
 /**
  * @since 2.4.0
  */
-export function chainIOK(f) {
-    return chain(fromIOK(f));
-}
+export var chainIOK = function (f) {
+    return chain(function (a) { return fromIO(f(a)); });
+};
 /**
  * @since 2.4.0
  */
@@ -81,9 +81,9 @@ export function fromTaskK(f) {
 /**
  * @since 2.4.0
  */
-export function chainTaskK(f) {
-    return chain(fromTaskK(f));
-}
+export var chainTaskK = function (f) {
+    return chain(function (a) { return fromTask(f(a)); });
+};
 // -------------------------------------------------------------------------------------
 // pipeables
 // -------------------------------------------------------------------------------------
@@ -146,13 +146,26 @@ export var applyReaderTask = {
     ap: ap
 };
 /**
+ * @category instances
  * @since 3.0.0
  */
-export var applicativeReaderTask = {
+export var applicativeReaderTaskPar = {
     URI: URI,
     map: map,
     ap: ap,
     of: of
+};
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export var applicativeReaderTaskSeq = {
+    URI: URI,
+    map: map,
+    of: of,
+    ap: function (fa) { return function (fab) {
+        return pipe(fab, chain(function (f) { return pipe(fa, map(f)); }));
+    }; }
 };
 /**
  * @since 3.0.0
@@ -161,7 +174,6 @@ export var monadReaderTask = {
     URI: URI,
     map: map,
     of: of,
-    ap: ap,
     chain: chain
 };
 /**
@@ -171,7 +183,6 @@ export var monadIOReaderTask = {
     URI: URI,
     map: map,
     of: of,
-    ap: ap,
     chain: chain,
     fromIO: fromIO
 };
@@ -182,22 +193,6 @@ export var monadTaskReaderTask = {
     URI: URI,
     map: map,
     of: of,
-    ap: ap,
-    chain: chain,
-    fromIO: fromIO,
-    fromTask: fromTask
-};
-/**
- * TODO
- * @since 2.3.0
- */
-export var readerTaskSeq = {
-    URI: URI,
-    map: map,
-    of: of,
-    ap: function (fa) { return function (fab) {
-        return pipe(fab, chain(function (f) { return pipe(fa, map(f)); }));
-    }; },
     chain: chain,
     fromIO: fromIO,
     fromTask: fromTask

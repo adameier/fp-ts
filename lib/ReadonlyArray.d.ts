@@ -1,56 +1,56 @@
 /**
  * @since 2.5.0
  */
-import { Alternative1 as RA } from './Alternative';
-import { Applicative1 } from './Applicative';
-import { Compactable1, Separated } from './Compactable';
-import { Either } from './Either';
-import { Eq } from './Eq';
-import { Extend1 } from './Extend';
-import { Filterable1 } from './Filterable';
-import { FilterableWithIndex1, PredicateWithIndex, RefinementWithIndex } from './FilterableWithIndex';
-import { FoldableWithIndex1 } from './FoldableWithIndex';
-import { Predicate, Refinement } from './function';
-import { FunctorWithIndex1 } from './FunctorWithIndex';
-import { Monad1 } from './Monad';
-import { Monoid } from './Monoid';
-import { Option } from './Option';
-import { Ord } from './Ord';
-import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray';
-import { Show } from './Show';
-import { Traversable1 } from './Traversable';
-import { TraversableWithIndex1 } from './TraversableWithIndex';
-import { Unfoldable1 } from './Unfoldable';
-import { Witherable1 } from './Witherable';
-import { Functor1 } from './Functor';
-import { Apply1 } from './Apply';
-import { Foldable1 } from './Foldable';
-import { Alt1 } from './Alt';
+import { Alternative1 as RA } from './Alternative'
+import { Applicative1 } from './Applicative'
+import { Compactable1, Separated } from './Compactable'
+import { Either } from './Either'
+import { Eq } from './Eq'
+import { Extend1 } from './Extend'
+import { Filterable1 } from './Filterable'
+import { FilterableWithIndex1, PredicateWithIndex, RefinementWithIndex } from './FilterableWithIndex'
+import { FoldableWithIndex1 } from './FoldableWithIndex'
+import { Predicate, Refinement } from './function'
+import { FunctorWithIndex1 } from './FunctorWithIndex'
+import { Monad1 } from './Monad'
+import { Monoid } from './Monoid'
+import { Option } from './Option'
+import { Ord } from './Ord'
+import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
+import { Show } from './Show'
+import { Traversable1 } from './Traversable'
+import { TraversableWithIndex1 } from './TraversableWithIndex'
+import { Unfoldable1 } from './Unfoldable'
+import { Witherable1 } from './Witherable'
+import { Functor1 } from './Functor'
+import { Apply1 } from './Apply'
+import { Foldable1 } from './Foldable'
+import { Alt1 } from './Alt'
 /**
  * @since 2.5.0
  */
-export declare const URI = "ReadonlyArray";
+export declare const URI = 'ReadonlyArray'
 /**
  * @since 2.5.0
  */
-export declare type URI = typeof URI;
+export declare type URI = typeof URI
 declare module './HKT' {
-    interface URItoKind<A> {
-        readonly [URI]: ReadonlyArray<A>;
-    }
+  interface URItoKind<A> {
+    readonly [URI]: ReadonlyArray<A>
+  }
 }
 /**
  * @since 2.5.0
  */
-export declare function fromArray<A>(as: Array<A>): ReadonlyArray<A>;
+export declare function fromArray<A>(as: Array<A>): ReadonlyArray<A>
 /**
  * @since 2.5.0
  */
-export declare function toArray<A>(ras: ReadonlyArray<A>): Array<A>;
+export declare function toArray<A>(ras: ReadonlyArray<A>): Array<A>
 /**
  * @since 2.5.0
  */
-export declare function getShow<A>(S: Show<A>): Show<ReadonlyArray<A>>;
+export declare function getShow<A>(S: Show<A>): Show<ReadonlyArray<A>>
 /**
  * Returns a `Monoid` for `ReadonlyArray<A>`
  *
@@ -62,7 +62,7 @@ export declare function getShow<A>(S: Show<A>): Show<ReadonlyArray<A>>;
  *
  * @since 2.5.0
  */
-export declare function getMonoid<A = never>(): Monoid<ReadonlyArray<A>>;
+export declare function getMonoid<A = never>(): Monoid<ReadonlyArray<A>>
 /**
  * Derives an `Eq` over the `ReadonlyArray` of a given element type from the `Eq` of that type. The derived `Eq` defines two
  * arrays as equal if all elements of both arrays are compared equal pairwise with the given `E`. In case of arrays of
@@ -78,7 +78,7 @@ export declare function getMonoid<A = never>(): Monoid<ReadonlyArray<A>>;
  *
  * @since 2.5.0
  */
-export declare function getEq<A>(E: Eq<A>): Eq<ReadonlyArray<A>>;
+export declare function getEq<A>(E: Eq<A>): Eq<ReadonlyArray<A>>
 /**
  * Derives an `Ord` over the `ReadonlyArray` of a given element type from the `Ord` of that type. The ordering between two such
  * arrays is equal to: the first non equal comparison of each arrays elements taken pairwise in increasing order, in
@@ -97,13 +97,13 @@ export declare function getEq<A>(E: Eq<A>): Eq<ReadonlyArray<A>>;
  *
  * @since 2.5.0
  */
-export declare function getOrd<A>(O: Ord<A>): Ord<ReadonlyArray<A>>;
+export declare function getOrd<A>(O: Ord<A>): Ord<ReadonlyArray<A>>
 /**
  * An empty array
  *
  * @since 2.5.0
  */
-export declare const empty: ReadonlyArray<never>;
+export declare const empty: ReadonlyArray<never>
 /**
  * Return a list of length `n` with element `i` initialized with `f(i)`
  *
@@ -115,7 +115,7 @@ export declare const empty: ReadonlyArray<never>;
  *
  * @since 2.5.0
  */
-export declare function makeBy<A>(n: number, f: (i: number) => A): ReadonlyArray<A>;
+export declare function makeBy<A>(n: number, f: (i: number) => A): ReadonlyArray<A>
 /**
  * Create an array containing a range of integers, including both endpoints
  *
@@ -126,7 +126,7 @@ export declare function makeBy<A>(n: number, f: (i: number) => A): ReadonlyArray
  *
  * @since 2.5.0
  */
-export declare function range(start: number, end: number): ReadonlyArray<number>;
+export declare function range(start: number, end: number): ReadonlyArray<number>
 /**
  * Create an array containing a value repeated the specified number of times
  *
@@ -137,7 +137,7 @@ export declare function range(start: number, end: number): ReadonlyArray<number>
  *
  * @since 2.5.0
  */
-export declare function replicate<A>(n: number, a: A): ReadonlyArray<A>;
+export declare function replicate<A>(n: number, a: A): ReadonlyArray<A>
 /**
  * Removes one level of nesting
  *
@@ -148,7 +148,7 @@ export declare function replicate<A>(n: number, a: A): ReadonlyArray<A>;
  *
  * @since 2.5.0
  */
-export declare function flatten<A>(mma: ReadonlyArray<ReadonlyArray<A>>): ReadonlyArray<A>;
+export declare function flatten<A>(mma: ReadonlyArray<ReadonlyArray<A>>): ReadonlyArray<A>
 /**
  * Break an array into its first element and remaining elements
  *
@@ -160,13 +160,19 @@ export declare function flatten<A>(mma: ReadonlyArray<ReadonlyArray<A>>): Readon
  *
  * @since 2.5.0
  */
-export declare function foldLeft<A, B>(onNil: () => B, onCons: (head: A, tail: ReadonlyArray<A>) => B): (as: ReadonlyArray<A>) => B;
+export declare function foldLeft<A, B>(
+  onNil: () => B,
+  onCons: (head: A, tail: ReadonlyArray<A>) => B
+): (as: ReadonlyArray<A>) => B
 /**
  * Break an array into its initial elements and the last element
  *
  * @since 2.5.0
  */
-export declare function foldRight<A, B>(onNil: () => B, onCons: (init: ReadonlyArray<A>, last: A) => B): (as: ReadonlyArray<A>) => B;
+export declare function foldRight<A, B>(
+  onNil: () => B,
+  onCons: (init: ReadonlyArray<A>, last: A) => B
+): (as: ReadonlyArray<A>) => B
 /**
  * Same as `reduce` but it carries over the intermediate steps
  *
@@ -178,7 +184,7 @@ export declare function foldRight<A, B>(onNil: () => B, onCons: (init: ReadonlyA
  *
  * @since 2.5.0
  */
-export declare function scanLeft<A, B>(b: B, f: (b: B, a: A) => B): (as: ReadonlyArray<A>) => ReadonlyArray<B>;
+export declare function scanLeft<A, B>(b: B, f: (b: B, a: A) => B): (as: ReadonlyArray<A>) => ReadonlyArray<B>
 /**
  * Fold an array from the right, keeping all intermediate results instead of only the final result
  *
@@ -189,7 +195,7 @@ export declare function scanLeft<A, B>(b: B, f: (b: B, a: A) => B): (as: Readonl
  *
  * @since 2.5.0
  */
-export declare function scanRight<A, B>(b: B, f: (a: A, b: B) => B): (as: ReadonlyArray<A>) => ReadonlyArray<B>;
+export declare function scanRight<A, B>(b: B, f: (a: A, b: B) => B): (as: ReadonlyArray<A>) => ReadonlyArray<B>
 /**
  * Test whether an array is empty
  *
@@ -200,19 +206,19 @@ export declare function scanRight<A, B>(b: B, f: (a: A, b: B) => B): (as: Readon
  *
  * @since 2.5.0
  */
-export declare function isEmpty<A>(as: ReadonlyArray<A>): boolean;
+export declare function isEmpty<A>(as: ReadonlyArray<A>): boolean
 /**
  * Test whether an array is non empty narrowing down the type to `NonEmptyReadonlyArray<A>`
  *
  * @since 2.5.0
  */
-export declare function isNonEmpty<A>(as: ReadonlyArray<A>): as is ReadonlyNonEmptyArray<A>;
+export declare function isNonEmpty<A>(as: ReadonlyArray<A>): as is ReadonlyNonEmptyArray<A>
 /**
  * Test whether an array contains a particular index
  *
  * @since 2.5.0
  */
-export declare function isOutOfBound<A>(i: number, as: ReadonlyArray<A>): boolean;
+export declare function isOutOfBound<A>(i: number, as: ReadonlyArray<A>): boolean
 /**
  * This function provides a safe way to read a value at a particular index from an array
  *
@@ -225,7 +231,7 @@ export declare function isOutOfBound<A>(i: number, as: ReadonlyArray<A>): boolea
  *
  * @since 2.5.0
  */
-export declare function lookup<A>(i: number, as: ReadonlyArray<A>): Option<A>;
+export declare function lookup<A>(i: number, as: ReadonlyArray<A>): Option<A>
 /**
  * Attaches an element to the front of an array, creating a new non empty array
  *
@@ -236,7 +242,7 @@ export declare function lookup<A>(i: number, as: ReadonlyArray<A>): Option<A>;
  *
  * @since 2.5.0
  */
-export declare function cons<A>(head: A, tail: ReadonlyArray<A>): ReadonlyNonEmptyArray<A>;
+export declare function cons<A>(head: A, tail: ReadonlyArray<A>): ReadonlyNonEmptyArray<A>
 /**
  * Append an element to the end of an array, creating a new non empty array
  *
@@ -247,7 +253,7 @@ export declare function cons<A>(head: A, tail: ReadonlyArray<A>): ReadonlyNonEmp
  *
  * @since 2.5.0
  */
-export declare function snoc<A>(init: ReadonlyArray<A>, end: A): ReadonlyNonEmptyArray<A>;
+export declare function snoc<A>(init: ReadonlyArray<A>, end: A): ReadonlyNonEmptyArray<A>
 /**
  * Get the first element in an array, or `None` if the array is empty
  *
@@ -260,7 +266,7 @@ export declare function snoc<A>(init: ReadonlyArray<A>, end: A): ReadonlyNonEmpt
  *
  * @since 2.5.0
  */
-export declare function head<A>(as: ReadonlyArray<A>): Option<A>;
+export declare function head<A>(as: ReadonlyArray<A>): Option<A>
 /**
  * Get the last element in an array, or `None` if the array is empty
  *
@@ -273,7 +279,7 @@ export declare function head<A>(as: ReadonlyArray<A>): Option<A>;
  *
  * @since 2.5.0
  */
-export declare function last<A>(as: ReadonlyArray<A>): Option<A>;
+export declare function last<A>(as: ReadonlyArray<A>): Option<A>
 /**
  * Get all but the first element of an array, creating a new array, or `None` if the array is empty
  *
@@ -286,7 +292,7 @@ export declare function last<A>(as: ReadonlyArray<A>): Option<A>;
  *
  * @since 2.5.0
  */
-export declare function tail<A>(as: ReadonlyArray<A>): Option<ReadonlyArray<A>>;
+export declare function tail<A>(as: ReadonlyArray<A>): Option<ReadonlyArray<A>>
 /**
  * Get all but the last element of an array, creating a new array, or `None` if the array is empty
  *
@@ -299,7 +305,7 @@ export declare function tail<A>(as: ReadonlyArray<A>): Option<ReadonlyArray<A>>;
  *
  * @since 2.5.0
  */
-export declare function init<A>(as: ReadonlyArray<A>): Option<ReadonlyArray<A>>;
+export declare function init<A>(as: ReadonlyArray<A>): Option<ReadonlyArray<A>>
 /**
  * Keep only a number of elements from the start of an array, creating a new array.
  * `n` must be a natural number
@@ -311,7 +317,7 @@ export declare function init<A>(as: ReadonlyArray<A>): Option<ReadonlyArray<A>>;
  *
  * @since 2.5.0
  */
-export declare function takeLeft(n: number): <A>(as: ReadonlyArray<A>) => ReadonlyArray<A>;
+export declare function takeLeft(n: number): <A>(as: ReadonlyArray<A>) => ReadonlyArray<A>
 /**
  * Keep only a number of elements from the end of an array, creating a new array.
  * `n` must be a natural number
@@ -323,7 +329,7 @@ export declare function takeLeft(n: number): <A>(as: ReadonlyArray<A>) => Readon
  *
  * @since 2.5.0
  */
-export declare function takeRight(n: number): <A>(as: ReadonlyArray<A>) => ReadonlyArray<A>;
+export declare function takeRight(n: number): <A>(as: ReadonlyArray<A>) => ReadonlyArray<A>
 /**
  * Calculate the longest initial subarray for which all element satisfy the specified predicate, creating a new array
  *
@@ -334,14 +340,16 @@ export declare function takeRight(n: number): <A>(as: ReadonlyArray<A>) => Reado
  *
  * @since 2.5.0
  */
-export declare function takeLeftWhile<A, B extends A>(refinement: Refinement<A, B>): (as: ReadonlyArray<A>) => ReadonlyArray<B>;
-export declare function takeLeftWhile<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A>;
+export declare function takeLeftWhile<A, B extends A>(
+  refinement: Refinement<A, B>
+): (as: ReadonlyArray<A>) => ReadonlyArray<B>
+export declare function takeLeftWhile<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A>
 /**
  * @since 2.5.0
  */
 export interface Spanned<I, R> {
-    readonly init: ReadonlyArray<I>;
-    readonly rest: ReadonlyArray<R>;
+  readonly init: ReadonlyArray<I>
+  readonly rest: ReadonlyArray<R>
 }
 /**
  * Split an array into two parts:
@@ -355,8 +363,8 @@ export interface Spanned<I, R> {
  *
  * @since 2.5.0
  */
-export declare function spanLeft<A, B extends A>(refinement: Refinement<A, B>): (as: ReadonlyArray<A>) => Spanned<B, A>;
-export declare function spanLeft<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Spanned<A, A>;
+export declare function spanLeft<A, B extends A>(refinement: Refinement<A, B>): (as: ReadonlyArray<A>) => Spanned<B, A>
+export declare function spanLeft<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Spanned<A, A>
 /**
  * Drop a number of elements from the start of an array, creating a new array
  *
@@ -367,7 +375,7 @@ export declare function spanLeft<A>(predicate: Predicate<A>): (as: ReadonlyArray
  *
  * @since 2.5.0
  */
-export declare function dropLeft(n: number): <A>(as: ReadonlyArray<A>) => ReadonlyArray<A>;
+export declare function dropLeft(n: number): <A>(as: ReadonlyArray<A>) => ReadonlyArray<A>
 /**
  * Drop a number of elements from the end of an array, creating a new array
  *
@@ -378,7 +386,7 @@ export declare function dropLeft(n: number): <A>(as: ReadonlyArray<A>) => Readon
  *
  * @since 2.5.0
  */
-export declare function dropRight(n: number): <A>(as: ReadonlyArray<A>) => ReadonlyArray<A>;
+export declare function dropRight(n: number): <A>(as: ReadonlyArray<A>) => ReadonlyArray<A>
 /**
  * Remove the longest initial subarray for which all element satisfy the specified predicate, creating a new array
  *
@@ -389,7 +397,7 @@ export declare function dropRight(n: number): <A>(as: ReadonlyArray<A>) => Reado
  *
  * @since 2.5.0
  */
-export declare function dropLeftWhile<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A>;
+export declare function dropLeftWhile<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A>
 /**
  * Find the first index for which a predicate holds
  *
@@ -402,7 +410,7 @@ export declare function dropLeftWhile<A>(predicate: Predicate<A>): (as: Readonly
  *
  * @since 2.5.0
  */
-export declare function findIndex<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Option<number>;
+export declare function findIndex<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Option<number>
 /**
  * Find the first element which satisfies a predicate (or a refinement) function
  *
@@ -414,8 +422,8 @@ export declare function findIndex<A>(predicate: Predicate<A>): (as: ReadonlyArra
  *
  * @since 2.5.0
  */
-export declare function findFirst<A, B extends A>(refinement: Refinement<A, B>): (as: ReadonlyArray<A>) => Option<B>;
-export declare function findFirst<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Option<A>;
+export declare function findFirst<A, B extends A>(refinement: Refinement<A, B>): (as: ReadonlyArray<A>) => Option<B>
+export declare function findFirst<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Option<A>
 /**
  * Find the first element returned by an option based selector function
  *
@@ -435,7 +443,7 @@ export declare function findFirst<A>(predicate: Predicate<A>): (as: ReadonlyArra
  *
  * @since 2.5.0
  */
-export declare function findFirstMap<A, B>(f: (a: A) => Option<B>): (as: ReadonlyArray<A>) => Option<B>;
+export declare function findFirstMap<A, B>(f: (a: A) => Option<B>): (as: ReadonlyArray<A>) => Option<B>
 /**
  * Find the last element which satisfies a predicate function
  *
@@ -447,8 +455,8 @@ export declare function findFirstMap<A, B>(f: (a: A) => Option<B>): (as: Readonl
  *
  * @since 2.5.0
  */
-export declare function findLast<A, B extends A>(refinement: Refinement<A, B>): (as: ReadonlyArray<A>) => Option<B>;
-export declare function findLast<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Option<A>;
+export declare function findLast<A, B extends A>(refinement: Refinement<A, B>): (as: ReadonlyArray<A>) => Option<B>
+export declare function findLast<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Option<A>
 /**
  * Find the last element returned by an option based selector function
  *
@@ -468,7 +476,7 @@ export declare function findLast<A>(predicate: Predicate<A>): (as: ReadonlyArray
  *
  * @since 2.5.0
  */
-export declare function findLastMap<A, B>(f: (a: A) => Option<B>): (as: ReadonlyArray<A>) => Option<B>;
+export declare function findLastMap<A, B>(f: (a: A) => Option<B>): (as: ReadonlyArray<A>) => Option<B>
 /**
  * Returns the index of the last element of the list which matches the predicate
  *
@@ -487,11 +495,11 @@ export declare function findLastMap<A, B>(f: (a: A) => Option<B>): (as: Readonly
  *
  * @since 2.5.0
  */
-export declare function findLastIndex<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Option<number>;
+export declare function findLastIndex<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Option<number>
 /**
  * @since 2.5.0
  */
-export declare function unsafeInsertAt<A>(i: number, a: A, as: ReadonlyArray<A>): ReadonlyArray<A>;
+export declare function unsafeInsertAt<A>(i: number, a: A, as: ReadonlyArray<A>): ReadonlyArray<A>
 /**
  * Insert an element at the specified index, creating a new array, or returning `None` if the index is out of bounds
  *
@@ -503,11 +511,11 @@ export declare function unsafeInsertAt<A>(i: number, a: A, as: ReadonlyArray<A>)
  *
  * @since 2.5.0
  */
-export declare function insertAt<A>(i: number, a: A): (as: ReadonlyArray<A>) => Option<ReadonlyArray<A>>;
+export declare function insertAt<A>(i: number, a: A): (as: ReadonlyArray<A>) => Option<ReadonlyArray<A>>
 /**
  * @since 2.5.0
  */
-export declare function unsafeUpdateAt<A>(i: number, a: A, as: ReadonlyArray<A>): ReadonlyArray<A>;
+export declare function unsafeUpdateAt<A>(i: number, a: A, as: ReadonlyArray<A>): ReadonlyArray<A>
 /**
  * Change the element at the specified index, creating a new array, or returning `None` if the index is out of bounds
  *
@@ -520,11 +528,11 @@ export declare function unsafeUpdateAt<A>(i: number, a: A, as: ReadonlyArray<A>)
  *
  * @since 2.5.0
  */
-export declare function updateAt<A>(i: number, a: A): (as: ReadonlyArray<A>) => Option<ReadonlyArray<A>>;
+export declare function updateAt<A>(i: number, a: A): (as: ReadonlyArray<A>) => Option<ReadonlyArray<A>>
 /**
  * @since 2.5.0
  */
-export declare function unsafeDeleteAt<A>(i: number, as: ReadonlyArray<A>): ReadonlyArray<A>;
+export declare function unsafeDeleteAt<A>(i: number, as: ReadonlyArray<A>): ReadonlyArray<A>
 /**
  * Delete the element at the specified index, creating a new array, or returning `None` if the index is out of bounds
  *
@@ -537,7 +545,7 @@ export declare function unsafeDeleteAt<A>(i: number, as: ReadonlyArray<A>): Read
  *
  * @since 2.5.0
  */
-export declare function deleteAt(i: number): <A>(as: ReadonlyArray<A>) => Option<ReadonlyArray<A>>;
+export declare function deleteAt(i: number): <A>(as: ReadonlyArray<A>) => Option<ReadonlyArray<A>>
 /**
  * Apply a function to the element at the specified index, creating a new array, or returning `None` if the index is out
  * of bounds
@@ -552,7 +560,7 @@ export declare function deleteAt(i: number): <A>(as: ReadonlyArray<A>) => Option
  *
  * @since 2.5.0
  */
-export declare function modifyAt<A>(i: number, f: (a: A) => A): (as: ReadonlyArray<A>) => Option<ReadonlyArray<A>>;
+export declare function modifyAt<A>(i: number, f: (a: A) => A): (as: ReadonlyArray<A>) => Option<ReadonlyArray<A>>
 /**
  * Reverse an array, creating a new array
  *
@@ -563,7 +571,7 @@ export declare function modifyAt<A>(i: number, f: (a: A) => A): (as: ReadonlyArr
  *
  * @since 2.5.0
  */
-export declare function reverse<A>(as: ReadonlyArray<A>): ReadonlyArray<A>;
+export declare function reverse<A>(as: ReadonlyArray<A>): ReadonlyArray<A>
 /**
  * Extracts from an array of `Either` all the `Right` elements. All the `Right` elements are extracted in order
  *
@@ -575,7 +583,7 @@ export declare function reverse<A>(as: ReadonlyArray<A>): ReadonlyArray<A>;
  *
  * @since 2.5.0
  */
-export declare function rights<E, A>(as: ReadonlyArray<Either<E, A>>): ReadonlyArray<A>;
+export declare function rights<E, A>(as: ReadonlyArray<Either<E, A>>): ReadonlyArray<A>
 /**
  * Extracts from an array of `Either` all the `Left` elements. All the `Left` elements are extracted in order
  *
@@ -587,7 +595,7 @@ export declare function rights<E, A>(as: ReadonlyArray<Either<E, A>>): ReadonlyA
  *
  * @since 2.5.0
  */
-export declare function lefts<E, A>(as: ReadonlyArray<Either<E, A>>): ReadonlyArray<E>;
+export declare function lefts<E, A>(as: ReadonlyArray<Either<E, A>>): ReadonlyArray<E>
 /**
  * Sort the elements of an array in increasing order, creating a new array
  *
@@ -599,7 +607,7 @@ export declare function lefts<E, A>(as: ReadonlyArray<Either<E, A>>): ReadonlyAr
  *
  * @since 2.5.0
  */
-export declare function sort<A>(O: Ord<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A>;
+export declare function sort<A>(O: Ord<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A>
 /**
  * Apply a function to pairs of elements at the same index in two arrays, collecting the results in a new array. If one
  * input array is short, excess elements of the longer array are discarded.
@@ -611,7 +619,11 @@ export declare function sort<A>(O: Ord<A>): (as: ReadonlyArray<A>) => ReadonlyAr
  *
  * @since 2.5.0
  */
-export declare function zipWith<A, B, C>(fa: ReadonlyArray<A>, fb: ReadonlyArray<B>, f: (a: A, b: B) => C): ReadonlyArray<C>;
+export declare function zipWith<A, B, C>(
+  fa: ReadonlyArray<A>,
+  fb: ReadonlyArray<B>,
+  f: (a: A, b: B) => C
+): ReadonlyArray<C>
 /**
  * Takes two arrays and returns an array of corresponding pairs. If one input array is short, excess elements of the
  * longer array are discarded
@@ -623,7 +635,7 @@ export declare function zipWith<A, B, C>(fa: ReadonlyArray<A>, fb: ReadonlyArray
  *
  * @since 2.5.0
  */
-export declare function zip<A, B>(fa: ReadonlyArray<A>, fb: ReadonlyArray<B>): ReadonlyArray<readonly [A, B]>;
+export declare function zip<A, B>(fa: ReadonlyArray<A>, fb: ReadonlyArray<B>): ReadonlyArray<readonly [A, B]>
 /**
  * The function is reverse of `zip`. Takes an array of pairs and return two corresponding arrays
  *
@@ -634,7 +646,7 @@ export declare function zip<A, B>(fa: ReadonlyArray<A>, fb: ReadonlyArray<B>): R
  *
  * @since 2.5.0
  */
-export declare function unzip<A, B>(as: ReadonlyArray<readonly [A, B]>): readonly [ReadonlyArray<A>, ReadonlyArray<B>];
+export declare function unzip<A, B>(as: ReadonlyArray<readonly [A, B]>): readonly [ReadonlyArray<A>, ReadonlyArray<B>]
 /**
  * Rotate an array to the right by `n` steps
  *
@@ -645,7 +657,7 @@ export declare function unzip<A, B>(as: ReadonlyArray<readonly [A, B]>): readonl
  *
  * @since 2.5.0
  */
-export declare function rotate(n: number): <A>(as: ReadonlyArray<A>) => ReadonlyArray<A>;
+export declare function rotate(n: number): <A>(as: ReadonlyArray<A>) => ReadonlyArray<A>
 /**
  * Test if a value is a member of an array. Takes a `Eq<A>` as a single
  * argument which returns the function to use to search for a value of type `A` in
@@ -660,7 +672,7 @@ export declare function rotate(n: number): <A>(as: ReadonlyArray<A>) => Readonly
  *
  * @since 2.5.0
  */
-export declare function elem<A>(E: Eq<A>): (a: A, as: ReadonlyArray<A>) => boolean;
+export declare function elem<A>(E: Eq<A>): (a: A, as: ReadonlyArray<A>) => boolean
 /**
  * Remove duplicates from an array, keeping the first occurrence of an element.
  *
@@ -672,7 +684,7 @@ export declare function elem<A>(E: Eq<A>): (a: A, as: ReadonlyArray<A>) => boole
  *
  * @since 2.5.0
  */
-export declare function uniq<A>(E: Eq<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A>;
+export declare function uniq<A>(E: Eq<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A>
 /**
  * Sort the elements of an array in increasing order, where elements are compared using first `ords[0]`, then `ords[1]`,
  * etc...
@@ -701,7 +713,7 @@ export declare function uniq<A>(E: Eq<A>): (as: ReadonlyArray<A>) => ReadonlyArr
  *
  * @since 2.5.0
  */
-export declare function sortBy<A>(ords: ReadonlyArray<Ord<A>>): (as: ReadonlyArray<A>) => ReadonlyArray<A>;
+export declare function sortBy<A>(ords: ReadonlyArray<Ord<A>>): (as: ReadonlyArray<A>) => ReadonlyArray<A>
 /**
  * A useful recursion pattern for processing an array to produce a new array, often used for "chopping" up the input
  * array. Typically chop is called with some function that will consume an initial prefix of the array and produce a
@@ -721,7 +733,9 @@ export declare function sortBy<A>(ords: ReadonlyArray<Ord<A>>): (as: ReadonlyArr
  *
  * @since 2.5.0
  */
-export declare function chop<A, B>(f: (as: ReadonlyNonEmptyArray<A>) => readonly [B, ReadonlyArray<A>]): (as: ReadonlyArray<A>) => ReadonlyArray<B>;
+export declare function chop<A, B>(
+  f: (as: ReadonlyNonEmptyArray<A>) => readonly [B, ReadonlyArray<A>]
+): (as: ReadonlyArray<A>) => ReadonlyArray<B>
 /**
  * Splits an array into two pieces, the first piece has `n` elements.
  *
@@ -732,7 +746,7 @@ export declare function chop<A, B>(f: (as: ReadonlyNonEmptyArray<A>) => readonly
  *
  * @since 2.5.0
  */
-export declare function splitAt(n: number): <A>(as: ReadonlyArray<A>) => readonly [ReadonlyArray<A>, ReadonlyArray<A>];
+export declare function splitAt(n: number): <A>(as: ReadonlyArray<A>) => readonly [ReadonlyArray<A>, ReadonlyArray<A>]
 /**
  * Splits an array into length-`n` pieces. The last piece will be shorter if `n` does not evenly divide the length of
  * the array. Note that `chunksOf(n)([])` is `[]`, not `[[]]`. This is intentional, and is consistent with a recursive
@@ -752,7 +766,7 @@ export declare function splitAt(n: number): <A>(as: ReadonlyArray<A>) => readonl
  *
  * @since 2.5.0
  */
-export declare function chunksOf(n: number): <A>(as: ReadonlyArray<A>) => ReadonlyArray<ReadonlyArray<A>>;
+export declare function chunksOf(n: number): <A>(as: ReadonlyArray<A>) => ReadonlyArray<ReadonlyArray<A>>
 /**
  * Array comprehension
  *
@@ -773,11 +787,31 @@ export declare function chunksOf(n: number): <A>(as: ReadonlyArray<A>) => Readon
  *
  * @since 2.5.0
  */
-export declare function comprehension<A, B, C, D, R>(input: readonly [ReadonlyArray<A>, ReadonlyArray<B>, ReadonlyArray<C>, ReadonlyArray<D>], f: (a: A, b: B, c: C, d: D) => R, g?: (a: A, b: B, c: C, d: D) => boolean): ReadonlyArray<R>;
-export declare function comprehension<A, B, C, R>(input: readonly [ReadonlyArray<A>, ReadonlyArray<B>, ReadonlyArray<C>], f: (a: A, b: B, c: C) => R, g?: (a: A, b: B, c: C) => boolean): ReadonlyArray<R>;
-export declare function comprehension<A, R>(input: readonly [ReadonlyArray<A>], f: (a: A) => R, g?: (a: A) => boolean): ReadonlyArray<R>;
-export declare function comprehension<A, B, R>(input: readonly [ReadonlyArray<A>, ReadonlyArray<B>], f: (a: A, b: B) => R, g?: (a: A, b: B) => boolean): ReadonlyArray<R>;
-export declare function comprehension<A, R>(input: readonly [ReadonlyArray<A>], f: (a: A) => boolean, g?: (a: A) => R): ReadonlyArray<R>;
+export declare function comprehension<A, B, C, D, R>(
+  input: readonly [ReadonlyArray<A>, ReadonlyArray<B>, ReadonlyArray<C>, ReadonlyArray<D>],
+  f: (a: A, b: B, c: C, d: D) => R,
+  g?: (a: A, b: B, c: C, d: D) => boolean
+): ReadonlyArray<R>
+export declare function comprehension<A, B, C, R>(
+  input: readonly [ReadonlyArray<A>, ReadonlyArray<B>, ReadonlyArray<C>],
+  f: (a: A, b: B, c: C) => R,
+  g?: (a: A, b: B, c: C) => boolean
+): ReadonlyArray<R>
+export declare function comprehension<A, R>(
+  input: readonly [ReadonlyArray<A>],
+  f: (a: A) => R,
+  g?: (a: A) => boolean
+): ReadonlyArray<R>
+export declare function comprehension<A, B, R>(
+  input: readonly [ReadonlyArray<A>, ReadonlyArray<B>],
+  f: (a: A, b: B) => R,
+  g?: (a: A, b: B) => boolean
+): ReadonlyArray<R>
+export declare function comprehension<A, R>(
+  input: readonly [ReadonlyArray<A>],
+  f: (a: A) => boolean,
+  g?: (a: A) => R
+): ReadonlyArray<R>
 /**
  * Creates an array of unique values, in order, from all given arrays using a `Eq` for equality comparisons
  *
@@ -789,7 +823,7 @@ export declare function comprehension<A, R>(input: readonly [ReadonlyArray<A>], 
  *
  * @since 2.5.0
  */
-export declare function union<A>(E: Eq<A>): (xs: ReadonlyArray<A>, ys: ReadonlyArray<A>) => ReadonlyArray<A>;
+export declare function union<A>(E: Eq<A>): (xs: ReadonlyArray<A>, ys: ReadonlyArray<A>) => ReadonlyArray<A>
 /**
  * Creates an array of unique values that are included in all given arrays using a `Eq` for equality
  * comparisons. The order and references of result values are determined by the first array.
@@ -802,7 +836,7 @@ export declare function union<A>(E: Eq<A>): (xs: ReadonlyArray<A>, ys: ReadonlyA
  *
  * @since 2.5.0
  */
-export declare function intersection<A>(E: Eq<A>): (xs: ReadonlyArray<A>, ys: ReadonlyArray<A>) => ReadonlyArray<A>;
+export declare function intersection<A>(E: Eq<A>): (xs: ReadonlyArray<A>, ys: ReadonlyArray<A>) => ReadonlyArray<A>
 /**
  * Creates an array of array values not included in the other given array using a `Eq` for equality
  * comparisons. The order and references of result values are determined by the first array.
@@ -815,210 +849,220 @@ export declare function intersection<A>(E: Eq<A>): (xs: ReadonlyArray<A>, ys: Re
  *
  * @since 2.5.0
  */
-export declare function difference<A>(E: Eq<A>): (xs: ReadonlyArray<A>, ys: ReadonlyArray<A>) => ReadonlyArray<A>;
+export declare function difference<A>(E: Eq<A>): (xs: ReadonlyArray<A>, ys: ReadonlyArray<A>) => ReadonlyArray<A>
 /**
  * @since 2.5.0
  */
-export declare const of: <A>(a: A) => readonly A[];
+export declare const of: <A>(a: A) => readonly A[]
 /**
  * @since 3.0.0
  */
-export declare const traverse: Traversable1<URI>['traverse'];
+export declare const traverse: Traversable1<URI>['traverse']
 /**
  * @since 3.0.0
  */
-export declare const sequence: Traversable1<URI>['sequence'];
+export declare const sequence: Traversable1<URI>['sequence']
 /**
  * @since 3.0.0
  */
-export declare const traverseWithIndex: TraversableWithIndex1<URI, number>['traverseWithIndex'];
+export declare const traverseWithIndex: TraversableWithIndex1<URI, number>['traverseWithIndex']
 /**
  * @since 3.0.0
  */
-export declare const wither: Witherable1<URI>['wither'];
+export declare const wither: Witherable1<URI>['wither']
 /**
  * @since 3.0.0
  */
-export declare const wilt: Witherable1<URI>['wilt'];
+export declare const wilt: Witherable1<URI>['wilt']
 /**
  * @since 2.5.0
  */
-export declare const alt: <A>(that: () => ReadonlyArray<A>) => (fa: ReadonlyArray<A>) => ReadonlyArray<A>;
+export declare const alt: <A>(that: () => ReadonlyArray<A>) => (fa: ReadonlyArray<A>) => ReadonlyArray<A>
 /**
  * @since 2.5.0
  */
-export declare const ap: <A>(fa: ReadonlyArray<A>) => <B>(fab: ReadonlyArray<(a: A) => B>) => ReadonlyArray<B>;
+export declare const ap: <A>(fa: ReadonlyArray<A>) => <B>(fab: ReadonlyArray<(a: A) => B>) => ReadonlyArray<B>
 /**
  * @since 2.5.0
  */
-export declare const apFirst: <B>(fb: ReadonlyArray<B>) => <A>(fa: ReadonlyArray<A>) => ReadonlyArray<A>;
+export declare const apFirst: <B>(fb: ReadonlyArray<B>) => <A>(fa: ReadonlyArray<A>) => ReadonlyArray<A>
 /**
  * @since 2.5.0
  */
-export declare const apSecond: <B>(fb: readonly B[]) => <A>(fa: readonly A[]) => readonly B[];
+export declare const apSecond: <B>(fb: readonly B[]) => <A>(fa: readonly A[]) => readonly B[]
 /**
  * @since 2.5.0
  */
-export declare const chain: <A, B>(f: (a: A) => ReadonlyArray<B>) => (ma: ReadonlyArray<A>) => ReadonlyArray<B>;
+export declare const chain: <A, B>(f: (a: A) => ReadonlyArray<B>) => (ma: ReadonlyArray<A>) => ReadonlyArray<B>
 /**
  * @since 2.5.0
  */
-export declare const chainFirst: <A, B>(f: (a: A) => ReadonlyArray<B>) => (ma: ReadonlyArray<A>) => ReadonlyArray<A>;
+export declare const chainFirst: <A, B>(f: (a: A) => ReadonlyArray<B>) => (ma: ReadonlyArray<A>) => ReadonlyArray<A>
 /**
  * @since 2.5.0
  */
-export declare const map: <A, B>(f: (a: A) => B) => (fa: ReadonlyArray<A>) => ReadonlyArray<B>;
+export declare const map: <A, B>(f: (a: A) => B) => (fa: ReadonlyArray<A>) => ReadonlyArray<B>
 /**
  * @since 2.5.0
  */
-export declare const mapWithIndex: <A, B>(f: (i: number, a: A) => B) => (fa: ReadonlyArray<A>) => ReadonlyArray<B>;
+export declare const mapWithIndex: <A, B>(f: (i: number, a: A) => B) => (fa: ReadonlyArray<A>) => ReadonlyArray<B>
 /**
  * @since 2.5.0
  */
-export declare const separate: <A, B>(fa: readonly Either<A, B>[]) => Separated<readonly A[], readonly B[]>;
+export declare const separate: <A, B>(fa: readonly Either<A, B>[]) => Separated<readonly A[], readonly B[]>
 /**
  * @since 2.5.0
  */
-export declare const filter: Filterable1<URI>['filter'];
+export declare const filter: Filterable1<URI>['filter']
 /**
  * @since 2.5.0
  */
-export declare const filterMap: Filterable1<URI>['filterMap'];
+export declare const filterMap: Filterable1<URI>['filterMap']
 /**
  * @since 2.5.0
  */
-export declare const compact: <A>(fa: ReadonlyArray<Option<A>>) => ReadonlyArray<A>;
+export declare const compact: <A>(fa: ReadonlyArray<Option<A>>) => ReadonlyArray<A>
 /**
  * @since 2.5.0
  */
-export declare const partition: Filterable1<URI>['partition'];
+export declare const partition: Filterable1<URI>['partition']
 /**
  * @since 2.5.0
  */
 export declare const partitionWithIndex: {
-    <A, B extends A>(refinementWithIndex: RefinementWithIndex<number, A, B>): (fa: ReadonlyArray<A>) => Separated<ReadonlyArray<A>, ReadonlyArray<B>>;
-    <A>(predicateWithIndex: PredicateWithIndex<number, A>): (fa: ReadonlyArray<A>) => Separated<ReadonlyArray<A>, ReadonlyArray<A>>;
-};
+  <A, B extends A>(refinementWithIndex: RefinementWithIndex<number, A, B>): (
+    fa: ReadonlyArray<A>
+  ) => Separated<ReadonlyArray<A>, ReadonlyArray<B>>
+  <A>(predicateWithIndex: PredicateWithIndex<number, A>): (
+    fa: ReadonlyArray<A>
+  ) => Separated<ReadonlyArray<A>, ReadonlyArray<A>>
+}
 /**
  * @since 2.5.0
  */
-export declare const partitionMap: Filterable1<URI>['partitionMap'];
+export declare const partitionMap: Filterable1<URI>['partitionMap']
 /**
  * @since 2.5.0
  */
-export declare const partitionMapWithIndex: <A, B, C>(f: (i: number, a: A) => Either<B, C>) => (fa: ReadonlyArray<A>) => Separated<ReadonlyArray<B>, ReadonlyArray<C>>;
+export declare const partitionMapWithIndex: <A, B, C>(
+  f: (i: number, a: A) => Either<B, C>
+) => (fa: ReadonlyArray<A>) => Separated<ReadonlyArray<B>, ReadonlyArray<C>>
 /**
  * @since 2.5.0
  */
-export declare const filterMapWithIndex: <A, B>(f: (i: number, a: A) => Option<B>) => (fa: ReadonlyArray<A>) => ReadonlyArray<B>;
+export declare const filterMapWithIndex: <A, B>(
+  f: (i: number, a: A) => Option<B>
+) => (fa: ReadonlyArray<A>) => ReadonlyArray<B>
 /**
  * @since 2.5.0
  */
 export declare const filterWithIndex: {
-    <A, B extends A>(refinementWithIndex: RefinementWithIndex<number, A, B>): (fa: ReadonlyArray<A>) => ReadonlyArray<B>;
-    <A>(predicateWithIndex: PredicateWithIndex<number, A>): (fa: ReadonlyArray<A>) => ReadonlyArray<A>;
-};
+  <A, B extends A>(refinementWithIndex: RefinementWithIndex<number, A, B>): (fa: ReadonlyArray<A>) => ReadonlyArray<B>
+  <A>(predicateWithIndex: PredicateWithIndex<number, A>): (fa: ReadonlyArray<A>) => ReadonlyArray<A>
+}
 /**
  * @since 2.5.0
  */
-export declare const extend: <A, B>(f: (fa: ReadonlyArray<A>) => B) => (wa: ReadonlyArray<A>) => ReadonlyArray<B>;
+export declare const extend: <A, B>(f: (fa: ReadonlyArray<A>) => B) => (wa: ReadonlyArray<A>) => ReadonlyArray<B>
 /**
  * @since 2.5.0
  */
-export declare const duplicate: <A>(wa: ReadonlyArray<A>) => ReadonlyArray<ReadonlyArray<A>>;
+export declare const duplicate: <A>(wa: ReadonlyArray<A>) => ReadonlyArray<ReadonlyArray<A>>
 /**
  * @since 2.5.0
  */
-export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: ReadonlyArray<A>) => M;
+export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: ReadonlyArray<A>) => M
 /**
  * @since 2.5.0
  */
-export declare const foldMapWithIndex: <M>(M: Monoid<M>) => <A>(f: (i: number, a: A) => M) => (fa: ReadonlyArray<A>) => M;
+export declare const foldMapWithIndex: <M>(
+  M: Monoid<M>
+) => <A>(f: (i: number, a: A) => M) => (fa: ReadonlyArray<A>) => M
 /**
  * @since 2.5.0
  */
-export declare const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: ReadonlyArray<A>) => B;
+export declare const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: ReadonlyArray<A>) => B
 /**
  * @since 2.5.0
  */
-export declare const reduceWithIndex: <A, B>(b: B, f: (i: number, b: B, a: A) => B) => (fa: ReadonlyArray<A>) => B;
+export declare const reduceWithIndex: <A, B>(b: B, f: (i: number, b: B, a: A) => B) => (fa: ReadonlyArray<A>) => B
 /**
  * @since 2.5.0
  */
-export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: ReadonlyArray<A>) => B;
+export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: ReadonlyArray<A>) => B
 /**
  * @since 2.5.0
  */
-export declare const reduceRightWithIndex: <A, B>(b: B, f: (i: number, a: A, b: B) => B) => (fa: ReadonlyArray<A>) => B;
+export declare const reduceRightWithIndex: <A, B>(b: B, f: (i: number, a: A, b: B) => B) => (fa: ReadonlyArray<A>) => B
 /**
  * @since 3.0.0
  */
-export declare const functorReadonlyArray: Functor1<URI>;
+export declare const functorReadonlyArray: Functor1<URI>
 /**
  * @since 3.0.0
  */
-export declare const functorWithIndexReadonlyArray: FunctorWithIndex1<URI, number>;
+export declare const functorWithIndexReadonlyArray: FunctorWithIndex1<URI, number>
 /**
  * @since 3.0.0
  */
-export declare const applyReadonlyArray: Apply1<URI>;
+export declare const applyReadonlyArray: Apply1<URI>
 /**
  * @since 3.0.0
  */
-export declare const applicativeReadonlyArray: Applicative1<URI>;
+export declare const applicativeReadonlyArray: Applicative1<URI>
 /**
  * @since 3.0.0
  */
-export declare const monadReadonlyArray: Monad1<URI>;
+export declare const monadReadonlyArray: Monad1<URI>
 /**
  * @since 3.0.0
  */
-export declare const unfold: <A, B>(b: B, f: (b: B) => Option<readonly [A, B]>) => readonly A[];
+export declare const unfold: <A, B>(b: B, f: (b: B) => Option<readonly [A, B]>) => readonly A[]
 /**
  * @since 3.0.0
  */
-export declare const unfoldableReadonlyArray: Unfoldable1<URI>;
+export declare const unfoldableReadonlyArray: Unfoldable1<URI>
 /**
  * @since 3.0.0
  */
-export declare const compactableReadonlyArray: Compactable1<URI>;
+export declare const compactableReadonlyArray: Compactable1<URI>
 /**
  * @since 3.0.0
  */
-export declare const filterableReadonlyArray: Filterable1<URI>;
+export declare const filterableReadonlyArray: Filterable1<URI>
 /**
  * @since 3.0.0
  */
-export declare const filterableWithIndexReadonlyArray: FilterableWithIndex1<URI, number>;
+export declare const filterableWithIndexReadonlyArray: FilterableWithIndex1<URI, number>
 /**
  * @since 3.0.0
  */
-export declare const foldableReadonlyArray: Foldable1<URI>;
+export declare const foldableReadonlyArray: Foldable1<URI>
 /**
  * @since 3.0.0
  */
-export declare const foldableWithIndexReadonlyArray: FoldableWithIndex1<URI, number>;
+export declare const foldableWithIndexReadonlyArray: FoldableWithIndex1<URI, number>
 /**
  * @since 3.0.0
  */
-export declare const altReadonlyArray: Alt1<URI>;
+export declare const altReadonlyArray: Alt1<URI>
 /**
  * @since 3.0.0
  */
-export declare const alternativeReadonlyArray: RA<URI>;
+export declare const alternativeReadonlyArray: RA<URI>
 /**
  * @since 3.0.0
  */
-export declare const traversableReadonlyArray: Traversable1<URI>;
+export declare const traversableReadonlyArray: Traversable1<URI>
 /**
  * @since 3.0.0
  */
-export declare const traversableWithIndexReadonlyArray: TraversableWithIndex1<URI, number>;
+export declare const traversableWithIndexReadonlyArray: TraversableWithIndex1<URI, number>
 /**
  * @since 3.0.0
  */
-export declare const extendReadonlyArray: Extend1<URI>;
+export declare const extendReadonlyArray: Extend1<URI>
 /**
  * @since 3.0.0
  */
-export declare const witherableReadonlyArray: Witherable1<URI>;
+export declare const witherableReadonlyArray: Witherable1<URI>

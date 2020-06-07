@@ -6,14 +6,13 @@
  *
  * @since 2.0.0
  */
-import { Lattice } from './Lattice';
-import { Ord } from './Ord';
+import { Lattice } from './Lattice'
+import { Ord } from './Ord'
 /**
  * @since 2.0.0
  */
-export interface DistributiveLattice<A> extends Lattice<A> {
-}
+export interface DistributiveLattice<A> extends Lattice<A> {}
 /**
  * @since 2.0.0
  */
-export declare function getMinMaxDistributiveLattice<A>(O: Ord<A>): DistributiveLattice<A>;
+export declare function getMinMaxDistributiveLattice<A>(O: Ord<A>): DistributiveLattice<A>

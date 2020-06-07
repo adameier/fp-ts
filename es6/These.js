@@ -88,10 +88,41 @@ export function getSemigroup(SE, SA) {
         }
     };
 }
+var of = right;
 /**
  * @since 2.0.0
  */
-export function getMonad(S) {
+export function getApplicative(S) {
+    return {
+        URI: URI,
+        _E: undefined,
+        map: map,
+        of: of,
+        ap: function (fa) { return function (fab) {
+            return isLeft(fab)
+                ? isLeft(fa)
+                    ? left(S.concat(fab.left, fa.left))
+                    : isRight(fa)
+                        ? left(fab.left)
+                        : left(S.concat(fab.left, fa.left))
+                : isRight(fab)
+                    ? isLeft(fa)
+                        ? left(fa.left)
+                        : isRight(fa)
+                            ? right(fab.right(fa.right))
+                            : both(fa.left, fab.right(fa.right))
+                    : isLeft(fa)
+                        ? left(S.concat(fab.left, fa.left))
+                        : isRight(fa)
+                            ? both(fab.left, fab.right(fa.right))
+                            : both(S.concat(fab.left, fa.left), fab.right(fa.right));
+        }; }
+    };
+}
+/**
+ * @since 2.0.0
+ */
+export function getMonadThrow(S) {
     var chain = function (f) { return function (ma) {
         if (isLeft(ma)) {
             return ma;
@@ -110,10 +141,7 @@ export function getMonad(S) {
         URI: URI,
         _E: undefined,
         map: map,
-        of: right,
-        ap: function (fa) { return function (fab) {
-            return pipe(fab, chain(function (f) { return pipe(fa, map(f)); }));
-        }; },
+        of: of,
         chain: chain,
         throwError: left
     };

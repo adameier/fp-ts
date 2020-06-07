@@ -7,15 +7,15 @@
  *
  * @since 2.0.0
  */
-import { Ord } from './Ord';
+import { Ord } from './Ord'
 /**
  * @since 2.0.0
  */
 export interface Bounded<A> extends Ord<A> {
-    readonly top: A;
-    readonly bottom: A;
+  readonly top: A
+  readonly bottom: A
 }
 /**
  * @since 2.0.0
  */
-export declare const boundedNumber: Bounded<number>;
+export declare const boundedNumber: Bounded<number>

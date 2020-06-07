@@ -1,48 +1,48 @@
 /**
  * @since 2.0.0
  */
-import { Bounded } from './Bounded';
-import { Endomorphism } from './function';
-import { ReadonlyRecord } from './ReadonlyRecord';
-import { Semigroup } from './Semigroup';
+import { Bounded } from './Bounded'
+import { Endomorphism } from './function'
+import { ReadonlyRecord } from './ReadonlyRecord'
+import { Semigroup } from './Semigroup'
 /**
  * @since 2.0.0
  */
 export interface Monoid<A> extends Semigroup<A> {
-    readonly empty: A;
+  readonly empty: A
 }
 /**
  * Boolean monoid under conjunction
  * @since 2.0.0
  */
-export declare const monoidAll: Monoid<boolean>;
+export declare const monoidAll: Monoid<boolean>
 /**
  * Boolean monoid under disjunction
  * @since 2.0.0
  */
-export declare const monoidAny: Monoid<boolean>;
+export declare const monoidAny: Monoid<boolean>
 /**
  * Number monoid under addition
  * @since 2.0.0
  */
-export declare const monoidSum: Monoid<number>;
+export declare const monoidSum: Monoid<number>
 /**
  * Number monoid under multiplication
  * @since 2.0.0
  */
-export declare const monoidProduct: Monoid<number>;
+export declare const monoidProduct: Monoid<number>
 /**
  * @since 2.0.0
  */
-export declare const monoidString: Monoid<string>;
+export declare const monoidString: Monoid<string>
 /**
  * @since 2.0.0
  */
-export declare const monoidVoid: Monoid<void>;
+export declare const monoidVoid: Monoid<void>
 /**
  * @since 2.0.0
  */
-export declare function fold<A>(M: Monoid<A>): (as: ReadonlyArray<A>) => A;
+export declare function fold<A>(M: Monoid<A>): (as: ReadonlyArray<A>) => A
 /**
  * Given a tuple of monoids returns a monoid for the tuple
  *
@@ -57,9 +57,13 @@ export declare function fold<A>(M: Monoid<A>): (as: ReadonlyArray<A>) => A;
  *
  * @since 2.0.0
  */
-export declare function getTupleMonoid<T extends ReadonlyArray<Monoid<any>>>(...monoids: T): Monoid<{
-    [K in keyof T]: T[K] extends Semigroup<infer A> ? A : never;
-}>;
+export declare function getTupleMonoid<T extends ReadonlyArray<Monoid<any>>>(
+  ...monoids: T
+): Monoid<
+  {
+    [K in keyof T]: T[K] extends Semigroup<infer A> ? A : never
+  }
+>
 /**
  * The dual of a `Monoid`, obtained by swapping the arguments of `concat`.
  *
@@ -70,26 +74,28 @@ export declare function getTupleMonoid<T extends ReadonlyArray<Monoid<any>>>(...
  *
  * @since 2.0.0
  */
-export declare function getDualMonoid<A>(M: Monoid<A>): Monoid<A>;
+export declare function getDualMonoid<A>(M: Monoid<A>): Monoid<A>
 /**
  * @since 2.0.0
  */
-export declare function getFunctionMonoid<M>(M: Monoid<M>): <A = never>() => Monoid<(a: A) => M>;
+export declare function getFunctionMonoid<M>(M: Monoid<M>): <A = never>() => Monoid<(a: A) => M>
 /**
  * @since 2.0.0
  */
-export declare function getEndomorphismMonoid<A = never>(): Monoid<Endomorphism<A>>;
+export declare function getEndomorphismMonoid<A = never>(): Monoid<Endomorphism<A>>
 /**
  * @since 2.0.0
  */
-export declare function getStructMonoid<O extends ReadonlyRecord<string, any>>(monoids: {
-    [K in keyof O]: Monoid<O[K]>;
-}): Monoid<O>;
+export declare function getStructMonoid<O extends ReadonlyRecord<string, any>>(
+  monoids: {
+    [K in keyof O]: Monoid<O[K]>
+  }
+): Monoid<O>
 /**
  * @since 2.0.0
  */
-export declare function getMeetMonoid<A>(B: Bounded<A>): Monoid<A>;
+export declare function getMeetMonoid<A>(B: Bounded<A>): Monoid<A>
 /**
  * @since 2.0.0
  */
-export declare function getJoinMonoid<A>(B: Bounded<A>): Monoid<A>;
+export declare function getJoinMonoid<A>(B: Bounded<A>): Monoid<A>

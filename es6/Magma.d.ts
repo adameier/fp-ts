@@ -6,5 +6,5 @@
  * @since 2.0.0
  */
 export interface Magma<A> {
-    readonly concat: (x: A, y: A) => A;
+  readonly concat: (x: A, y: A) => A
 }

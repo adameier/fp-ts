@@ -3,15 +3,16 @@
  *
  * @since 2.0.0
  */
-import { BoundedLattice } from './BoundedLattice';
-import { DistributiveLattice } from './DistributiveLattice';
-import { Ord } from './Ord';
+import { BoundedLattice } from './BoundedLattice'
+import { DistributiveLattice } from './DistributiveLattice'
+import { Ord } from './Ord'
 /**
  * @since 2.0.0
  */
-export interface BoundedDistributiveLattice<A> extends BoundedLattice<A>, DistributiveLattice<A> {
-}
+export interface BoundedDistributiveLattice<A> extends BoundedLattice<A>, DistributiveLattice<A> {}
 /**
  * @since 2.0.0
  */
-export declare function getMinMaxBoundedDistributiveLattice<A>(O: Ord<A>): (min: A, max: A) => BoundedDistributiveLattice<A>;
+export declare function getMinMaxBoundedDistributiveLattice<A>(
+  O: Ord<A>
+): (min: A, max: A) => BoundedDistributiveLattice<A>

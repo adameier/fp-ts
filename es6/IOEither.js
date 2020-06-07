@@ -1,14 +1,3 @@
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
 import { apComposition } from './Apply';
 import { separateComposition } from './Compactable';
 import * as E from './Either';
@@ -229,7 +218,11 @@ apComposition(I.applyIO, E.applyEither);
 /**
  * @since 3.0.0
  */
-export var applyIOEither = __assign(__assign({}, functorIOEither), { ap: ap });
+export var applyIOEither = {
+    URI: URI,
+    map: map,
+    ap: ap
+};
 /**
  * @since 2.0.0
  */
@@ -249,7 +242,12 @@ export var of = right;
 /**
  * @since 3.0.0
  */
-export var applicativeIOEither = __assign(__assign({}, applyIOEither), { of: of });
+export var applicativeIOEither = {
+    URI: URI,
+    map: map,
+    ap: ap,
+    of: of
+};
 /**
  * @since 2.0.0
  */
@@ -259,7 +257,12 @@ export var chain = function (f) {
 /**
  * @since 3.0.0
  */
-export var monadIOEither = __assign(__assign({}, applicativeIOEither), { chain: chain });
+export var monadIOEither = {
+    URI: URI,
+    map: map,
+    of: of,
+    chain: chain
+};
 /**
  * @since 2.0.0
  */
@@ -305,12 +308,29 @@ export var alt = function (that) {
 /**
  * @since 3.0.0
  */
-export var altIOEither = __assign(__assign({}, functorIOEither), { alt: alt });
+export var altIOEither = {
+    URI: URI,
+    map: map,
+    alt: alt
+};
+var fromIO = rightIO;
 /**
  * @since 3.0.0
  */
-export var monadIOIOEither = __assign(__assign({}, monadIOEither), { fromIO: rightIO });
+export var monadIOIOEither = {
+    URI: URI,
+    map: map,
+    of: of,
+    chain: chain,
+    fromIO: fromIO
+};
 /**
  * @since 3.0.0
  */
-export var monadThrowIOEither = __assign(__assign({}, monadIOEither), { throwError: left });
+export var monadThrowIOEither = {
+    URI: URI,
+    map: map,
+    of: of,
+    chain: chain,
+    throwError: left
+};

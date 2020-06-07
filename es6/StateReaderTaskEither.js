@@ -153,9 +153,9 @@ export function fromEitherK(f) {
 /**
  * @since 2.4.0
  */
-export function chainEitherK(f) {
-    return chain(fromEitherK(f));
-}
+export var chainEitherK = function (f) {
+    return chain(function (a) { return fromEither(f(a)); });
+};
 /**
  * @since 2.4.0
  */
@@ -171,9 +171,9 @@ export function fromIOEitherK(f) {
 /**
  * @since 2.4.0
  */
-export function chainIOEitherK(f) {
-    return chain(fromIOEitherK(f));
-}
+export var chainIOEitherK = function (f) {
+    return chain(function (a) { return fromIOEither(f(a)); });
+};
 /**
  * @since 2.4.0
  */
@@ -189,9 +189,9 @@ export function fromTaskEitherK(f) {
 /**
  * @since 2.4.0
  */
-export function chainTaskEitherK(f) {
-    return chain(fromTaskEitherK(f));
-}
+export var chainTaskEitherK = function (f) {
+    return chain(function (a) { return fromTaskEither(f(a)); });
+};
 /**
  * @since 2.4.0
  */
@@ -207,9 +207,9 @@ export function fromReaderTaskEitherK(f) {
 /**
  * @since 2.4.0
  */
-export function chainReaderTaskEitherK(f) {
-    return chain(fromReaderTaskEitherK(f));
-}
+export var chainReaderTaskEitherK = function (f) {
+    return chain(function (a) { return fromReaderTaskEither(f(a)); });
+};
 // -------------------------------------------------------------------------------------
 // pipeables
 // -------------------------------------------------------------------------------------
@@ -350,13 +350,26 @@ export var applyStateReaderTaskEither = {
 };
 var of = right;
 /**
+ * @category instances
  * @since 3.0.0
  */
-export var applicativeStateReaderTaskEither = {
+export var applicativeStateReaderTaskEitherPar = {
     URI: URI,
     map: map,
     ap: ap,
     of: of
+};
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export var applicativeReaderTaskEitherSeq = {
+    URI: URI,
+    map: map,
+    of: of,
+    ap: function (fa) { return function (fab) {
+        return pipe(fab, chain(function (f) { return pipe(fa, map(f)); }));
+    }; }
 };
 /**
  * @since 3.0.0
@@ -364,7 +377,6 @@ export var applicativeStateReaderTaskEither = {
 export var monadStateReaderTaskEither = {
     URI: URI,
     map: map,
-    ap: ap,
     of: of,
     chain: chain
 };
@@ -391,7 +403,6 @@ var fromIO = rightIO;
 export var monadIOStateReaderTaskEither = {
     URI: URI,
     map: map,
-    ap: ap,
     of: of,
     chain: chain,
     fromIO: fromIO
@@ -403,7 +414,6 @@ var fromTask = rightTask;
 export var monadTaskStateReaderTaskEither = {
     URI: URI,
     map: map,
-    ap: ap,
     of: of,
     chain: chain,
     fromIO: fromIO,
@@ -416,27 +426,7 @@ var throwError = left;
 export var monadThrowStateReaderTaskEither = {
     URI: URI,
     map: map,
-    ap: ap,
     of: of,
     chain: chain,
-    throwError: throwError
-};
-/**
- * TODO
- * @since 3.0.0
- */
-export var monadReaderTaskEitherSeq = {
-    URI: URI,
-    map: map,
-    of: of,
-    ap: function (fa) { return function (fab) {
-        return pipe(fab, chain(function (f) { return pipe(fa, map(f)); }));
-    }; },
-    chain: chain,
-    bimap: bimap,
-    mapLeft: mapLeft,
-    alt: alt,
-    fromIO: fromIO,
-    fromTask: fromTask,
     throwError: throwError
 };

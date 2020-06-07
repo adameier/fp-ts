@@ -125,7 +125,6 @@ export var applicativeState = {
 export var monadState = {
     URI: URI,
     map: map,
-    ap: ap,
     of: of,
     chain: chain
 };

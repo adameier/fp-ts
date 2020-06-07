@@ -83,7 +83,7 @@ export var toNullable =
 /*#__PURE__*/
 T.map(O.toNullable);
 // -------------------------------------------------------------------------------------
-// helpers
+// combinators
 // -------------------------------------------------------------------------------------
 /**
  * @since 3.0.0
@@ -152,10 +152,21 @@ flow(O.of, T.of);
 /**
  * @since 3.0.0
  */
-export var applicativeTaskOption = {
+export var applicativeTaskOptionPar = {
     URI: URI,
     map: map,
     ap: ap,
+    of: of
+};
+/**
+ * @since 3.0.0
+ */
+export var applicativeTaskOptionSeq = {
+    URI: URI,
+    map: map,
+    ap: function (fa) { return function (fab) {
+        return pipe(fab, chain(function (f) { return pipe(fa, map(f)); }));
+    }; },
     of: of
 };
 /**
@@ -170,7 +181,6 @@ export var chain = function (f) {
 export var monadTaskOption = {
     URI: URI,
     map: map,
-    ap: ap,
     of: of,
     chain: chain
 };

@@ -305,7 +305,6 @@ export var applicativeTree = {
 export var monadTree = {
     URI: URI,
     map: map,
-    ap: ap,
     of: of,
     chain: chain
 };

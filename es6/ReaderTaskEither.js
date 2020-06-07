@@ -203,9 +203,7 @@ export function fromEitherK(f) {
 /**
  * @since 2.4.0
  */
-export function chainEitherK(f) {
-    return chain(fromEitherK(f));
-}
+export var chainEitherK = function (f) { return chain(function (a) { return fromEither(f(a)); }); };
 /**
  * @since 2.4.0
  */
@@ -221,9 +219,7 @@ export function fromIOEitherK(f) {
 /**
  * @since 2.4.0
  */
-export function chainIOEitherK(f) {
-    return chain(fromIOEitherK(f));
-}
+export var chainIOEitherK = function (f) { return chain(function (a) { return fromIOEither(f(a)); }); };
 /**
  * @since 2.4.0
  */
@@ -239,9 +235,7 @@ export function fromTaskEitherK(f) {
 /**
  * @since 2.4.0
  */
-export function chainTaskEitherK(f) {
-    return chain(fromTaskEitherK(f));
-}
+export var chainTaskEitherK = function (f) { return chain(function (a) { return fromTaskEither(f(a)); }); };
 // -------------------------------------------------------------------------------------
 // pipeables
 // -------------------------------------------------------------------------------------
@@ -357,13 +351,26 @@ export var applyReaderTaskEither = {
 };
 var of = right;
 /**
+ * @category instances
  * @since 3.0.0
  */
-export var applicativeReaderTaskEither = {
+export var applicativeReaderTaskEitherPar = {
     URI: URI,
     map: map,
     ap: ap,
     of: of
+};
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export var applicativeReaderTaskEitherSeq = {
+    URI: URI,
+    map: map,
+    of: right,
+    ap: function (fa) { return function (fab) {
+        return pipe(fab, chain(function (f) { return pipe(fa, map(f)); }));
+    }; }
 };
 /**
  * @since 3.0.0
@@ -371,7 +378,6 @@ export var applicativeReaderTaskEither = {
 export var monadReaderTaskEither = {
     URI: URI,
     map: map,
-    ap: ap,
     of: of,
     chain: chain
 };
@@ -397,7 +403,6 @@ export var altReaderTaskEither = {
 export var monadIOReaderTaskEither = {
     URI: URI,
     map: map,
-    ap: ap,
     of: of,
     chain: chain,
     fromIO: rightIO
@@ -408,7 +413,6 @@ export var monadIOReaderTaskEither = {
 export var monadTaskReaderTaskEither = {
     URI: URI,
     map: map,
-    ap: ap,
     of: of,
     chain: chain,
     fromIO: rightIO,
@@ -420,27 +424,7 @@ export var monadTaskReaderTaskEither = {
 export var monadThrowReaderTaskEither = {
     URI: URI,
     map: map,
-    ap: ap,
     of: of,
     chain: chain,
-    throwError: left
-};
-/**
- * TODO
- * @since 2.0.0
- */
-export var monadReaderTaskEitherSeq = {
-    URI: URI,
-    map: map,
-    of: right,
-    ap: function (fa) { return function (fab) {
-        return pipe(fab, chain(function (f) { return pipe(fa, map(f)); }));
-    }; },
-    chain: chain,
-    alt: alt,
-    bimap: bimap,
-    mapLeft: mapLeft,
-    fromIO: rightIO,
-    fromTask: rightTask,
     throwError: left
 };

@@ -122,12 +122,23 @@ export function of(a) {
     return function () { return Promise.resolve(a); };
 }
 /**
+ * @category instances
  * @since 3.0.0
  */
-export var applicativeTask = {
+export var applicativeTaskPar = {
     URI: URI,
     map: map,
     ap: ap,
+    of: of
+};
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export var applicativeTaskSeq = {
+    URI: URI,
+    map: map,
+    ap: function (fa) { return function (fab) { return function () { return fab().then(function (f) { return fa().then(function (a) { return f(a); }); }); }; }; },
     of: of
 };
 /**
@@ -142,7 +153,6 @@ export var chain = function (f) { return function (ma) { return function () {
 export var monadTask = {
     URI: URI,
     map: map,
-    ap: ap,
     of: of,
     chain: chain
 };
@@ -172,7 +182,6 @@ export function chainIOK(f) {
 export var monadIOTask = {
     URI: URI,
     map: map,
-    ap: ap,
     of: of,
     chain: chain,
     fromIO: fromIO
@@ -183,20 +192,8 @@ export var monadIOTask = {
 export var monadTaskTask = {
     URI: URI,
     map: map,
-    ap: ap,
     of: of,
     chain: chain,
     fromIO: fromIO,
     fromTask: identity
-};
-/**
- * TODO
- * @since 3.0.0
- */
-export var monadTaskSeq = {
-    URI: URI,
-    map: map,
-    ap: function (fa) { return function (fab) { return function () { return fab().then(function (f) { return fa().then(function (a) { return f(a); }); }); }; }; },
-    of: of,
-    chain: chain
 };

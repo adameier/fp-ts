@@ -107,6 +107,7 @@ export function group(E) {
         // tslint:disable-next-line: readonly-array
         var r = [];
         var head = as[0];
+        // tslint:disable-next-line: readonly-array
         var nea = [head];
         for (var i = 1; i < len; i++) {
             var x = as[i];
@@ -155,6 +156,7 @@ export function groupSort(O) {
  */
 export function groupBy(f) {
     return function (as) {
+        // tslint:disable-next-line: readonly-array
         var r = {};
         for (var _i = 0, as_1 = as; _i < as_1.length; _i++) {
             var a = as_1[_i];

@@ -6,10 +6,9 @@
  *
  * @since 2.0.0
  */
-import { BoundedJoinSemilattice } from './BoundedJoinSemilattice';
-import { BoundedMeetSemilattice } from './BoundedMeetSemilattice';
+import { BoundedJoinSemilattice } from './BoundedJoinSemilattice'
+import { BoundedMeetSemilattice } from './BoundedMeetSemilattice'
 /**
  * @since 2.0.0
  */
-export interface BoundedLattice<A> extends BoundedJoinSemilattice<A>, BoundedMeetSemilattice<A> {
-}
+export interface BoundedLattice<A> extends BoundedJoinSemilattice<A>, BoundedMeetSemilattice<A> {}

@@ -51,30 +51,15 @@ export function getApplicative(M) {
 /**
  * @since 2.5.0
  */
-export function getChain(S) {
-    var A = getApply(S);
+export function getMonad(M) {
     return {
         URI: URI,
-        _E: A._E,
-        map: A.map,
-        ap: A.ap,
+        _E: undefined,
+        map: map,
         chain: function (f) { return function (ma) {
             var _a = f(fst(ma)), b = _a[0], s = _a[1];
-            return [b, S.concat(snd(ma), s)];
-        }; }
-    };
-}
-/**
- * @since 2.5.0
- */
-export function getMonad(M) {
-    var C = getChain(M);
-    return {
-        URI: URI,
-        _E: C._E,
-        map: C.map,
-        ap: C.ap,
-        chain: C.chain,
+            return [b, M.concat(snd(ma), s)];
+        }; },
         of: of(M)
     };
 }

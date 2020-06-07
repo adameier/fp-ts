@@ -311,11 +311,22 @@ var of = right;
 /**
  * @since 3.0.0
  */
-export var applicativeTaskEither = {
+export var applicativeTaskEitherPar = {
     URI: URI,
     map: map,
     ap: ap,
     of: of
+};
+/**
+ * @since 2.0.0
+ */
+export var applicativeTaskEitherSeq = {
+    URI: URI,
+    map: map,
+    of: of,
+    ap: function (fa) { return function (fab) {
+        return pipe(fab, chain(function (f) { return pipe(fa, map(f)); }));
+    }; }
 };
 /**
  * @since 2.0.0
@@ -329,7 +340,6 @@ export var chain = function (f) {
 export var monadTaskEither = {
     URI: URI,
     map: map,
-    ap: ap,
     of: of,
     chain: chain
 };
@@ -398,7 +408,6 @@ var fromIO = rightIO;
 export var monadIOTaskEither = {
     URI: URI,
     map: map,
-    ap: ap,
     of: of,
     chain: chain,
     fromIO: fromIO
@@ -410,7 +419,6 @@ var fromTask = rightTask;
 export var monadTaskTaskEither = {
     URI: URI,
     map: map,
-    ap: ap,
     of: of,
     chain: chain,
     fromIO: fromIO,
@@ -423,27 +431,7 @@ var throwError = left;
 export var monadThrowTaskEither = {
     URI: URI,
     map: map,
-    ap: ap,
     of: of,
     chain: chain,
-    throwError: throwError
-};
-/**
- * TODO
- * @since 2.0.0
- */
-export var monadTaskEitherSeq = {
-    URI: URI,
-    bimap: bimap,
-    mapLeft: mapLeft,
-    map: map,
-    of: of,
-    ap: function (fa) { return function (fab) {
-        return pipe(fab, chain(function (f) { return pipe(fa, map(f)); }));
-    }; },
-    chain: chain,
-    alt: alt,
-    fromIO: fromIO,
-    fromTask: fromTask,
     throwError: throwError
 };

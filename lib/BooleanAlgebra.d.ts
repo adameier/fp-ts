@@ -10,27 +10,26 @@
  *
  * @since 2.0.0
  */
-import { HeytingAlgebra } from './HeytingAlgebra';
+import { HeytingAlgebra } from './HeytingAlgebra'
 /**
  * @since 2.0.0
  */
-export interface BooleanAlgebra<A> extends HeytingAlgebra<A> {
-}
+export interface BooleanAlgebra<A> extends HeytingAlgebra<A> {}
 /**
  * @since 2.0.0
  */
-export declare const booleanAlgebraBoolean: BooleanAlgebra<boolean>;
+export declare const booleanAlgebraBoolean: BooleanAlgebra<boolean>
 /**
  * @since 2.0.0
  */
-export declare const booleanAlgebraVoid: BooleanAlgebra<void>;
+export declare const booleanAlgebraVoid: BooleanAlgebra<void>
 /**
  * @since 2.0.0
  */
-export declare function getFunctionBooleanAlgebra<B>(B: BooleanAlgebra<B>): <A = never>() => BooleanAlgebra<(a: A) => B>;
+export declare function getFunctionBooleanAlgebra<B>(B: BooleanAlgebra<B>): <A = never>() => BooleanAlgebra<(a: A) => B>
 /**
  * Every boolean algebras has a dual algebra, which involves reversing one/zero as well as join/meet.
  *
  * @since 2.0.0
  */
-export declare function getDualBooleanAlgebra<A>(B: BooleanAlgebra<A>): BooleanAlgebra<A>;
+export declare function getDualBooleanAlgebra<A>(B: BooleanAlgebra<A>): BooleanAlgebra<A>

@@ -126,9 +126,7 @@ export function fromEitherK(f) {
 /**
  * @since 2.4.0
  */
-export function chainEitherK(f) {
-    return chain(fromEitherK(f));
-}
+export var chainEitherK = function (f) { return chain(function (a) { return fromEither(f(a)); }); };
 // -------------------------------------------------------------------------------------
 // pipeables
 // -------------------------------------------------------------------------------------
@@ -250,7 +248,6 @@ export var applicativeReaderTask = {
 export var monadReaderTask = {
     URI: URI,
     map: map,
-    ap: ap,
     of: of,
     chain: chain
 };
@@ -276,7 +273,6 @@ export var altReaderTask = {
 export var monadThrowReaderTask = {
     URI: URI,
     map: map,
-    ap: ap,
     of: of,
     chain: chain,
     throwError: left

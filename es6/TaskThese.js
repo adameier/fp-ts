@@ -1,7 +1,7 @@
 import { flow, pipe } from './function';
 import * as T from './Task';
 import * as TH from './These';
-import * as TheseT from './TheseT';
+import { apComposition } from './Apply';
 /**
  * @since 2.4.0
  */
@@ -101,19 +101,45 @@ export var bifunctorTaskThese = {
     bimap: bimap,
     mapLeft: mapLeft
 };
+var of = right;
 /**
  * @since 3.0.0
  */
-export function getMonad(S) {
-    var chain = TheseT.chain(T.monadTask)(S);
+export function getApplicativePar(S) {
     return {
         URI: URI,
         _E: undefined,
         map: map,
-        ap: function (fa) { return function (fab) {
-            return pipe(fab, chain(function (f) { return pipe(fa, map(f)); }));
-        }; },
-        of: right,
+        ap: apComposition(T.applicativeTaskPar, TH.getApplicative(S)),
+        of: of
+    };
+}
+/**
+ * @since 3.0.0
+ */
+export function getApplicativeSeq(S) {
+    return {
+        URI: URI,
+        _E: undefined,
+        map: map,
+        ap: apComposition(T.applicativeTaskSeq, TH.getApplicative(S)),
+        of: of
+    };
+}
+/**
+ * @since 3.0.0
+ */
+export function getMonad(S) {
+    var chain = function (f) {
+        return T.chain(TH.fold(left, f, function (e1, a) {
+            return pipe(f(a), T.map(TH.fold(function (e2) { return TH.left(S.concat(e1, e2)); }, TH.right, function (e2, b) { return TH.both(S.concat(e1, e2), b); })));
+        }));
+    };
+    return {
+        URI: URI,
+        _E: undefined,
+        map: map,
+        of: of,
         chain: chain
     };
 }

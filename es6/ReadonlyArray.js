@@ -1443,7 +1443,6 @@ export var applicativeReadonlyArray = {
 export var monadReadonlyArray = {
     URI: URI,
     map: map,
-    ap: ap,
     of: of,
     chain: chain
 };

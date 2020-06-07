@@ -72,7 +72,6 @@ export var chain = function (f) { return function (ma) { return f(ma); }; };
 export var monadIdentity = {
     URI: URI,
     map: map,
-    ap: ap,
     of: of,
     chain: chain
 };

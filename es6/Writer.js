@@ -56,6 +56,7 @@ export var censor = function (f) { return function (fa) { return function () {
 // instances
 // -------------------------------------------------------------------------------------
 /**
+ * @category Functor
  * @since 2.0.0
  */
 export var map = function (f) { return function (fa) { return function () {
@@ -63,6 +64,7 @@ export var map = function (f) { return function (fa) { return function () {
     return [f(a), w];
 }; }; };
 /**
+ * @category instances
  * @since 3.0.0
  */
 export var functorWriter = {
@@ -70,9 +72,10 @@ export var functorWriter = {
     map: map
 };
 /**
+ * @category instances
  * @since 2.0.0
  */
-export function getMonad(M) {
+export function getApplicative(M) {
     return {
         URI: URI,
         _E: undefined,
@@ -82,6 +85,18 @@ export function getMonad(M) {
             var _b = fa(), a = _b[0], w2 = _b[1];
             return [f(a), M.concat(w1, w2)];
         }; }; },
+        of: function (a) { return function () { return [a, M.empty]; }; }
+    };
+}
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export function getMonad(M) {
+    return {
+        URI: URI,
+        _E: undefined,
+        map: map,
         of: function (a) { return function () { return [a, M.empty]; }; },
         chain: function (f) { return function (fa) { return function () {
             var _a = fa(), a = _a[0], w1 = _a[1];

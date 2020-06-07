@@ -104,7 +104,6 @@ export var chain = function (f) { return function (fa) { return function (r) {
 export var monadReader = {
     URI: URI,
     map: map,
-    ap: ap,
     of: of,
     chain: chain
 };
