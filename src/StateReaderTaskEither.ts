@@ -219,11 +219,10 @@ export function fromEitherK<E, A extends ReadonlyArray<unknown>, B>(
 /**
  * @since 2.4.0
  */
-export function chainEitherK<E, A, B>(
+export const chainEitherK: <E, A, B>(
   f: (a: A) => Either<E, B>
-): <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> {
-  return chain<any, any, E, A, B>(fromEitherK(f))
-}
+) => <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> = (f) =>
+  chain((a) => fromEither(f(a)))
 
 /**
  * @since 2.4.0
@@ -237,11 +236,10 @@ export function fromIOEitherK<E, A extends ReadonlyArray<unknown>, B>(
 /**
  * @since 2.4.0
  */
-export function chainIOEitherK<E, A, B>(
+export const chainIOEitherK: <E, A, B>(
   f: (a: A) => IOEither<E, B>
-): <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> {
-  return chain<any, any, E, A, B>(fromIOEitherK(f))
-}
+) => <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> = (f) =>
+  chain((a) => fromIOEither(f(a)))
 
 /**
  * @since 2.4.0
@@ -255,11 +253,10 @@ export function fromTaskEitherK<E, A extends ReadonlyArray<unknown>, B>(
 /**
  * @since 2.4.0
  */
-export function chainTaskEitherK<E, A, B>(
+export const chainTaskEitherK: <E, A, B>(
   f: (a: A) => TaskEither<E, B>
-): <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> {
-  return chain<any, any, E, A, B>(fromTaskEitherK(f))
-}
+) => <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> = (f) =>
+  chain((a) => fromTaskEither(f(a)))
 
 /**
  * @since 2.4.0
@@ -273,11 +270,10 @@ export function fromReaderTaskEitherK<R, E, A extends ReadonlyArray<unknown>, B>
 /**
  * @since 2.4.0
  */
-export function chainReaderTaskEitherK<R, E, A, B>(
+export const chainReaderTaskEitherK: <R, E, A, B>(
   f: (a: A) => ReaderTaskEither<R, E, B>
-): <S>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> {
-  return chain<any, any, E, A, B>(fromReaderTaskEitherK(f))
-}
+) => <S>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> = (f) =>
+  chain((a) => fromReaderTaskEither(f(a)))
 
 // -------------------------------------------------------------------------------------
 // pipeables
@@ -501,13 +497,29 @@ export const applyStateReaderTaskEither: Apply4<URI> = {
 const of = right
 
 /**
+ * @category instances
  * @since 3.0.0
  */
-export const applicativeStateReaderTaskEither: Applicative4<URI> = {
+export const applicativeStateReaderTaskEitherPar: Applicative4<URI> = {
   URI,
   map,
   ap,
   of
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const applicativeReaderTaskEitherSeq: Applicative4<URI> = {
+  URI,
+  map,
+  of,
+  ap: (fa) => (fab) =>
+    pipe(
+      fab,
+      chain((f) => pipe(fa, map(f)))
+    )
 }
 
 /**
@@ -516,7 +528,6 @@ export const applicativeStateReaderTaskEither: Applicative4<URI> = {
 export const monadStateReaderTaskEither: Monad4<URI> = {
   URI,
   map,
-  ap,
   of,
   chain
 }
@@ -547,7 +558,6 @@ const fromIO = rightIO
 export const monadIOStateReaderTaskEither: MonadIO4<URI> = {
   URI,
   map,
-  ap,
   of,
   chain,
   fromIO
@@ -561,7 +571,6 @@ const fromTask = rightTask
 export const monadTaskStateReaderTaskEither: MonadTask4<URI> = {
   URI,
   map,
-  ap,
   of,
   chain,
   fromIO,
@@ -576,34 +585,7 @@ const throwError = left
 export const monadThrowStateReaderTaskEither: MonadThrow4<URI> = {
   URI,
   map,
-  ap,
   of,
   chain,
-  throwError
-}
-
-/**
- * TODO
- * @since 3.0.0
- */
-export const monadReaderTaskEitherSeq: Monad4<URI> &
-  Bifunctor4<URI> &
-  Alt4<URI> &
-  MonadTask4<URI> &
-  MonadThrow4<URI> = {
-  URI,
-  map,
-  of,
-  ap: (fa) => (fab) =>
-    pipe(
-      fab,
-      chain((f) => pipe(fa, map(f)))
-    ),
-  chain,
-  bimap,
-  mapLeft,
-  alt,
-  fromIO,
-  fromTask,
   throwError
 }

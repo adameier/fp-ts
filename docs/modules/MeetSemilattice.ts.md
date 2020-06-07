@@ -1,10 +1,10 @@
 ---
 title: MeetSemilattice.ts
-nav_order: 45
+nav_order: 44
 parent: Modules
 ---
 
-# MeetSemilattice overview
+## MeetSemilattice overview
 
 A meet-semilattice (or lower semilattice) is a semilattice whose operation is called `meet`, and which can be thought
 of as a greatest lower bound.
@@ -21,11 +21,14 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [MeetSemilattice (interface)](#meetsemilattice-interface)
+- [utils](#utils)
+  - [MeetSemilattice (interface)](#meetsemilattice-interface)
 
 ---
 
-# MeetSemilattice (interface)
+# utils
+
+## MeetSemilattice (interface)
 
 **Signature**
 

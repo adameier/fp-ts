@@ -1,6 +1,4 @@
 /**
- * The `State` monad is a synonym for the `StateT` monad transformer, applied to the `Identity` monad.
- *
  * @since 2.0.0
  */
 import { Applicative2 } from './Applicative'
@@ -181,7 +179,6 @@ export const applicativeState: Applicative2<URI> = {
 export const monadState: Monad2<URI> = {
   URI,
   map,
-  ap,
   of,
   chain
 }

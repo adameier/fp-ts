@@ -101,9 +101,8 @@ export function fromIOK<A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<
 /**
  * @since 2.4.0
  */
-export function chainIOK<A, B>(f: (a: A) => IO<B>): <R>(ma: ReaderTask<R, A>) => ReaderTask<R, B> {
-  return chain<A, any, B>(fromIOK(f))
-}
+export const chainIOK: <A, B>(f: (a: A) => IO<B>) => <R>(ma: ReaderTask<R, A>) => ReaderTask<R, B> = (f) =>
+  chain((a) => fromIO(f(a)))
 
 /**
  * @since 2.4.0
@@ -117,9 +116,8 @@ export function fromTaskK<A extends ReadonlyArray<unknown>, B>(
 /**
  * @since 2.4.0
  */
-export function chainTaskK<A, B>(f: (a: A) => Task<B>): <R>(ma: ReaderTask<R, A>) => ReaderTask<R, B> {
-  return chain<A, any, B>(fromTaskK(f))
-}
+export const chainTaskK: <A, B>(f: (a: A) => Task<B>) => <R>(ma: ReaderTask<R, A>) => ReaderTask<R, B> = (f) =>
+  chain((a) => fromTask(f(a)))
 
 // -------------------------------------------------------------------------------------
 // pipeables
@@ -207,13 +205,29 @@ export const applyReaderTask: Apply2<URI> = {
 }
 
 /**
+ * @category instances
  * @since 3.0.0
  */
-export const applicativeReaderTask: Applicative2<URI> = {
+export const applicativeReaderTaskPar: Applicative2<URI> = {
   URI,
   map,
   ap,
   of
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const applicativeReaderTaskSeq: Applicative2<URI> = {
+  URI,
+  map,
+  of,
+  ap: (fa) => (fab) =>
+    pipe(
+      fab,
+      chain((f) => pipe(fa, map(f)))
+    )
 }
 
 /**
@@ -223,7 +237,6 @@ export const monadReaderTask: Monad2<URI> = {
   URI,
   map,
   of,
-  ap,
   chain
 }
 
@@ -234,7 +247,6 @@ export const monadIOReaderTask: MonadIO2<URI> = {
   URI,
   map,
   of,
-  ap,
   chain,
   fromIO
 }
@@ -246,25 +258,6 @@ export const monadTaskReaderTask: MonadTask2<URI> = {
   URI,
   map,
   of,
-  ap,
-  chain,
-  fromIO,
-  fromTask
-}
-
-/**
- * TODO
- * @since 2.3.0
- */
-export const readerTaskSeq: Monad2<URI> & MonadTask2<URI> = {
-  URI,
-  map,
-  of,
-  ap: (fa) => (fab) =>
-    pipe(
-      fab,
-      chain((f) => pipe(fa, map(f)))
-    ),
   chain,
   fromIO,
   fromTask

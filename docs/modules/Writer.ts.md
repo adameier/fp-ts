@@ -1,10 +1,10 @@
 ---
 title: Writer.ts
-nav_order: 87
+nav_order: 85
 parent: Modules
 ---
 
-# Writer overview
+## Writer overview
 
 Added in v2.0.0
 
@@ -12,23 +12,93 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Writer (interface)](#writer-interface)
-- [URI (type alias)](#uri-type-alias)
-- [URI](#uri)
-- [censor](#censor)
-- [evaluate](#evaluate)
-- [execute](#execute)
-- [functorWriter](#functorwriter)
-- [getMonad](#getmonad)
-- [listen](#listen)
-- [listens](#listens)
-- [map](#map)
-- [pass](#pass)
-- [tell](#tell)
+- [Functor](#functor)
+  - [map](#map)
+- [instances](#instances)
+  - [functorWriter](#functorwriter)
+  - [getApplicative](#getapplicative)
+  - [getMonad](#getmonad)
+- [utils](#utils)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
+  - [Writer (interface)](#writer-interface)
+  - [censor](#censor)
+  - [evaluate](#evaluate)
+  - [execute](#execute)
+  - [listen](#listen)
+  - [listens](#listens)
+  - [pass](#pass)
+  - [tell](#tell)
 
 ---
 
-# Writer (interface)
+# Functor
+
+## map
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Writer<E, A>) => Writer<E, B>
+```
+
+Added in v2.0.0
+
+# instances
+
+## functorWriter
+
+**Signature**
+
+```ts
+export declare const functorWriter: Functor2<'Writer'>
+```
+
+Added in v3.0.0
+
+## getApplicative
+
+**Signature**
+
+```ts
+export declare function getApplicative<W>(M: Monoid<W>): Applicative2C<URI, W>
+```
+
+Added in v2.0.0
+
+## getMonad
+
+**Signature**
+
+```ts
+export declare function getMonad<W>(M: Monoid<W>): Monad2C<URI, W>
+```
+
+Added in v2.0.0
+
+# utils
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'Writer'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v2.0.0
+
+## Writer (interface)
 
 **Signature**
 
@@ -40,27 +110,7 @@ export interface Writer<W, A> {
 
 Added in v2.0.0
 
-# URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
-```
-
-Added in v2.0.0
-
-# URI
-
-**Signature**
-
-```ts
-export declare const URI: 'Writer'
-```
-
-Added in v2.0.0
-
-# censor
+## censor
 
 Modify the final accumulator value by applying a function
 
@@ -72,7 +122,7 @@ export declare const censor: <W>(f: (w: W) => W) => <A>(fa: Writer<W, A>) => Wri
 
 Added in v2.0.0
 
-# evaluate
+## evaluate
 
 **Signature**
 
@@ -82,7 +132,7 @@ export declare const evaluate: <W, A>(fa: Writer<W, A>) => A
 
 Added in v2.0.0
 
-# execute
+## execute
 
 **Signature**
 
@@ -92,27 +142,7 @@ export declare const execute: <W, A>(fa: Writer<W, A>) => W
 
 Added in v2.0.0
 
-# functorWriter
-
-**Signature**
-
-```ts
-export declare const functorWriter: Functor2<'Writer'>
-```
-
-Added in v3.0.0
-
-# getMonad
-
-**Signature**
-
-```ts
-export declare function getMonad<W>(M: Monoid<W>): Monad2C<URI, W>
-```
-
-Added in v2.0.0
-
-# listen
+## listen
 
 Modifies the result to include the changes to the accumulator
 
@@ -124,7 +154,7 @@ export declare const listen: <W, A>(fa: Writer<W, A>) => Writer<W, readonly [A, 
 
 Added in v2.0.0
 
-# listens
+## listens
 
 Projects a value from modifications made to the accumulator during an action
 
@@ -136,17 +166,7 @@ export declare const listens: <W, B>(f: (w: W) => B) => <A>(fa: Writer<W, A>) =>
 
 Added in v2.0.0
 
-# map
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Writer<E, A>) => Writer<E, B>
-```
-
-Added in v2.0.0
-
-# pass
+## pass
 
 Applies the returned function to the accumulator
 
@@ -158,7 +178,7 @@ export declare const pass: <W, A>(fa: Writer<W, readonly [A, (w: W) => W]>) => W
 
 Added in v2.0.0
 
-# tell
+## tell
 
 Appends a value to the accumulator
 

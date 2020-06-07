@@ -255,7 +255,7 @@ describe('ReaderTaskEither', () => {
     assert.deepStrictEqual(e2, E.right(5))
   })
 
-  it('sequence parallel', async () => {
+  it('applicativeReaderTaskEitherPar', async () => {
     // tslint:disable-next-line: readonly-array
     const log: Array<string> = []
     const append = (message: string): _.ReaderTaskEither<{}, void, number> =>
@@ -268,13 +268,13 @@ describe('ReaderTaskEither', () => {
       append('start 2'),
       _.chain(() => append('end 2'))
     )
-    const sequenceParallel = RA.sequence(_.applicativeReaderTaskEither)
+    const sequenceParallel = RA.sequence(_.applicativeReaderTaskEitherPar)
     const ns = await sequenceParallel([t1, t2])({})()
     assert.deepStrictEqual(ns, E.right([3, 4]))
     assert.deepStrictEqual(log, ['start 1', 'start 2', 'end 1', 'end 2'])
   })
 
-  it('sequence series', async () => {
+  it('applicativeReaderTaskEitherSeq', async () => {
     // tslint:disable-next-line: readonly-array
     const log: Array<string> = []
     const append = (message: string): _.ReaderTaskEither<{}, void, number> =>
@@ -287,7 +287,7 @@ describe('ReaderTaskEither', () => {
       append('start 2'),
       _.chain(() => append('end 2'))
     )
-    const sequenceSeries = RA.sequence(_.monadReaderTaskEitherSeq)
+    const sequenceSeries = RA.sequence(_.applicativeReaderTaskEitherSeq)
     const ns = await sequenceSeries([t1, t2])({})()
     assert.deepStrictEqual(ns, E.right([2, 4]))
     assert.deepStrictEqual(log, ['start 1', 'end 1', 'start 2', 'end 2'])
@@ -415,15 +415,33 @@ describe('ReaderTaskEither', () => {
     assert.deepStrictEqual(x, E.right(1))
   })
 
+  it('fromEitherK', async () => {
+    const f = _.fromEitherK((s: string) => E.right(s.length))
+    const x = await pipe(_.right('a'), _.chain(f))({})()
+    assert.deepStrictEqual(x, E.right(1))
+  })
+
   it('chainIOEitherK', async () => {
     const f = (s: string) => IE.right(s.length)
     const x = await pipe(_.right('a'), _.chainIOEitherK(f))({})()
     assert.deepStrictEqual(x, E.right(1))
   })
 
+  it('fromIOEitherK', async () => {
+    const f = _.fromIOEitherK((s: string) => IE.right(s.length))
+    const x = await pipe(_.right('a'), _.chain(f))({})()
+    assert.deepStrictEqual(x, E.right(1))
+  })
+
   it('chainTaskEitherK', async () => {
     const f = (s: string) => TE.right(s.length)
     const x = await pipe(_.right('a'), _.chainTaskEitherK(f))({})()
+    assert.deepStrictEqual(x, E.right(1))
+  })
+
+  it('fromTaskEitherK', async () => {
+    const f = _.fromTaskEitherK((s: string) => TE.right(s.length))
+    const x = await pipe(_.right('a'), _.chain(f))({})()
     assert.deepStrictEqual(x, E.right(1))
   })
 })

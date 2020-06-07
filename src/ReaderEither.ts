@@ -181,11 +181,9 @@ export function fromEitherK<A extends ReadonlyArray<unknown>, E, B>(
 /**
  * @since 2.4.0
  */
-export function chainEitherK<A, E, B>(
+export const chainEitherK: <A, E, B>(
   f: (a: A) => Either<E, B>
-): <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B> {
-  return chain<A, any, E, B>(fromEitherK(f))
-}
+) => <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B> = (f) => chain((a) => fromEither(f(a)))
 
 // -------------------------------------------------------------------------------------
 // pipeables
@@ -363,7 +361,6 @@ export const applicativeReaderTask: Applicative3<URI> = {
 export const monadReaderTask: Monad3<URI> = {
   URI,
   map,
-  ap,
   of,
   chain
 }
@@ -392,7 +389,6 @@ export const altReaderTask: Alt3<URI> = {
 export const monadThrowReaderTask: MonadThrow3<URI> = {
   URI,
   map,
-  ap,
   of,
   chain,
   throwError: left

@@ -288,11 +288,9 @@ export function fromEitherK<E, A extends ReadonlyArray<unknown>, B>(
 /**
  * @since 2.4.0
  */
-export function chainEitherK<E, A, B>(
+export const chainEitherK: <E, A, B>(
   f: (a: A) => Either<E, B>
-): <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> {
-  return chain<any, E, A, B>(fromEitherK(f))
-}
+) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = (f) => chain((a) => fromEither(f(a)))
 
 /**
  * @since 2.4.0
@@ -306,11 +304,9 @@ export function fromIOEitherK<E, A extends ReadonlyArray<unknown>, B>(
 /**
  * @since 2.4.0
  */
-export function chainIOEitherK<E, A, B>(
+export const chainIOEitherK: <E, A, B>(
   f: (a: A) => IOEither<E, B>
-): <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> {
-  return chain<any, E, A, B>(fromIOEitherK(f))
-}
+) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = (f) => chain((a) => fromIOEither(f(a)))
 
 /**
  * @since 2.4.0
@@ -324,11 +320,9 @@ export function fromTaskEitherK<E, A extends ReadonlyArray<unknown>, B>(
 /**
  * @since 2.4.0
  */
-export function chainTaskEitherK<E, A, B>(
+export const chainTaskEitherK: <E, A, B>(
   f: (a: A) => TaskEither<E, B>
-): <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> {
-  return chain<any, E, A, B>(fromTaskEitherK(f))
-}
+) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = (f) => chain((a) => fromTaskEither(f(a)))
 
 // -------------------------------------------------------------------------------------
 // pipeables
@@ -519,13 +513,29 @@ export const applyReaderTaskEither: Apply3<URI> = {
 const of = right
 
 /**
+ * @category instances
  * @since 3.0.0
  */
-export const applicativeReaderTaskEither: Applicative3<URI> = {
+export const applicativeReaderTaskEitherPar: Applicative3<URI> = {
   URI,
   map,
   ap,
   of
+}
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export const applicativeReaderTaskEitherSeq: Applicative3<URI> = {
+  URI,
+  map,
+  of: right,
+  ap: (fa) => (fab) =>
+    pipe(
+      fab,
+      chain((f) => pipe(fa, map(f)))
+    )
 }
 
 /**
@@ -534,7 +544,6 @@ export const applicativeReaderTaskEither: Applicative3<URI> = {
 export const monadReaderTaskEither: Monad3<URI> = {
   URI,
   map,
-  ap,
   of,
   chain
 }
@@ -563,7 +572,6 @@ export const altReaderTaskEither: Alt3<URI> = {
 export const monadIOReaderTaskEither: MonadIO3<URI> = {
   URI,
   map,
-  ap,
   of,
   chain,
   fromIO: rightIO
@@ -575,7 +583,6 @@ export const monadIOReaderTaskEither: MonadIO3<URI> = {
 export const monadTaskReaderTaskEither: MonadTask3<URI> = {
   URI,
   map,
-  ap,
   of,
   chain,
   fromIO: rightIO,
@@ -588,34 +595,7 @@ export const monadTaskReaderTaskEither: MonadTask3<URI> = {
 export const monadThrowReaderTaskEither: MonadThrow3<URI> = {
   URI,
   map,
-  ap,
   of,
   chain,
-  throwError: left
-}
-
-/**
- * TODO
- * @since 2.0.0
- */
-export const monadReaderTaskEitherSeq: Monad3<URI> &
-  Bifunctor3<URI> &
-  Alt3<URI> &
-  MonadTask3<URI> &
-  MonadThrow3<URI> = {
-  URI,
-  map,
-  of: right,
-  ap: (fa) => (fab) =>
-    pipe(
-      fab,
-      chain((f) => pipe(fa, map(f)))
-    ),
-  chain,
-  alt,
-  bimap,
-  mapLeft,
-  fromIO: rightIO,
-  fromTask: rightTask,
   throwError: left
 }

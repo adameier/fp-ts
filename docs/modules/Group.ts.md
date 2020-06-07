@@ -1,10 +1,10 @@
 ---
 title: Group.ts
-nav_order: 33
+nav_order: 32
 parent: Modules
 ---
 
-# Group overview
+## Group overview
 
 A `Group` is a `Monoid` with inverses. Instances must satisfy the following law in addition to the monoid laws:
 
@@ -16,11 +16,14 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Group (interface)](#group-interface)
+- [utils](#utils)
+  - [Group (interface)](#group-interface)
 
 ---
 
-# Group (interface)
+# utils
+
+## Group (interface)
 
 **Signature**
 

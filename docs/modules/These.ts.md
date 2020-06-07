@@ -1,10 +1,10 @@
 ---
 title: These.ts
-nav_order: 78
+nav_order: 77
 parent: Modules
 ---
 
-# These overview
+## These overview
 
 A data structure providing "inclusive-or" as opposed to `Either`'s "exclusive-or".
 
@@ -30,46 +30,50 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Both (interface)](#both-interface)
-- [These (type alias)](#these-type-alias)
-- [URI (type alias)](#uri-type-alias)
-- [URI](#uri)
-- [bifunctorThese](#bifunctorthese)
-- [bimap](#bimap)
-- [both](#both)
-- [fold](#fold)
-- [foldMap](#foldmap)
-- [foldableThese](#foldablethese)
-- [fromOptions](#fromoptions)
-- [functorThese](#functorthese)
-- [getEq](#geteq)
-- [getLeft](#getleft)
-- [getLeftOnly](#getleftonly)
-- [getMonad](#getmonad)
-- [getRight](#getright)
-- [getRightOnly](#getrightonly)
-- [getSemigroup](#getsemigroup)
-- [getShow](#getshow)
-- [isBoth](#isboth)
-- [isLeft](#isleft)
-- [isRight](#isright)
-- [left](#left)
-- [leftOrBoth](#leftorboth)
-- [map](#map)
-- [mapLeft](#mapleft)
-- [reduce](#reduce)
-- [reduceRight](#reduceright)
-- [right](#right)
-- [rightOrBoth](#rightorboth)
-- [sequence](#sequence)
-- [swap](#swap)
-- [toTuple](#totuple)
-- [traversableThese](#traversablethese)
-- [traverse](#traverse)
+- [utils](#utils)
+  - [Both (interface)](#both-interface)
+  - [These (type alias)](#these-type-alias)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
+  - [bifunctorThese](#bifunctorthese)
+  - [bimap](#bimap)
+  - [both](#both)
+  - [fold](#fold)
+  - [foldMap](#foldmap)
+  - [foldableThese](#foldablethese)
+  - [fromOptions](#fromoptions)
+  - [functorThese](#functorthese)
+  - [getApplicative](#getapplicative)
+  - [getEq](#geteq)
+  - [getLeft](#getleft)
+  - [getLeftOnly](#getleftonly)
+  - [getMonadThrow](#getmonadthrow)
+  - [getRight](#getright)
+  - [getRightOnly](#getrightonly)
+  - [getSemigroup](#getsemigroup)
+  - [getShow](#getshow)
+  - [isBoth](#isboth)
+  - [isLeft](#isleft)
+  - [isRight](#isright)
+  - [left](#left)
+  - [leftOrBoth](#leftorboth)
+  - [map](#map)
+  - [mapLeft](#mapleft)
+  - [reduce](#reduce)
+  - [reduceRight](#reduceright)
+  - [right](#right)
+  - [rightOrBoth](#rightorboth)
+  - [sequence](#sequence)
+  - [swap](#swap)
+  - [toTuple](#totuple)
+  - [traversableThese](#traversablethese)
+  - [traverse](#traverse)
 
 ---
 
-# Both (interface)
+# utils
+
+## Both (interface)
 
 **Signature**
 
@@ -83,7 +87,7 @@ export interface Both<E, A> {
 
 Added in v2.0.0
 
-# These (type alias)
+## These (type alias)
 
 **Signature**
 
@@ -93,17 +97,7 @@ export type These<E, A> = Either<E, A> | Both<E, A>
 
 Added in v2.0.0
 
-# URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
-```
-
-Added in v2.0.0
-
-# URI
+## URI
 
 **Signature**
 
@@ -113,7 +107,17 @@ export declare const URI: 'These'
 
 Added in v2.0.0
 
-# bifunctorThese
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v2.0.0
+
+## bifunctorThese
 
 **Signature**
 
@@ -123,7 +127,7 @@ export declare const bifunctorThese: Bifunctor2<'These'>
 
 Added in v3.0.0
 
-# bimap
+## bimap
 
 **Signature**
 
@@ -133,7 +137,7 @@ export declare const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa:
 
 Added in v2.0.0
 
-# both
+## both
 
 **Signature**
 
@@ -143,7 +147,7 @@ export declare function both<E, A>(left: E, right: A): These<E, A>
 
 Added in v2.0.0
 
-# fold
+## fold
 
 **Signature**
 
@@ -157,7 +161,7 @@ export declare function fold<E, A, B>(
 
 Added in v2.0.0
 
-# foldMap
+## foldMap
 
 **Signature**
 
@@ -167,7 +171,7 @@ export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa
 
 Added in v2.0.0
 
-# foldableThese
+## foldableThese
 
 **Signature**
 
@@ -177,7 +181,7 @@ export declare const foldableThese: Foldable2<'These'>
 
 Added in v3.0.0
 
-# fromOptions
+## fromOptions
 
 Takes a pair of `Option`s and attempts to create a `These` from them
 
@@ -201,7 +205,7 @@ assert.deepStrictEqual(fromOptions(some('a'), some(1)), some(both('a', 1)))
 
 Added in v2.0.0
 
-# functorThese
+## functorThese
 
 **Signature**
 
@@ -211,7 +215,17 @@ export declare const functorThese: Functor2<'These'>
 
 Added in v3.0.0
 
-# getEq
+## getApplicative
+
+**Signature**
+
+```ts
+export declare function getApplicative<E>(S: Semigroup<E>): Applicative2C<URI, E>
+```
+
+Added in v2.0.0
+
+## getEq
 
 **Signature**
 
@@ -221,7 +235,7 @@ export declare function getEq<E, A>(EE: Eq<E>, EA: Eq<A>): Eq<These<E, A>>
 
 Added in v2.0.0
 
-# getLeft
+## getLeft
 
 Returns an `E` value if possible
 
@@ -244,7 +258,7 @@ assert.deepStrictEqual(getLeft(both('a', 1)), some('a'))
 
 Added in v2.0.0
 
-# getLeftOnly
+## getLeftOnly
 
 Returns the `E` value if and only if the value is constructed with `Left`
 
@@ -267,17 +281,17 @@ assert.deepStrictEqual(getLeftOnly(both('a', 1)), none)
 
 Added in v2.0.0
 
-# getMonad
+## getMonadThrow
 
 **Signature**
 
 ```ts
-export declare function getMonad<E>(S: Semigroup<E>): Monad2C<URI, E> & MonadThrow2C<URI, E>
+export declare function getMonadThrow<E>(S: Semigroup<E>): Monad2C<URI, E> & MonadThrow2C<URI, E>
 ```
 
 Added in v2.0.0
 
-# getRight
+## getRight
 
 Returns an `A` value if possible
 
@@ -300,7 +314,7 @@ assert.deepStrictEqual(getRight(both('a', 1)), some(1))
 
 Added in v2.0.0
 
-# getRightOnly
+## getRightOnly
 
 Returns the `A` value if and only if the value is constructed with `Right`
 
@@ -323,7 +337,7 @@ assert.deepStrictEqual(getRightOnly(both('a', 1)), none)
 
 Added in v2.0.0
 
-# getSemigroup
+## getSemigroup
 
 **Signature**
 
@@ -333,7 +347,7 @@ export declare function getSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>): 
 
 Added in v2.0.0
 
-# getShow
+## getShow
 
 **Signature**
 
@@ -343,7 +357,7 @@ export declare function getShow<E, A>(SE: Show<E>, SA: Show<A>): Show<These<E, A
 
 Added in v2.0.0
 
-# isBoth
+## isBoth
 
 Returns `true` if the these is an instance of `Both`, `false` otherwise
 
@@ -355,7 +369,7 @@ export declare function isBoth<E, A>(fa: These<E, A>): fa is Both<E, A>
 
 Added in v2.0.0
 
-# isLeft
+## isLeft
 
 Returns `true` if the these is an instance of `Left`, `false` otherwise
 
@@ -367,7 +381,7 @@ export declare function isLeft<E, A>(fa: These<E, A>): fa is Left<E>
 
 Added in v2.0.0
 
-# isRight
+## isRight
 
 Returns `true` if the these is an instance of `Right`, `false` otherwise
 
@@ -379,7 +393,7 @@ export declare function isRight<E, A>(fa: These<E, A>): fa is Right<A>
 
 Added in v2.0.0
 
-# left
+## left
 
 **Signature**
 
@@ -389,7 +403,7 @@ export declare function left<E = never, A = never>(left: E): These<E, A>
 
 Added in v2.0.0
 
-# leftOrBoth
+## leftOrBoth
 
 **Signature**
 
@@ -410,7 +424,7 @@ assert.deepStrictEqual(f(some(1)), both('a', 1))
 
 Added in v3.0.0
 
-# map
+## map
 
 **Signature**
 
@@ -420,7 +434,7 @@ export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: These<E, A>) => Thes
 
 Added in v2.0.0
 
-# mapLeft
+## mapLeft
 
 **Signature**
 
@@ -430,7 +444,7 @@ export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: These<E, A>) => 
 
 Added in v2.0.0
 
-# reduce
+## reduce
 
 **Signature**
 
@@ -440,7 +454,7 @@ export declare const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => <E>(fa: These
 
 Added in v2.0.0
 
-# reduceRight
+## reduceRight
 
 **Signature**
 
@@ -450,7 +464,7 @@ export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: 
 
 Added in v2.0.0
 
-# right
+## right
 
 **Signature**
 
@@ -460,7 +474,7 @@ export declare function right<E = never, A = never>(right: A): These<E, A>
 
 Added in v2.0.0
 
-# rightOrBoth
+## rightOrBoth
 
 **Signature**
 
@@ -481,7 +495,7 @@ assert.deepStrictEqual(f(some('a')), both('a', 1))
 
 Added in v3.0.0
 
-# sequence
+## sequence
 
 **Signature**
 
@@ -491,7 +505,7 @@ export declare const sequence: Sequence2<'These'>
 
 Added in v3.0.0
 
-# swap
+## swap
 
 **Signature**
 
@@ -501,7 +515,7 @@ export declare const swap: <E, A>(fa: These<E, A>) => These<A, E>
 
 Added in v2.4.0
 
-# toTuple
+## toTuple
 
 **Signature**
 
@@ -525,7 +539,7 @@ assert.deepStrictEqual(f(both('b', 2)), ['b', 2])
 
 Added in v3.0.0
 
-# traversableThese
+## traversableThese
 
 **Signature**
 
@@ -535,7 +549,7 @@ export declare const traversableThese: Traversable2<'These'>
 
 Added in v3.0.0
 
-# traverse
+## traverse
 
 **Signature**
 

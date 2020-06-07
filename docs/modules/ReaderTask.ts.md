@@ -1,10 +1,10 @@
 ---
 title: ReaderTask.ts
-nav_order: 58
+nav_order: 57
 parent: Modules
 ---
 
-# ReaderTask overview
+## ReaderTask overview
 
 Added in v2.3.0
 
@@ -12,39 +12,65 @@ Added in v2.3.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [ReaderTask (interface)](#readertask-interface)
-- [URI (type alias)](#uri-type-alias)
-- [URI](#uri)
-- [ap](#ap)
-- [apFirst](#apfirst)
-- [apSecond](#apsecond)
-- [applicativeReaderTask](#applicativereadertask)
-- [applyReaderTask](#applyreadertask)
-- [ask](#ask)
-- [asks](#asks)
-- [chain](#chain)
-- [chainFirst](#chainfirst)
-- [chainIOK](#chainiok)
-- [chainTaskK](#chaintaskk)
-- [flatten](#flatten)
-- [fromIO](#fromio)
-- [fromIOK](#fromiok)
-- [fromReader](#fromreader)
-- [fromTask](#fromtask)
-- [fromTaskK](#fromtaskk)
-- [functorReaderTask](#functorreadertask)
-- [getMonoid](#getmonoid)
-- [getSemigroup](#getsemigroup)
-- [map](#map)
-- [monadIOReaderTask](#monadioreadertask)
-- [monadReaderTask](#monadreadertask)
-- [monadTaskReaderTask](#monadtaskreadertask)
-- [of](#of)
-- [readerTaskSeq](#readertaskseq)
+- [instances](#instances)
+  - [applicativeReaderTaskPar](#applicativereadertaskpar)
+  - [applicativeReaderTaskSeq](#applicativereadertaskseq)
+- [utils](#utils)
+  - [ReaderTask (interface)](#readertask-interface)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
+  - [ap](#ap)
+  - [apFirst](#apfirst)
+  - [apSecond](#apsecond)
+  - [applyReaderTask](#applyreadertask)
+  - [ask](#ask)
+  - [asks](#asks)
+  - [chain](#chain)
+  - [chainFirst](#chainfirst)
+  - [chainIOK](#chainiok)
+  - [chainTaskK](#chaintaskk)
+  - [flatten](#flatten)
+  - [fromIO](#fromio)
+  - [fromIOK](#fromiok)
+  - [fromReader](#fromreader)
+  - [fromTask](#fromtask)
+  - [fromTaskK](#fromtaskk)
+  - [functorReaderTask](#functorreadertask)
+  - [getMonoid](#getmonoid)
+  - [getSemigroup](#getsemigroup)
+  - [map](#map)
+  - [monadIOReaderTask](#monadioreadertask)
+  - [monadReaderTask](#monadreadertask)
+  - [monadTaskReaderTask](#monadtaskreadertask)
+  - [of](#of)
 
 ---
 
-# ReaderTask (interface)
+# instances
+
+## applicativeReaderTaskPar
+
+**Signature**
+
+```ts
+export declare const applicativeReaderTaskPar: Applicative2<'ReaderTask'>
+```
+
+Added in v3.0.0
+
+## applicativeReaderTaskSeq
+
+**Signature**
+
+```ts
+export declare const applicativeReaderTaskSeq: Applicative2<'ReaderTask'>
+```
+
+Added in v3.0.0
+
+# utils
+
+## ReaderTask (interface)
 
 **Signature**
 
@@ -56,17 +82,7 @@ export interface ReaderTask<R, A> {
 
 Added in v2.3.0
 
-# URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
-```
-
-Added in v2.3.0
-
-# URI
+## URI
 
 **Signature**
 
@@ -76,7 +92,17 @@ export declare const URI: 'ReaderTask'
 
 Added in v2.3.0
 
-# ap
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v2.3.0
+
+## ap
 
 **Signature**
 
@@ -86,7 +112,7 @@ export declare const ap: <R, A>(fa: ReaderTask<R, A>) => <B>(fab: ReaderTask<R, 
 
 Added in v2.3.0
 
-# apFirst
+## apFirst
 
 **Signature**
 
@@ -96,7 +122,7 @@ export declare const apFirst: <R, B>(fb: ReaderTask<R, B>) => <A>(fa: ReaderTask
 
 Added in v2.3.0
 
-# apSecond
+## apSecond
 
 **Signature**
 
@@ -106,17 +132,7 @@ export declare const apSecond: <R, B>(fb: ReaderTask<R, B>) => <A>(fa: ReaderTas
 
 Added in v2.3.0
 
-# applicativeReaderTask
-
-**Signature**
-
-```ts
-export declare const applicativeReaderTask: Applicative2<'ReaderTask'>
-```
-
-Added in v3.0.0
-
-# applyReaderTask
+## applyReaderTask
 
 **Signature**
 
@@ -126,7 +142,7 @@ export declare const applyReaderTask: Apply2<'ReaderTask'>
 
 Added in v3.0.0
 
-# ask
+## ask
 
 **Signature**
 
@@ -136,7 +152,7 @@ export declare const ask: <R>() => ReaderTask<R, R>
 
 Added in v2.3.0
 
-# asks
+## asks
 
 **Signature**
 
@@ -146,7 +162,7 @@ export declare const asks: <R, A = never>(f: (r: R) => A) => ReaderTask<R, A>
 
 Added in v2.3.0
 
-# chain
+## chain
 
 **Signature**
 
@@ -156,7 +172,7 @@ export declare const chain: <A, R, B>(f: (a: A) => ReaderTask<R, B>) => (ma: Rea
 
 Added in v2.3.0
 
-# chainFirst
+## chainFirst
 
 **Signature**
 
@@ -166,27 +182,27 @@ export declare const chainFirst: <A, R, B>(f: (a: A) => ReaderTask<R, B>) => (ma
 
 Added in v2.3.0
 
-# chainIOK
+## chainIOK
 
 **Signature**
 
 ```ts
-export declare function chainIOK<A, B>(f: (a: A) => IO<B>): <R>(ma: ReaderTask<R, A>) => ReaderTask<R, B>
+export declare const chainIOK: <A, B>(f: (a: A) => IO<B>) => <R>(ma: ReaderTask<R, A>) => ReaderTask<R, B>
 ```
 
 Added in v2.4.0
 
-# chainTaskK
+## chainTaskK
 
 **Signature**
 
 ```ts
-export declare function chainTaskK<A, B>(f: (a: A) => Task<B>): <R>(ma: ReaderTask<R, A>) => ReaderTask<R, B>
+export declare const chainTaskK: <A, B>(f: (a: A) => T.Task<B>) => <R>(ma: ReaderTask<R, A>) => ReaderTask<R, B>
 ```
 
 Added in v2.4.0
 
-# flatten
+## flatten
 
 **Signature**
 
@@ -196,7 +212,7 @@ export declare const flatten: <R, A>(mma: ReaderTask<R, ReaderTask<R, A>>) => Re
 
 Added in v2.3.0
 
-# fromIO
+## fromIO
 
 **Signature**
 
@@ -206,7 +222,7 @@ export declare function fromIO<R, A>(ma: IO<A>): ReaderTask<R, A>
 
 Added in v2.3.0
 
-# fromIOK
+## fromIOK
 
 **Signature**
 
@@ -218,7 +234,7 @@ export declare function fromIOK<A extends ReadonlyArray<unknown>, B>(
 
 Added in v2.4.0
 
-# fromReader
+## fromReader
 
 **Signature**
 
@@ -228,7 +244,7 @@ export declare const fromReader: <R, A = never>(ma: R.Reader<R, A>) => ReaderTas
 
 Added in v2.3.0
 
-# fromTask
+## fromTask
 
 **Signature**
 
@@ -238,7 +254,7 @@ export declare const fromTask: <R, A>(ma: T.Task<A>) => ReaderTask<R, A>
 
 Added in v2.3.0
 
-# fromTaskK
+## fromTaskK
 
 **Signature**
 
@@ -250,7 +266,7 @@ export declare function fromTaskK<A extends ReadonlyArray<unknown>, B>(
 
 Added in v2.4.0
 
-# functorReaderTask
+## functorReaderTask
 
 **Signature**
 
@@ -260,7 +276,7 @@ export declare const functorReaderTask: Functor2<'ReaderTask'>
 
 Added in v3.0.0
 
-# getMonoid
+## getMonoid
 
 **Signature**
 
@@ -270,7 +286,7 @@ export declare function getMonoid<R, A>(M: Monoid<A>): Monoid<ReaderTask<R, A>>
 
 Added in v2.3.0
 
-# getSemigroup
+## getSemigroup
 
 **Signature**
 
@@ -280,7 +296,7 @@ export declare function getSemigroup<R, A>(S: Semigroup<A>): Semigroup<ReaderTas
 
 Added in v2.3.0
 
-# map
+## map
 
 **Signature**
 
@@ -290,7 +306,7 @@ export declare const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderTask<R, A>) =>
 
 Added in v2.3.0
 
-# monadIOReaderTask
+## monadIOReaderTask
 
 **Signature**
 
@@ -300,7 +316,7 @@ export declare const monadIOReaderTask: MonadIO2<'ReaderTask'>
 
 Added in v3.0.0
 
-# monadReaderTask
+## monadReaderTask
 
 **Signature**
 
@@ -310,7 +326,7 @@ export declare const monadReaderTask: Monad2<'ReaderTask'>
 
 Added in v3.0.0
 
-# monadTaskReaderTask
+## monadTaskReaderTask
 
 **Signature**
 
@@ -320,24 +336,12 @@ export declare const monadTaskReaderTask: MonadTask2<'ReaderTask'>
 
 Added in v3.0.0
 
-# of
+## of
 
 **Signature**
 
 ```ts
 export declare const of: <R, A>(a: A) => ReaderTask<R, A>
-```
-
-Added in v2.3.0
-
-# readerTaskSeq
-
-TODO
-
-**Signature**
-
-```ts
-export declare const readerTaskSeq: Monad2<'ReaderTask'> & MonadTask2<'ReaderTask'>
 ```
 
 Added in v2.3.0

@@ -1,10 +1,10 @@
 ---
 title: index.ts
-nav_order: 37
+nav_order: 36
 parent: Modules
 ---
 
-# index overview
+## index overview
 
 Added in v2.0.0
 
@@ -12,96 +12,97 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [alt](#alt)
-- [alternative](#alternative)
-- [applicative](#applicative)
-- [apply](#apply)
-- [bifunctor](#bifunctor)
-- [boolean](#boolean)
-- [booleanAlgebra](#booleanalgebra)
-- [bounded](#bounded)
-- [boundedDistributiveLattice](#boundeddistributivelattice)
-- [boundedJoinSemilattice](#boundedjoinsemilattice)
-- [boundedLattice](#boundedlattice)
-- [boundedMeetSemilattice](#boundedmeetsemilattice)
-- [category](#category)
-- [chain](#chain)
-- [comonad](#comonad)
-- [compactable](#compactable)
-- [console](#console)
-- [const](#const)
-- [contravariant](#contravariant)
-- [date](#date)
-- [distributiveLattice](#distributivelattice)
-- [either](#either)
-- [eq](#eq)
-- [extend](#extend)
-- [field](#field)
-- [filterable](#filterable)
-- [filterableWithIndex](#filterablewithindex)
-- [foldable](#foldable)
-- [foldableWithIndex](#foldablewithindex)
-- [function](#function)
-- [functor](#functor)
-- [functorWithIndex](#functorwithindex)
-- [group](#group)
-- [heytingAlgebra](#heytingalgebra)
-- [hkt](#hkt)
-- [identity](#identity)
-- [invariant](#invariant)
-- [io](#io)
-- [ioEither](#ioeither)
-- [ioRef](#ioref)
-- [joinSemilattice](#joinsemilattice)
-- [lattice](#lattice)
-- [magma](#magma)
-- [meetSemilattice](#meetsemilattice)
-- [monad](#monad)
-- [monadIO](#monadio)
-- [monadTask](#monadtask)
-- [monadThrow](#monadthrow)
-- [monoid](#monoid)
-- [option](#option)
-- [ord](#ord)
-- [ordering](#ordering)
-- [profunctor](#profunctor)
-- [random](#random)
-- [reader](#reader)
-- [readerEither](#readereither)
-- [readerTask](#readertask)
-- [readerTaskEither](#readertaskeither)
-- [readonlyArray](#readonlyarray)
-- [readonlyMap](#readonlymap)
-- [readonlyNonEmptyArray](#readonlynonemptyarray)
-- [readonlyRecord](#readonlyrecord)
-- [readonlySet](#readonlyset)
-- [readonlyTuple](#readonlytuple)
-- [ring](#ring)
-- [semigroup](#semigroup)
-- [semigroupoid](#semigroupoid)
-- [semiring](#semiring)
-- [show](#show)
-- [state](#state)
-- [stateReaderTaskEither](#statereadertaskeither)
-- [store](#store)
-- [task](#task)
-- [taskEither](#taskeither)
-- [taskOption](#taskoption)
-- [taskThese](#taskthese)
-- [these](#these)
-- [theseT](#theset)
-- [traced](#traced)
-- [traversable](#traversable)
-- [traversableWithIndex](#traversablewithindex)
-- [tree](#tree)
-- [unfoldable](#unfoldable)
-- [validationT](#validationt)
-- [witherable](#witherable)
-- [writer](#writer)
+- [utils](#utils)
+  - [alt](#alt)
+  - [alternative](#alternative)
+  - [applicative](#applicative)
+  - [apply](#apply)
+  - [bifunctor](#bifunctor)
+  - [boolean](#boolean)
+  - [booleanAlgebra](#booleanalgebra)
+  - [bounded](#bounded)
+  - [boundedDistributiveLattice](#boundeddistributivelattice)
+  - [boundedJoinSemilattice](#boundedjoinsemilattice)
+  - [boundedLattice](#boundedlattice)
+  - [boundedMeetSemilattice](#boundedmeetsemilattice)
+  - [category](#category)
+  - [comonad](#comonad)
+  - [compactable](#compactable)
+  - [console](#console)
+  - [const](#const)
+  - [contravariant](#contravariant)
+  - [date](#date)
+  - [distributiveLattice](#distributivelattice)
+  - [either](#either)
+  - [eq](#eq)
+  - [extend](#extend)
+  - [field](#field)
+  - [filterable](#filterable)
+  - [filterableWithIndex](#filterablewithindex)
+  - [foldable](#foldable)
+  - [foldableWithIndex](#foldablewithindex)
+  - [function](#function)
+  - [functor](#functor)
+  - [functorWithIndex](#functorwithindex)
+  - [group](#group)
+  - [heytingAlgebra](#heytingalgebra)
+  - [hkt](#hkt)
+  - [identity](#identity)
+  - [invariant](#invariant)
+  - [io](#io)
+  - [ioEither](#ioeither)
+  - [ioRef](#ioref)
+  - [joinSemilattice](#joinsemilattice)
+  - [lattice](#lattice)
+  - [magma](#magma)
+  - [meetSemilattice](#meetsemilattice)
+  - [monad](#monad)
+  - [monadIO](#monadio)
+  - [monadTask](#monadtask)
+  - [monadThrow](#monadthrow)
+  - [monoid](#monoid)
+  - [option](#option)
+  - [ord](#ord)
+  - [ordering](#ordering)
+  - [profunctor](#profunctor)
+  - [random](#random)
+  - [reader](#reader)
+  - [readerEither](#readereither)
+  - [readerTask](#readertask)
+  - [readerTaskEither](#readertaskeither)
+  - [readonlyArray](#readonlyarray)
+  - [readonlyMap](#readonlymap)
+  - [readonlyNonEmptyArray](#readonlynonemptyarray)
+  - [readonlyRecord](#readonlyrecord)
+  - [readonlySet](#readonlyset)
+  - [readonlyTuple](#readonlytuple)
+  - [ring](#ring)
+  - [semigroup](#semigroup)
+  - [semigroupoid](#semigroupoid)
+  - [semiring](#semiring)
+  - [show](#show)
+  - [state](#state)
+  - [stateReaderTaskEither](#statereadertaskeither)
+  - [store](#store)
+  - [task](#task)
+  - [taskEither](#taskeither)
+  - [taskOption](#taskoption)
+  - [taskThese](#taskthese)
+  - [these](#these)
+  - [traced](#traced)
+  - [traversable](#traversable)
+  - [traversableWithIndex](#traversablewithindex)
+  - [tree](#tree)
+  - [unfoldable](#unfoldable)
+  - [validationT](#validationt)
+  - [witherable](#witherable)
+  - [writer](#writer)
 
 ---
 
-# alt
+# utils
+
+## alt
 
 **Signature**
 
@@ -111,7 +112,7 @@ export declare const alt: typeof alt
 
 Added in v2.0.0
 
-# alternative
+## alternative
 
 **Signature**
 
@@ -121,7 +122,7 @@ export declare const alternative: typeof alternative
 
 Added in v2.0.0
 
-# applicative
+## applicative
 
 **Signature**
 
@@ -131,7 +132,7 @@ export declare const applicative: typeof applicative
 
 Added in v2.0.0
 
-# apply
+## apply
 
 **Signature**
 
@@ -141,7 +142,7 @@ export declare const apply: typeof apply
 
 Added in v2.0.0
 
-# bifunctor
+## bifunctor
 
 **Signature**
 
@@ -151,7 +152,7 @@ export declare const bifunctor: typeof bifunctor
 
 Added in v2.0.0
 
-# boolean
+## boolean
 
 **Signature**
 
@@ -161,7 +162,7 @@ export declare const boolean: typeof boolean
 
 Added in v2.2.0
 
-# booleanAlgebra
+## booleanAlgebra
 
 **Signature**
 
@@ -171,7 +172,7 @@ export declare const booleanAlgebra: typeof booleanAlgebra
 
 Added in v2.0.0
 
-# bounded
+## bounded
 
 **Signature**
 
@@ -181,7 +182,7 @@ export declare const bounded: typeof bounded
 
 Added in v2.0.0
 
-# boundedDistributiveLattice
+## boundedDistributiveLattice
 
 **Signature**
 
@@ -191,7 +192,7 @@ export declare const boundedDistributiveLattice: typeof boundedDistributiveLatti
 
 Added in v2.0.0
 
-# boundedJoinSemilattice
+## boundedJoinSemilattice
 
 **Signature**
 
@@ -201,7 +202,7 @@ export declare const boundedJoinSemilattice: typeof boundedJoinSemilattice
 
 Added in v2.0.0
 
-# boundedLattice
+## boundedLattice
 
 **Signature**
 
@@ -211,7 +212,7 @@ export declare const boundedLattice: typeof boundedLattice
 
 Added in v2.0.0
 
-# boundedMeetSemilattice
+## boundedMeetSemilattice
 
 **Signature**
 
@@ -221,7 +222,7 @@ export declare const boundedMeetSemilattice: typeof boundedMeetSemilattice
 
 Added in v2.0.0
 
-# category
+## category
 
 **Signature**
 
@@ -231,17 +232,7 @@ export declare const category: typeof category
 
 Added in v2.0.0
 
-# chain
-
-**Signature**
-
-```ts
-export declare const chain: typeof chain
-```
-
-Added in v2.0.0
-
-# comonad
+## comonad
 
 **Signature**
 
@@ -251,7 +242,7 @@ export declare const comonad: typeof comonad
 
 Added in v2.0.0
 
-# compactable
+## compactable
 
 **Signature**
 
@@ -261,7 +252,7 @@ export declare const compactable: typeof compactable
 
 Added in v2.0.0
 
-# console
+## console
 
 **Signature**
 
@@ -271,7 +262,7 @@ export declare const console: typeof console
 
 Added in v2.0.0
 
-# const
+## const
 
 **Signature**
 
@@ -281,7 +272,7 @@ export declare const const: typeof const_
 
 Added in v2.0.0
 
-# contravariant
+## contravariant
 
 **Signature**
 
@@ -291,7 +282,7 @@ export declare const contravariant: typeof contravariant
 
 Added in v2.0.0
 
-# date
+## date
 
 **Signature**
 
@@ -301,7 +292,7 @@ export declare const date: typeof date
 
 Added in v2.0.0
 
-# distributiveLattice
+## distributiveLattice
 
 **Signature**
 
@@ -311,7 +302,7 @@ export declare const distributiveLattice: typeof distributiveLattice
 
 Added in v2.0.0
 
-# either
+## either
 
 **Signature**
 
@@ -321,7 +312,7 @@ export declare const either: typeof either
 
 Added in v2.0.0
 
-# eq
+## eq
 
 **Signature**
 
@@ -331,7 +322,7 @@ export declare const eq: typeof eq
 
 Added in v2.0.0
 
-# extend
+## extend
 
 **Signature**
 
@@ -341,7 +332,7 @@ export declare const extend: typeof extend
 
 Added in v2.0.0
 
-# field
+## field
 
 **Signature**
 
@@ -351,7 +342,7 @@ export declare const field: typeof field
 
 Added in v2.0.0
 
-# filterable
+## filterable
 
 **Signature**
 
@@ -361,7 +352,7 @@ export declare const filterable: typeof filterable
 
 Added in v2.0.0
 
-# filterableWithIndex
+## filterableWithIndex
 
 **Signature**
 
@@ -371,7 +362,7 @@ export declare const filterableWithIndex: typeof filterableWithIndex
 
 Added in v2.0.0
 
-# foldable
+## foldable
 
 **Signature**
 
@@ -381,7 +372,7 @@ export declare const foldable: typeof foldable
 
 Added in v2.0.0
 
-# foldableWithIndex
+## foldableWithIndex
 
 **Signature**
 
@@ -391,7 +382,7 @@ export declare const foldableWithIndex: typeof foldableWithIndex
 
 Added in v2.0.0
 
-# function
+## function
 
 **Signature**
 
@@ -401,7 +392,7 @@ export declare const function: typeof function_
 
 Added in v2.0.0
 
-# functor
+## functor
 
 **Signature**
 
@@ -411,7 +402,7 @@ export declare const functor: typeof functor
 
 Added in v2.0.0
 
-# functorWithIndex
+## functorWithIndex
 
 **Signature**
 
@@ -421,7 +412,7 @@ export declare const functorWithIndex: typeof functorWithIndex
 
 Added in v2.0.0
 
-# group
+## group
 
 **Signature**
 
@@ -431,7 +422,7 @@ export declare const group: typeof group
 
 Added in v2.0.0
 
-# heytingAlgebra
+## heytingAlgebra
 
 **Signature**
 
@@ -441,7 +432,7 @@ export declare const heytingAlgebra: typeof heytingAlgebra
 
 Added in v2.0.0
 
-# hkt
+## hkt
 
 **Signature**
 
@@ -451,7 +442,7 @@ export declare const hkt: typeof hkt
 
 Added in v2.0.0
 
-# identity
+## identity
 
 **Signature**
 
@@ -461,7 +452,7 @@ export declare const identity: typeof identity
 
 Added in v2.0.0
 
-# invariant
+## invariant
 
 **Signature**
 
@@ -471,7 +462,7 @@ export declare const invariant: typeof invariant
 
 Added in v2.0.0
 
-# io
+## io
 
 **Signature**
 
@@ -481,7 +472,7 @@ export declare const io: typeof io
 
 Added in v2.0.0
 
-# ioEither
+## ioEither
 
 **Signature**
 
@@ -491,7 +482,7 @@ export declare const ioEither: typeof ioEither
 
 Added in v2.0.0
 
-# ioRef
+## ioRef
 
 **Signature**
 
@@ -501,7 +492,7 @@ export declare const ioRef: typeof ioRef
 
 Added in v2.0.0
 
-# joinSemilattice
+## joinSemilattice
 
 **Signature**
 
@@ -511,7 +502,7 @@ export declare const joinSemilattice: typeof joinSemilattice
 
 Added in v2.0.0
 
-# lattice
+## lattice
 
 **Signature**
 
@@ -521,7 +512,7 @@ export declare const lattice: typeof lattice
 
 Added in v2.0.0
 
-# magma
+## magma
 
 **Signature**
 
@@ -531,7 +522,7 @@ export declare const magma: typeof magma
 
 Added in v2.0.0
 
-# meetSemilattice
+## meetSemilattice
 
 **Signature**
 
@@ -541,7 +532,7 @@ export declare const meetSemilattice: typeof meetSemilattice
 
 Added in v2.0.0
 
-# monad
+## monad
 
 **Signature**
 
@@ -551,7 +542,7 @@ export declare const monad: typeof monad
 
 Added in v2.0.0
 
-# monadIO
+## monadIO
 
 **Signature**
 
@@ -561,7 +552,7 @@ export declare const monadIO: typeof monadIO
 
 Added in v2.0.0
 
-# monadTask
+## monadTask
 
 **Signature**
 
@@ -571,7 +562,7 @@ export declare const monadTask: typeof monadTask
 
 Added in v2.0.0
 
-# monadThrow
+## monadThrow
 
 **Signature**
 
@@ -581,7 +572,7 @@ export declare const monadThrow: typeof monadThrow
 
 Added in v2.0.0
 
-# monoid
+## monoid
 
 **Signature**
 
@@ -591,7 +582,7 @@ export declare const monoid: typeof monoid
 
 Added in v2.0.0
 
-# option
+## option
 
 **Signature**
 
@@ -601,7 +592,7 @@ export declare const option: typeof option
 
 Added in v2.0.0
 
-# ord
+## ord
 
 **Signature**
 
@@ -611,7 +602,7 @@ export declare const ord: typeof ord
 
 Added in v2.0.0
 
-# ordering
+## ordering
 
 **Signature**
 
@@ -621,7 +612,7 @@ export declare const ordering: typeof ordering
 
 Added in v2.0.0
 
-# profunctor
+## profunctor
 
 **Signature**
 
@@ -631,7 +622,7 @@ export declare const profunctor: typeof profunctor
 
 Added in v2.0.0
 
-# random
+## random
 
 **Signature**
 
@@ -641,7 +632,7 @@ export declare const random: typeof random
 
 Added in v2.0.0
 
-# reader
+## reader
 
 **Signature**
 
@@ -651,7 +642,7 @@ export declare const reader: typeof reader
 
 Added in v2.0.0
 
-# readerEither
+## readerEither
 
 **Signature**
 
@@ -661,7 +652,7 @@ export declare const readerEither: typeof readerEither
 
 Added in v2.0.0
 
-# readerTask
+## readerTask
 
 **Signature**
 
@@ -671,7 +662,7 @@ export declare const readerTask: typeof readerTask
 
 Added in v2.3.0
 
-# readerTaskEither
+## readerTaskEither
 
 **Signature**
 
@@ -681,7 +672,7 @@ export declare const readerTaskEither: typeof readerTaskEither
 
 Added in v2.0.0
 
-# readonlyArray
+## readonlyArray
 
 **Signature**
 
@@ -691,7 +682,7 @@ export declare const readonlyArray: typeof readonlyArray
 
 Added in v2.5.0
 
-# readonlyMap
+## readonlyMap
 
 **Signature**
 
@@ -701,7 +692,7 @@ export declare const readonlyMap: typeof readonlyMap
 
 Added in v2.5.0
 
-# readonlyNonEmptyArray
+## readonlyNonEmptyArray
 
 **Signature**
 
@@ -711,7 +702,7 @@ export declare const readonlyNonEmptyArray: typeof readonlyNonEmptyArray
 
 Added in v2.5.0
 
-# readonlyRecord
+## readonlyRecord
 
 **Signature**
 
@@ -721,7 +712,7 @@ export declare const readonlyRecord: typeof readonlyRecord
 
 Added in v2.5.0
 
-# readonlySet
+## readonlySet
 
 **Signature**
 
@@ -731,7 +722,7 @@ export declare const readonlySet: typeof readonlySet
 
 Added in v2.5.0
 
-# readonlyTuple
+## readonlyTuple
 
 **Signature**
 
@@ -741,7 +732,7 @@ export declare const readonlyTuple: typeof readonlyTuple
 
 Added in v2.5.0
 
-# ring
+## ring
 
 **Signature**
 
@@ -751,7 +742,7 @@ export declare const ring: typeof ring
 
 Added in v2.0.0
 
-# semigroup
+## semigroup
 
 **Signature**
 
@@ -761,7 +752,7 @@ export declare const semigroup: typeof semigroup
 
 Added in v2.0.0
 
-# semigroupoid
+## semigroupoid
 
 **Signature**
 
@@ -771,7 +762,7 @@ export declare const semigroupoid: typeof semigroupoid
 
 Added in v2.0.0
 
-# semiring
+## semiring
 
 **Signature**
 
@@ -781,7 +772,7 @@ export declare const semiring: typeof semiring
 
 Added in v2.0.0
 
-# show
+## show
 
 **Signature**
 
@@ -791,7 +782,7 @@ export declare const show: typeof show
 
 Added in v2.0.0
 
-# state
+## state
 
 **Signature**
 
@@ -801,7 +792,7 @@ export declare const state: typeof state
 
 Added in v2.0.0
 
-# stateReaderTaskEither
+## stateReaderTaskEither
 
 **Signature**
 
@@ -811,7 +802,7 @@ export declare const stateReaderTaskEither: typeof stateReaderTaskEither
 
 Added in v2.0.0
 
-# store
+## store
 
 **Signature**
 
@@ -821,7 +812,7 @@ export declare const store: typeof store
 
 Added in v2.0.0
 
-# task
+## task
 
 **Signature**
 
@@ -831,7 +822,7 @@ export declare const task: typeof task
 
 Added in v2.0.0
 
-# taskEither
+## taskEither
 
 **Signature**
 
@@ -841,7 +832,7 @@ export declare const taskEither: typeof taskEither
 
 Added in v2.0.0
 
-# taskOption
+## taskOption
 
 **Signature**
 
@@ -851,7 +842,7 @@ export declare const taskOption: typeof taskOption
 
 Added in v3.0.0
 
-# taskThese
+## taskThese
 
 **Signature**
 
@@ -861,7 +852,7 @@ export declare const taskThese: typeof taskThese
 
 Added in v2.4.0
 
-# these
+## these
 
 **Signature**
 
@@ -871,17 +862,7 @@ export declare const these: typeof these
 
 Added in v2.0.0
 
-# theseT
-
-**Signature**
-
-```ts
-export declare const theseT: typeof theseT
-```
-
-Added in v2.4.0
-
-# traced
+## traced
 
 **Signature**
 
@@ -891,7 +872,7 @@ export declare const traced: typeof traced
 
 Added in v2.0.0
 
-# traversable
+## traversable
 
 **Signature**
 
@@ -901,7 +882,7 @@ export declare const traversable: typeof traversable
 
 Added in v2.0.0
 
-# traversableWithIndex
+## traversableWithIndex
 
 **Signature**
 
@@ -911,7 +892,7 @@ export declare const traversableWithIndex: typeof traversableWithIndex
 
 Added in v2.0.0
 
-# tree
+## tree
 
 **Signature**
 
@@ -921,7 +902,7 @@ export declare const tree: typeof tree
 
 Added in v2.0.0
 
-# unfoldable
+## unfoldable
 
 **Signature**
 
@@ -931,7 +912,7 @@ export declare const unfoldable: typeof unfoldable
 
 Added in v2.0.0
 
-# validationT
+## validationT
 
 **Signature**
 
@@ -941,7 +922,7 @@ export declare const validationT: typeof validationT
 
 Added in v2.0.0
 
-# witherable
+## witherable
 
 **Signature**
 
@@ -951,7 +932,7 @@ export declare const witherable: typeof witherable
 
 Added in v2.0.0
 
-# writer
+## writer
 
 **Signature**
 

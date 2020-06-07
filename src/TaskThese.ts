@@ -10,7 +10,6 @@ import { Monad2C } from './Monad'
 import { Semigroup } from './Semigroup'
 import * as T from './Task'
 import * as TH from './These'
-import * as TheseT from './TheseT'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -18,6 +17,8 @@ import * as TheseT from './TheseT'
 
 import These = TH.These
 import Task = T.Task
+import { Applicative2C } from './Applicative'
+import { apComposition } from './Apply'
 
 /**
  * @since 2.4.0
@@ -124,7 +125,7 @@ export const swap: <E, A>(fa: TaskThese<E, A>) => TaskThese<A, E> =
  * @since 2.4.0
  */
 export function getSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigroup<TaskThese<E, A>> {
-  return T.getSemigroup(TH.getSemigroup<E, A>(SE, SA))
+  return T.getSemigroup(TH.getSemigroup(SE, SA))
 }
 
 /**
@@ -161,21 +162,58 @@ export const bifunctorTaskThese: Bifunctor2<URI> = {
   mapLeft
 }
 
+const of = right
+
 /**
  * @since 3.0.0
  */
-export function getMonad<E>(S: Semigroup<E>): Monad2C<URI, E> {
-  const chain = TheseT.chain(T.monadTask)(S)
+export function getApplicativePar<E>(S: Semigroup<E>): Applicative2C<URI, E> {
   return {
     URI,
     _E: undefined as any,
     map,
-    ap: (fa) => (fab) =>
-      pipe(
-        fab,
-        chain((f) => pipe(fa, map(f)))
-      ),
-    of: right,
+    ap: apComposition(T.applicativeTaskPar, TH.getApplicative(S)),
+    of
+  }
+}
+
+/**
+ * @since 3.0.0
+ */
+export function getApplicativeSeq<E>(S: Semigroup<E>): Applicative2C<URI, E> {
+  return {
+    URI,
+    _E: undefined as any,
+    map,
+    ap: apComposition(T.applicativeTaskSeq, TH.getApplicative(S)),
+    of
+  }
+}
+
+/**
+ * @since 3.0.0
+ */
+export function getMonad<E>(S: Semigroup<E>): Monad2C<URI, E> {
+  const chain: Monad2C<URI, E>['chain'] = (f) =>
+    T.chain(
+      TH.fold(left, f, (e1, a) =>
+        pipe(
+          f(a),
+          T.map(
+            TH.fold(
+              (e2) => TH.left(S.concat(e1, e2)),
+              TH.right,
+              (e2, b) => TH.both(S.concat(e1, e2), b)
+            )
+          )
+        )
+      )
+    )
+  return {
+    URI,
+    _E: undefined as any,
+    map,
+    of,
     chain
   }
 }
