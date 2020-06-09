@@ -12,23 +12,23 @@ export var URI = 'TaskEither';
 /**
  * @since 2.0.0
  */
-export var left = flow(E.left, T.of);
+export var left = 
+/*#__PURE__*/
+flow(E.left, T.of);
 /**
  * @since 2.0.0
  */
-export var right = flow(E.right, T.of);
+export var right = 
+/*#__PURE__*/
+flow(E.right, T.of);
 /**
  * @since 2.0.0
  */
-export function rightIO(ma) {
-    return rightTask(T.fromIO(ma));
-}
+export var rightIO = function (ma) { return rightTask(T.fromIO(ma)); };
 /**
  * @since 2.0.0
  */
-export function leftIO(me) {
-    return leftTask(T.fromIO(me));
-}
+export var leftIO = function (me) { return leftTask(T.fromIO(me)); };
 /**
  * @since 2.0.0
  */
@@ -44,13 +44,13 @@ T.map(E.left);
 /**
  * @since 2.0.0
  */
-export var fromIOEither = 
-/*#__PURE__*/
-(function () { return T.fromIO; })();
+export var fromIOEither = T.fromIO;
 /**
  * @since 2.0.0
  */
-export var fold = flow(E.fold, T.chain);
+export var fold = 
+/*#__PURE__*/
+flow(E.fold, T.chain);
 /**
  * @since 2.0.0
  */
@@ -127,13 +127,13 @@ export function tryCatch(f, onRejected) {
  *
  * @since 2.0.0
  */
-export function bracket(acquire, use, release) {
+export var bracket = function (acquire, use, release) {
     return pipe(acquire, chain(function (a) {
         return pipe(pipe(use(a), T.map(E.right)), chain(function (e) {
             return pipe(release(a, e), chain(function () { return (E.isLeft(e) ? left(e.left) : of(e.right)); }));
         }));
     }));
-}
+};
 export function taskify(f) {
     return function () {
         var args = Array.prototype.slice.call(arguments);
@@ -372,7 +372,9 @@ chain(identity);
 /**
  * @since 2.0.0
  */
-export var bimap = flow(E.bimap, T.map);
+export var bimap = 
+/*#__PURE__*/
+flow(E.bimap, T.map);
 /**
  * @since 2.0.0
  */

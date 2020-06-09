@@ -106,11 +106,11 @@ export declare function tryCatch<E, A>(f: Lazy<A>, onError: (reason: unknown) =>
  *
  * @since 2.0.0
  */
-export declare function bracket<E, A, B>(
+export declare const bracket: <E, A, B>(
   acquire: IOEither<E, A>,
   use: (a: A) => IOEither<E, B>,
-  release: (a: A, e: Either<E, B>) => IOEither<E, void>
-): IOEither<E, B>
+  release: (a: A, e: E.Either<E, B>) => IOEither<E, void>
+) => IOEither<E, B>
 /**
  * @since 3.0.0
  */

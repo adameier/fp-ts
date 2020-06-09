@@ -522,22 +522,6 @@ export var filterableReadonlyMap = {
     partition: partition,
     partitionMap: partitionMap
 };
-var traverseWithIndex_ = function (F) {
-    return function (f) { return function (ta) {
-        var fkb = F.of(empty);
-        var entries = ta.entries();
-        var e;
-        var _loop_1 = function () {
-            var _a = e.value, k = _a[0], a = _a[1];
-            fkb = pipe(fkb, F.map(function (kb) { return function (b) { return new Map(kb).set(k, b); }; }), F.ap(f(k, a)));
-        };
-        // tslint:disable-next-line: strict-boolean-expressions
-        while (!(e = entries.next()).done) {
-            _loop_1();
-        }
-        return fkb;
-    }; };
-};
 /**
  * @since 3.0.0
  */
@@ -608,19 +592,36 @@ export function getFilterableWithIndex() {
         filterWithIndex: filterWithIndex_
     };
 }
-var traverse_ = function (F) {
-    var traverseWithIndexF = traverseWithIndex_(F);
-    return function (f) { return traverseWithIndexF(function (_, a) { return f(a); }); };
-};
-var sequence_ = function (F) {
-    var traverseWithIndexF = traverseWithIndex_(F);
-    return traverseWithIndexF(function (_, a) { return a; });
-};
 /**
  * @since 2.5.0
  */
 export function getWitherable(O) {
     var F = getFoldableWithIndex(O);
+    var keysO = keys(O);
+    var traverseWithIndex_ = function (F) {
+        return function (f) { return function (ta) {
+            var fkb = F.of(empty);
+            var ks = keysO(ta);
+            var len = ks.length;
+            var _loop_1 = function (i) {
+                var k = ks[i];
+                var a = ta.get(k);
+                fkb = pipe(fkb, F.map(function (kb) { return function (b) { return new Map(kb).set(k, b); }; }), F.ap(f(k, a)));
+            };
+            for (var i = 0; i < len; i++) {
+                _loop_1(i);
+            }
+            return fkb;
+        }; };
+    };
+    var traverse_ = function (F) {
+        var traverseWithIndexF = traverseWithIndex_(F);
+        return function (f) { return traverseWithIndexF(function (_, a) { return f(a); }); };
+    };
+    var sequence_ = function (F) {
+        var traverseWithIndexF = traverseWithIndex_(F);
+        return traverseWithIndexF(function (_, a) { return a; });
+    };
     return {
         URI: URI,
         _E: undefined,

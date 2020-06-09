@@ -44,7 +44,7 @@ export declare const fromReader: <R, A = never>(ma: Reader<R, A>) => ReaderTask<
 /**
  * @since 2.3.0
  */
-export declare function fromIO<R, A>(ma: IO<A>): ReaderTask<R, A>
+export declare const fromIO: <R, A>(ma: IO<A>) => ReaderTask<R, A>
 /**
  * @since 2.3.0
  */

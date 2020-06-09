@@ -420,8 +420,8 @@ var filterWithIndex_ = function (predicateWithIndex) { return function (fa) {
     return changed ? out : fa;
 }; };
 var traverseWithIndex_ = function (F) { return function (f) { return function (ta) {
-    var keys = Object.keys(ta);
-    if (keys.length === 0) {
+    var ks = keys(ta);
+    if (ks.length === 0) {
         return F.of(empty);
     }
     var fr = F.of({});
@@ -431,8 +431,8 @@ var traverseWithIndex_ = function (F) { return function (f) { return function (t
             return r;
         }; }), F.ap(f(key, ta[key])));
     };
-    for (var _i = 0, keys_5 = keys; _i < keys_5.length; _i++) {
-        var key = keys_5[_i];
+    for (var _i = 0, ks_1 = ks; _i < ks_1.length; _i++) {
+        var key = ks_1[_i];
         _loop_1(key);
     }
     return fr;
@@ -486,8 +486,8 @@ export var reduceRight = function (b, f) {
 export var compact = function (fa) {
     var r = {};
     var keys = Object.keys(fa);
-    for (var _i = 0, keys_6 = keys; _i < keys_6.length; _i++) {
-        var key = keys_6[_i];
+    for (var _i = 0, keys_5 = keys; _i < keys_5.length; _i++) {
+        var key = keys_5[_i];
         var optionA = fa[key];
         if (isSome(optionA)) {
             r[key] = optionA.value;
@@ -502,8 +502,8 @@ export var separate = function (fa) {
     var left = {};
     var right = {};
     var keys = Object.keys(fa);
-    for (var _i = 0, keys_7 = keys; _i < keys_7.length; _i++) {
-        var key = keys_7[_i];
+    for (var _i = 0, keys_6 = keys; _i < keys_6.length; _i++) {
+        var key = keys_6[_i];
         var e = fa[key];
         switch (e._tag) {
             case 'Left':

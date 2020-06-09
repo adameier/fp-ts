@@ -12,11 +12,15 @@ export var URI = 'IOEither';
 /**
  * @since 2.0.0
  */
-export var left = flow(E.left, I.of);
+export var left = 
+/*#__PURE__*/
+flow(E.left, I.of);
 /**
  * @since 2.0.0
  */
-export var right = flow(E.right, I.of);
+export var right = 
+/*#__PURE__*/
+flow(E.right, I.of);
 /**
  * @since 2.0.0
  */
@@ -32,7 +36,9 @@ I.map(E.left);
 /**
  * @since 2.0.0
  */
-export var fold = flow(E.fold, I.chain);
+export var fold = 
+/*#__PURE__*/
+flow(E.fold, I.chain);
 /**
  * @since 2.0.0
  */
@@ -98,13 +104,13 @@ export function tryCatch(f, onError) {
  *
  * @since 2.0.0
  */
-export function bracket(acquire, use, release) {
+export var bracket = function (acquire, use, release) {
     return pipe(acquire, chain(function (a) {
-        return pipe(pipe(use(a), I.monadIO.map(E.right)), chain(function (e) {
+        return pipe(pipe(use(a), I.map(E.right)), chain(function (e) {
             return pipe(release(a, e), chain(function () { return (E.isLeft(e) ? left(e.left) : of(e.right)); }));
         }));
     }));
-}
+};
 /**
  * @since 3.0.0
  */
@@ -193,7 +199,7 @@ export var filterOrElse = function (predicate, onFalse) { return function (ma) {
  * @since 2.0.0
  */
 export var fromEither = function (ma) {
-    return ma._tag === 'Left' ? left(ma.left) : right(ma.right);
+    return E.isLeft(ma) ? left(ma.left) : right(ma.right);
 };
 // -------------------------------------------------------------------------------------
 // instances
@@ -286,7 +292,9 @@ export var flatten = chain(identity);
 /**
  * @since 2.0.0
  */
-export var bimap = flow(E.bimap, I.map);
+export var bimap = 
+/*#__PURE__*/
+flow(E.bimap, I.map);
 /**
  * @since 2.0.0
  */

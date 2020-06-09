@@ -292,7 +292,9 @@ export var chainIOEitherKW = chainIOEitherK;
 /**
  * @since 2.0.0
  */
-export var flatten = chain(identity);
+export var flatten = 
+/*#__PURE__*/
+chain(identity);
 /**
  * @since 2.0.0
  */

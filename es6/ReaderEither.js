@@ -79,15 +79,11 @@ export function getApplyMonoid(M) {
 /**
  * @since 2.0.0
  */
-export function ask() {
-    return E.right;
-}
+export var ask = function () { return E.right; };
 /**
  * @since 2.0.0
  */
-export function asks(f) {
-    return function (r) { return E.right(f(r)); };
-}
+export var asks = function (f) { return flow(f, E.right); };
 /**
  * @since 3.0.0
  */
@@ -155,7 +151,9 @@ export var apSecond = function (fb) { return function (fa) {
 /**
  * @since 2.0.0
  */
-export var bimap = flow(E.bimap, R.map);
+export var bimap = 
+/*#__PURE__*/
+flow(E.bimap, R.map);
 /**
  * @since 2.0.0
  */
@@ -179,7 +177,9 @@ export var chainFirst = function (f) {
 /**
  * @since 2.0.0
  */
-export var flatten = chain(identity);
+export var flatten = 
+/*#__PURE__*/
+chain(identity);
 /**
  * @since 2.0.0
  */

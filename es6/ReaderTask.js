@@ -18,9 +18,9 @@ export var fromReader = function (ma) { return flow(ma, T.of); };
 /**
  * @since 2.3.0
  */
-export function fromIO(ma) {
-    return fromTask(T.fromIO(ma));
-}
+export var fromIO = 
+/*#__PURE__*/
+flow(T.fromIO, fromTask);
 /**
  * @since 2.3.0
  */
@@ -120,7 +120,9 @@ export var chainFirst = function (f) {
 /**
  * @since 2.3.0
  */
-export var flatten = chain(identity);
+export var flatten = 
+/*#__PURE__*/
+chain(identity);
 /**
  * @since 2.3.0
  */

@@ -97,11 +97,11 @@ export declare function getApplyMonoid<R, E, A>(M: Monoid<A>): Monoid<ReaderEith
 /**
  * @since 2.0.0
  */
-export declare function ask<R, E = never>(): ReaderEither<R, E, R>
+export declare const ask: <R, E = never>() => ReaderEither<R, E, R>
 /**
  * @since 2.0.0
  */
-export declare function asks<R, E = never, A = never>(f: (r: R) => A): ReaderEither<R, E, A>
+export declare const asks: <R, E = never, A = never>(f: (r: R) => A) => ReaderEither<R, E, A>
 /**
  * @since 3.0.0
  */

@@ -41,7 +41,9 @@ export function fold(onLeft, onRight, onBoth) {
 /**
  * @since 2.4.0
  */
-export var swap = fold(right, left, function (e, a) { return both(a, e); });
+export var swap = 
+/*#__PURE__*/
+fold(right, left, function (e, a) { return both(a, e); });
 /**
  * @since 2.0.0
  */

@@ -122,7 +122,9 @@ export var chainW = chain;
 /**
  * @since 2.0.0
  */
-export var flatten = chain(F.identity);
+export var flatten = 
+/*#__PURE__*/
+chain(F.identity);
 /**
  * @since 2.0.0
  */

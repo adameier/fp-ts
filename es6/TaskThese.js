@@ -1,7 +1,7 @@
+import { apComposition } from './Apply';
 import { flow, pipe } from './function';
 import * as T from './Task';
 import * as TH from './These';
-import { apComposition } from './Apply';
 /**
  * @since 2.4.0
  */
@@ -12,31 +12,45 @@ export var URI = 'TaskThese';
 /**
  * @since 2.4.0
  */
-export var left = flow(TH.left, T.of);
+export var left = 
+/*#__PURE__*/
+flow(TH.left, T.of);
 /**
  * @since 2.4.0
  */
-export var right = flow(TH.right, T.of);
+export var right = 
+/*#__PURE__*/
+flow(TH.right, T.of);
 /**
  * @since 2.4.0
  */
-export var both = flow(TH.both, T.of);
+export var both = 
+/*#__PURE__*/
+flow(TH.both, T.of);
 /**
  * @since 2.4.0
  */
-export var rightTask = T.map(TH.right);
+export var rightTask = 
+/*#__PURE__*/
+T.map(TH.right);
 /**
  * @since 2.4.0
  */
-export var leftTask = T.map(TH.left);
+export var leftTask = 
+/*#__PURE__*/
+T.map(TH.left);
 /**
  * @since 2.4.0
  */
-export var rightIO = flow(T.fromIO, rightTask);
+export var rightIO = 
+/*#__PURE__*/
+flow(T.fromIO, rightTask);
 /**
  * @since 2.4.0
  */
-export var leftIO = flow(T.fromIO, leftTask);
+export var leftIO = 
+/*#__PURE__*/
+flow(T.fromIO, leftTask);
 /**
  * @since 2.4.0
  */
@@ -51,7 +65,9 @@ export var fold = flow(TH.fold, T.chain);
 /**
  * @since 3.0.0
  */
-export var toTuple = flow(TH.toTuple, T.map);
+export var toTuple = 
+/*#__PURE__*/
+flow(TH.toTuple, T.map);
 // -------------------------------------------------------------------------------------
 // combinators
 // -------------------------------------------------------------------------------------

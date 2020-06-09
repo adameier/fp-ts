@@ -1,6 +1,7 @@
 /**
  * @since 2.4.0
  */
+import { Applicative2C } from './Applicative'
 import { Bifunctor2 } from './Bifunctor'
 import { Functor2 } from './Functor'
 import { IO } from './IO'
@@ -11,7 +12,6 @@ import * as T from './Task'
 import * as TH from './These'
 import These = TH.These
 import Task = T.Task
-import { Applicative2C } from './Applicative'
 /**
  * @since 2.4.0
  */
