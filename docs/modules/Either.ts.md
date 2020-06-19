@@ -731,7 +731,7 @@ Added in v2.7.0
 **Signature**
 
 ```ts
-export declare function getAltValidation<E>(S: Semigroup<E>): Alt2C<URI, E>
+export declare function getAltValidation<E>(SE: Semigroup<E>): Alt2C<URI, E>
 ```
 
 Added in v2.7.0
@@ -741,7 +741,7 @@ Added in v2.7.0
 **Signature**
 
 ```ts
-export declare function getApplicativeValidation<E>(S: Semigroup<E>): Applicative2C<URI, E>
+export declare function getApplicativeValidation<E>(SE: Semigroup<E>): Applicative2C<URI, E>
 ```
 
 Added in v2.7.0
@@ -834,7 +834,7 @@ Added in v2.0.0
 
 ```ts
 export declare function getValidation<E>(
-  S: Semigroup<E>
+  SE: Semigroup<E>
 ): Monad2C<URI, E> &
   Foldable2<URI> &
   Traversable2<URI> &
